@@ -1,0 +1,8 @@
+{
+  "name": "Mastery Pro Series (HTML Edition)",
+  "description": "The ultimate training platform for front-end architects. Part of the Mastery Pro Series, featuring 350+ curated questions, session analytics, and progress tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

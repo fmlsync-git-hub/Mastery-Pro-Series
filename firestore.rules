@@ -1,0 +1,75 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Master Gate / Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Primitive Definitions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // 2. Validation Blueprints
+    function isValidUser(data) {
+      return data.keys().hasAll(['fullName', 'email', 'registeredAt']) &&
+             data.keys().size() == 3 &&
+             data.fullName is string && data.fullName.size() <= 200 &&
+             data.email is string && data.email.size() <= 200 &&
+             data.registeredAt == request.time;
+    }
+
+    function isValidSession(data) {
+      return data.keys().hasAll(['userId', 'level', 'score', 'totalQuestions', 'timestamp', 'answers']) &&
+             data.keys().size() == 6 &&
+             data.userId == request.auth.uid &&
+             data.level in ['beginner', 'intermediate', 'advanced'] &&
+             data.score is int &&
+             data.totalQuestions is int &&
+             data.timestamp == request.time &&
+             data.answers is map;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && 
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    // Collection: Users
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isOwner(userId) && isValidUser(incoming());
+    }
+
+    // Collection: Quiz Sessions
+    match /quiz_sessions/{sessionId} {
+      allow get: if isOwner(existing().userId) || isAdmin();
+      allow list: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow create: if isSignedIn() && isValidSession(incoming());
+    }
+
+    // Storage Config (Usually in storage.rules but if they want logo tracking in Firestore)
+    match /app_config/logo {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Registered learner in the Mastery Pro Series",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string", "description": "Full name of the user" },
+        "email": { "type": "string", "description": "Email address of the user" },
+        "registeredAt": { "type": "string", "format": "date-time", "description": "Registration date" },
+        "lastActive": { "type": "string", "format": "date-time", "description": "Last time the user engaged with the app" }
+      },
+      "required": ["fullName", "email", "registeredAt"]
+    },
+    "QuizSession": {
+      "title": "Quiz Session",
+      "description": "A recorded quiz attempt",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "The UID of the user who took the quiz" },
+        "level": { "type": "string", "description": "The difficulty level (beginner, intermediate, advanced)" },
+        "score": { "type": "integer", "description": "Number of correct answers" },
+        "totalQuestions": { "type": "integer", "description": "Total questions in the session" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the session was completed" },
+        "answers": { "type": "object", "description": "Map of question IDs to selected answers" }
+      },
+      "required": ["userId", "level", "score", "totalQuestions", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile data"
+    },
+    "/quiz_sessions/{sessionId}": {
+      "schema": "QuizSession",
+      "description": "History of quiz attempts for analytics"
+    }
+  }
+}
