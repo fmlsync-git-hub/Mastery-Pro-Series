@@ -58,7 +58,11 @@ import {
   Smartphone,
   Cpu,
   Shield,
-  Database
+  Database,
+  GraduationCap,
+  School,
+  Baby as BabyIcon,
+  Rocket
 } from 'lucide-react';
 import { 
   signInWithEmailAndPassword, 
@@ -298,8 +302,8 @@ const LandingPageView = ({
             animate={{ opacity: 1, scale: 1 }}
             className="text-6xl md:text-8xl font-display font-black leading-[0.9] tracking-tighter mb-8"
           >
-            Professional Mastery <br />
-            <span className="text-accent-blue">Unified Authority.</span>
+            Train. Practice. <br />
+            <span className="text-accent-blue">Get Certified.</span>
           </motion.h1>
           
           <motion.p 
@@ -308,7 +312,7 @@ const LandingPageView = ({
             transition={{ delay: 0.1 }}
             className="text-lg md:text-xl text-text-secondary font-medium leading-relaxed mb-12 max-w-3xl mx-auto opacity-80"
           >
-            Professional competency verification across 16 elite engineering domains including Rust, Go, Python, and Systems Architecture. Mastery Pro Series provides industrial-grade assessments recognized as the gold standard.
+            Professional competency verification and specialized training labs across 16 elite engineering domains. From Kids and Elementary logic to Industry-grade Professional assessments, Mastery Pro is your unified platform for lifelong skill acquisition.
           </motion.p>
           
           <motion.div 
@@ -318,10 +322,16 @@ const LandingPageView = ({
             className="flex justify-center flex-wrap gap-4"
           >
             <button 
-              onClick={() => { playClick(); setState(prev => ({...prev, hasSeenLanding: true})); }}
+              onClick={() => { playClick(); setState(prev => ({...prev, hasSeenLanding: true, mode: 'certification'})); }}
               className="px-10 py-5 bg-accent-blue text-white rounded-xl font-bold text-lg hover:bg-accent-hover transition-all enterprise-shadow"
             >
-              Launch Assessment Center
+              Certification Hub
+            </button>
+            <button 
+              onClick={() => { playClick(); setState(prev => ({...prev, hasSeenLanding: true, mode: 'training'})); }}
+              className="px-10 py-5 bg-white/5 border border-white/10 text-white rounded-xl font-bold text-lg hover:bg-white/10 transition-all"
+            >
+              Competency Labs
             </button>
           </motion.div>
         </div>
@@ -503,6 +513,7 @@ const DisqualifiedView = ({ handleReset }: { handleReset: () => void }) => (
 export default function App() {
   const [state, setState] = useState<AppState>({
     user: null,
+    mode: 'certification',
     currentCourseId: null,
     currentLevel: null,
     currentQuestionIndex: 0,
@@ -514,6 +525,9 @@ export default function App() {
     viewingAdmin: false,
     viewingReview: false,
   });
+
+  const [trainingContent, setTrainingContent] = useState<any>(null);
+  const [isGeneratingTraining, setIsGeneratingTraining] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
@@ -565,7 +579,7 @@ export default function App() {
       const response = await fetch('/api/assessment/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic: courseTitle, level, count: 20 })
+        body: JSON.stringify({ topic: courseTitle, level, count: 20, mode: state.mode })
       });
       const data = await response.json();
       if (data.questions) {
@@ -578,6 +592,61 @@ export default function App() {
       return null;
     } finally {
       setIsGeneratingQuestions(false);
+    }
+  };
+
+  const fetchTrainingContent = async (courseId: string, level: string) => {
+    setIsGeneratingTraining(true);
+    playClick();
+    try {
+      const courseTitle = courses[courseId]?.title || courseId;
+      const response = await fetch('/api/training/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic: courseTitle, level })
+      });
+      const data = await response.json();
+      if (data.title) {
+        setTrainingContent(data);
+        return data;
+      }
+      throw new Error("Invalid training data");
+    } catch (e) {
+      console.error("Training Error", e);
+      notify("Training Module Sync Failure: Reconnecting...", "error");
+      return null;
+    } finally {
+      setIsGeneratingTraining(false);
+    }
+  };
+
+  const handleStartTraining = async (level: Level) => {
+    playClick();
+    if (!state.currentCourseId) return;
+    
+    // Clear previous training state
+    setTrainingContent(null);
+    setShuffledQuestions([]);
+
+    setState(prev => ({
+      ...prev,
+      currentLevel: level,
+      currentQuestionIndex: 0,
+      score: 0,
+      answers: {},
+      isFinished: false
+    }));
+
+    await fetchTrainingContent(state.currentCourseId, level);
+  };
+
+  const handleStartPracticeQuiz = async () => {
+    playClick();
+    if (!state.currentCourseId || !state.currentLevel) return;
+    
+    const questions = await fetchQuestions(state.currentCourseId, state.currentLevel);
+    if (questions) {
+      setShuffledQuestions(questions);
     }
   };
 
@@ -1284,6 +1353,103 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
     setTimeLeft(30);
   };
 
+  const TrainingView = () => {
+    if (!trainingContent) {
+      return (
+        <div className="min-h-screen bg-bg-dark flex flex-col items-center justify-center p-6 text-center">
+          <div className="w-20 h-20 border-4 border-accent-azure border-t-transparent rounded-full animate-spin mb-8" />
+          <h2 className="text-2xl font-display font-black uppercase tracking-tighter italic">Syncing Learning Node</h2>
+          <p className="text-xs text-text-secondary font-bold uppercase tracking-widest mt-2">Deploying specialized educational core...</p>
+        </div>
+      );
+    }
+
+    const { title, overview, concepts, summary } = trainingContent;
+    const isKids = state.currentLevel === 'kids';
+    const isElementary = state.currentLevel === 'elementary';
+    const isPro = state.currentLevel === 'pro';
+
+    // Theme Config
+    const bgClass = isKids ? 'bg-orange-50' : isElementary ? 'bg-green-50' : 'bg-bg-main';
+    const cardClass = isKids ? 'bg-white border-4 border-orange-400 rounded-[3rem] shadow-xl' : isElementary ? 'bg-white border-2 border-green-200 rounded-[2.5rem]' : 'glass-card rounded-[2rem]';
+    const textClass = isKids ? 'text-orange-900 font-bold' : isElementary ? 'text-green-900 font-medium' : 'text-text-primary font-medium';
+    const headingClass = isKids ? 'text-4xl font-black text-orange-600 tracking-normal' : isElementary ? 'text-3xl font-extrabold text-green-700' : 'text-4xl font-display font-black tracking-tighter italic uppercase';
+    const buttonClass = isKids ? 'bg-orange-500 hover:bg-orange-600 text-white rounded-[2rem] py-6 text-lg' : isElementary ? 'bg-green-600 hover:bg-green-700 text-white rounded-2xl py-5' : 'bg-accent-azure hover:bg-accent-azure/80 text-white rounded-xl py-5';
+
+    return (
+      <div className={`min-h-screen ${bgClass} p-6 md:p-12 font-sans transition-colors duration-500`}>
+        <div className="max-w-4xl mx-auto">
+          <header className="flex justify-between items-center mb-12">
+            <button 
+              onClick={() => { playClick(); setState(prev => ({...prev, currentLevel: null})); }}
+              className={`p-4 ${isKids ? 'bg-orange-200 text-orange-700' : isElementary ? 'bg-green-100 text-green-700' : 'bg-white/5 text-accent-blue'} rounded-2xl hover:scale-105 transition-all`}
+            >
+              <ArrowLeft className="w-6 h-6" />
+            </button>
+            <div className="flex items-center gap-3">
+              <div className={`px-4 py-2 rounded-full text-[0.6rem] font-black uppercase tracking-widest ${isKids ? 'bg-orange-500 text-white' : 'bg-white/10 text-text-secondary'}`}>
+                {state.currentLevel} Lab
+              </div>
+            </div>
+          </header>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className={cardClass + " p-10 md:p-16 mb-12"}>
+            <h1 className={headingClass + " mb-8"}>{title}</h1>
+            <p className={textClass + " text-lg leading-relaxed opacity-80 mb-12"}>{overview}</p>
+
+            <div className="space-y-12">
+              {concepts.map((concept: any, i: number) => (
+                <div key={i} className="relative">
+                  <div className={`absolute -left-6 top-0 w-1 h-full ${isKids ? 'bg-orange-300' : isElementary ? 'bg-green-300' : 'bg-accent-azure/30'} rounded-full opacity-50`} />
+                  <h3 className={`text-xl font-black mb-4 ${isKids ? 'text-orange-500' : isElementary ? 'text-green-600' : 'text-accent-azure'} uppercase tracking-tight`}>
+                    {concept.title}
+                  </h3>
+                  <p className={textClass + " leading-relaxed"}>{concept.body}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className={`mt-16 p-8 rounded-3xl ${isKids ? 'bg-orange-100/50' : 'bg-white/5'} border border-current opacity-10`}>
+              <h4 className="text-xs font-black uppercase tracking-widest mb-2">Sync Summary</h4>
+              <p className="text-sm opacity-80 italic">{summary}</p>
+            </div>
+          </motion.div>
+
+          {shuffledQuestions.length === 0 ? (
+            <button 
+              onClick={handleStartPracticeQuiz}
+              disabled={isGeneratingQuestions}
+              className={`w-full ${buttonClass} font-black uppercase tracking-widest flex items-center justify-center gap-4 transition-all enterprise-shadow`}
+            >
+              {isGeneratingQuestions ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Generating Practice Logic...
+                </>
+              ) : (
+                <>
+                  {isKids ? <Rocket className="w-6 h-6 animate-bounce" /> : <BookOpen className="w-5 h-5" />}
+                  {isKids ? 'Jump into Quest!' : 'Launch Practice Quiz'}
+                </>
+              )}
+            </button>
+          ) : (
+             <div className="text-center p-12 glass-card rounded-[3rem] border-accent-azure/30">
+               <h3 className="text-2xl font-black uppercase tracking-tighter mb-4">Practice Core Loaded</h3>
+               <p className="text-sm text-text-secondary font-bold uppercase tracking-widest mb-10 opacity-60">Ready for competency verification cycle</p>
+               <button 
+                 onClick={() => { playClick(); setState(prev => ({...prev, currentQuestionIndex: 0})); }}
+                 className={`px-12 py-6 ${buttonClass} font-black uppercase tracking-[0.2em] shadow-2xl`}
+               >
+                 Start Session
+               </button>
+             </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-bg-dark flex items-center justify-center">
@@ -1394,6 +1560,11 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
         </motion.div>
       </div>
     );
+  }
+
+  // Training View Routing
+  if (state.mode === 'training' && state.currentLevel && !state.shuffledQuestions.length && !state.isFinished) {
+    return <TrainingView />;
   }
 
   if (state.viewingAdmin && state.user.isAdmin) {
@@ -1670,35 +1841,47 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-20"
+            className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-12"
           >
             <div className="flex-1">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full text-[0.6rem] font-bold text-text-secondary mb-4 border border-white/5">
                 Institutional ID: {state.user.email}
               </div>
               <h2 className="text-5xl md:text-6xl font-display font-black tracking-tighter italic leading-[0.9] uppercase">
-                Assessment <br />
-                <span className="text-gradient-azure">Laboratories.</span>
+                {state.mode === 'certification' ? 'Certification' : 'Competency'} <br />
+                <span className="text-gradient-azure">{state.mode === 'certification' ? 'Laboratories.' : 'Labs Center.'}</span>
               </h2>
             </div>
             
             <div className="flex flex-wrap gap-4">
+              <div className="bg-white/5 p-1.5 rounded-2xl border border-white/10 flex gap-2">
+                <button 
+                  onClick={() => { playClick(); setState(prev => ({...prev, mode: 'certification', currentCourseId: null, currentLevel: null})); }}
+                  className={`px-6 py-3 rounded-xl text-[0.6rem] font-black uppercase tracking-widest transition-all ${state.mode === 'certification' ? 'bg-accent-blue text-white shadow-lg' : 'text-text-secondary hover:text-white'}`}
+                >
+                  Certification
+                </button>
+                <button 
+                  onClick={() => { playClick(); setState(prev => ({...prev, mode: 'training', currentCourseId: null, currentLevel: null})); }}
+                  className={`px-6 py-3 rounded-xl text-[0.6rem] font-black uppercase tracking-widest transition-all ${state.mode === 'training' ? 'bg-accent-azure text-white shadow-lg' : 'text-text-secondary hover:text-white'}`}
+                >
+                  Competency Labs
+                </button>
+              </div>
               <button 
                 onClick={() => setViewingHistory(true)}
                 className="px-8 py-4 glass-card rounded-2xl font-bold text-[0.65rem] uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-3"
               >
                 <Award className="w-4 h-4 text-accent-rose" /> Verification cloud
               </button>
-              {state.user?.isAdmin && (
-                 <button 
-                   onClick={() => { setState(prev => ({...prev, viewingAdmin: true})); fetchAdminData(); }}
-                   className="px-8 py-4 bg-accent-violet text-white rounded-2xl font-bold text-[0.65rem] uppercase tracking-widest hover:opacity-90 transition-all flex items-center gap-3 shadow-xl shadow-violet-500/20"
-                 >
-                   <ShieldCheck className="w-4 h-4" /> Global Control
-                 </button>
-              )}
             </div>
           </motion.div>
+
+          <p className="text-sm text-text-secondary mb-16 max-w-2xl font-medium leading-relaxed uppercase tracking-wide opacity-60">
+            {state.mode === 'certification' 
+              ? "Official industrial-grade assessments. Validates professional competency levels for career advancement and institutional recognition."
+              : "Dedicated training and practice platform. Progress through levels from Kids to Professional with zero-stakes skill building."}
+          </p>
 
           <AnimatePresence>
             {notification && (
@@ -1770,40 +1953,73 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {(['beginner', 'intermediate', 'advanced'] as Level[]).map((level, i) => {
-                  const levelInfo = courses[state.currentCourseId!].levels[level];
-                  const isPaid = level === 'advanced';
-                  const purchaseId = `${state.currentCourseId}_${level}`;
-                  const isPurchased = state.user?.purchasedLevels?.includes(purchaseId) || state.user?.isAdmin;
-                  
-                  return (
+                {state.mode === 'certification' ? (
+                  (['beginner', 'intermediate', 'advanced'] as Level[]).map((level, i) => {
+                    const levelInfo = courses[state.currentCourseId!].levels[level];
+                    const isPaid = level === 'advanced';
+                    const purchaseId = `${state.currentCourseId}_${level}`;
+                    const isPurchased = state.user?.purchasedLevels?.includes(purchaseId) || state.user?.isAdmin;
+                    
+                    return (
+                      <motion.div
+                        key={level}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        whileHover={{ y: -5 }}
+                        onClick={() => handleSelectLevel(level)}
+                        className="glass-card p-10 cursor-pointer flex flex-col justify-between group"
+                      >
+                        <div>
+                          <div className="flex justify-between items-start mb-10">
+                            <div className="w-14 h-14 bg-bg-main border border-border-subtle rounded-2xl flex items-center justify-center group-hover:border-accent-blue/40 transition-colors">
+                              {i === 0 ? <BookOpen className="w-6 h-6 text-accent-blue" /> : i === 1 ? <Target className="w-6 h-6 text-accent-blue" /> : <Award className="w-6 h-6 text-accent-blue" />}
+                            </div>
+                            {isPaid && !isPurchased && (
+                              <span className="px-3 py-1 bg-accent-amber/10 border border-accent-amber/30 text-accent-amber text-[0.6rem] font-black uppercase tracking-widest">PRO TIER</span>
+                            )}
+                          </div>
+                          <h4 className="text-2xl font-display font-black italic tracking-tighter uppercase mb-4">{levelInfo.title}</h4>
+                          <p className="text-sm text-text-secondary opacity-70 leading-relaxed uppercase tracking-wide mb-12">{levelInfo.description}</p>
+                        </div>
+                        <button className={`w-full py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${isPaid && !isPurchased ? 'bg-accent-amber text-white' : 'bg-accent-blue text-white'}`}>
+                          {isPaid && !isPurchased ? 'Unlock Tier ($1)' : 'Initialize'}
+                        </button>
+                      </motion.div>
+                    );
+                  })
+                ) : (
+                  [
+                    { id: 'kids', title: 'Kids Lab', desc: 'Magic & Metaphors for young learners.', icon: BabyIcon, color: 'text-orange-500', bg: 'bg-orange-500/10' },
+                    { id: 'elementary', title: 'Builder Lab', desc: 'Step-by-step logic and structures.', icon: School, color: 'text-green-500', bg: 'bg-green-500/10' },
+                    { id: 'highschool', title: 'Creator Lab', desc: 'Real-world tech and challenges.', icon: Rocket, color: 'text-blue-500', bg: 'bg-blue-500/10' },
+                    { id: 'academic', title: 'Academic Lab', desc: 'Theoretical foundations & formal sets.', icon: GraduationCap, color: 'text-purple-500', bg: 'bg-purple-500/10' },
+                    { id: 'pro', title: 'Industry Lab', desc: 'Deep-sets for professional elite.', icon: Target, color: 'text-rose-500', bg: 'bg-rose-500/10' }
+                  ].map((level, i) => (
                     <motion.div
-                      key={level}
+                      key={level.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.1 }}
                       whileHover={{ y: -5 }}
-                      onClick={() => handleSelectLevel(level)}
+                      onClick={() => handleStartTraining(level.id as Level)}
                       className="glass-card p-10 cursor-pointer flex flex-col justify-between group"
                     >
                       <div>
                         <div className="flex justify-between items-start mb-10">
-                          <div className="w-14 h-14 bg-bg-main border border-border-subtle rounded-2xl flex items-center justify-center group-hover:border-accent-blue/40 transition-colors">
-                            {i === 0 ? <BookOpen className="w-6 h-6 text-accent-blue" /> : i === 1 ? <Target className="w-6 h-6 text-accent-blue" /> : <Award className="w-6 h-6 text-accent-blue" />}
+                          <div className={`w-14 h-14 ${level.bg} rounded-2xl flex items-center justify-center group-hover:border-white/20 transition-all border border-transparent`}>
+                            <level.icon className={`w-6 h-6 ${level.color}`} />
                           </div>
-                          {isPaid && !isPurchased && (
-                            <span className="px-3 py-1 bg-accent-amber/10 border border-accent-amber/30 text-accent-amber text-[0.6rem] font-black uppercase tracking-widest">PRO TIER</span>
-                          )}
                         </div>
-                        <h4 className="text-2xl font-display font-black italic tracking-tighter uppercase mb-4">{levelInfo.title}</h4>
-                        <p className="text-sm text-text-secondary opacity-70 leading-relaxed uppercase tracking-wide mb-12">{levelInfo.description}</p>
+                        <h4 className="text-2xl font-display font-black italic tracking-tighter uppercase mb-4">{level.title}</h4>
+                        <p className="text-sm text-text-secondary opacity-70 leading-relaxed uppercase tracking-wide mb-12">{level.desc}</p>
                       </div>
-                      <button className={`w-full py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${isPaid && !isPurchased ? 'bg-accent-amber text-white' : 'bg-accent-blue text-white'}`}>
-                        {isPaid && !isPurchased ? 'Unlock Tier ($1)' : 'Initialize'}
+                      <button className={`w-full py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all bg-white/5 group-hover:bg-white group-hover:text-black`}>
+                        Enter Lab
                       </button>
                     </motion.div>
-                  );
-                })}
+                  ))
+                )}
               </div>
             </motion.div>
           )}
@@ -1990,8 +2206,12 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
     );
   }
 
+  const isKids = state.currentLevel === 'kids';
+  const isElementary = state.currentLevel === 'elementary';
+  const isTraining = state.mode === 'training';
+
   return (
-    <div className="min-h-screen bg-bg-main text-text-primary p-6 md:p-12 font-sans selection:bg-accent-blue selection:text-white flex flex-col items-center">
+    <div className={`min-h-screen ${isKids ? 'bg-orange-50 text-orange-900' : isElementary ? 'bg-green-50 text-green-900' : 'bg-bg-main text-text-primary'} p-6 md:p-12 font-sans selection:bg-accent-blue selection:text-white flex flex-col items-center transition-colors duration-500`}>
       <Navbar 
         user={state.user} 
         resetQuiz={resetQuiz} 
@@ -2004,46 +2224,41 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
       <div className="w-full max-w-7xl flex flex-col flex-1 mt-20">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-8 shrink-0">
           <div className="flex items-center gap-6">
-            <div className="text-3xl font-display font-black tracking-tighter uppercase italic">
-              {appLogo ? <img src={appLogo} alt="Logo" className="h-10 rounded-xl" /> : <>Mastery<span className="text-accent-blue">Pro</span></>}
+            <div className={`text-3xl font-display font-black tracking-tighter uppercase italic ${isKids ? 'text-orange-600' : isElementary ? 'text-green-600' : ''}`}>
+              {appLogo && !isKids && !isElementary ? <img src={appLogo} alt="Logo" className="h-10 rounded-xl" /> : <>Mastery<span className="text-accent-blue">{isKids ? 'Kids' : isElementary ? 'Junior' : 'Pro'}</span></>}
             </div>
-            <div className="h-8 w-px bg-border-subtle hidden md:block" />
-            <div className="px-5 py-2 bg-white/5 border border-border-subtle rounded-full flex items-center gap-3">
-               <div className="w-2 h-2 bg-accent-emerald rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-               <span className="text-[0.6rem] font-black uppercase tracking-widest text-text-muted">Assessment Mode Active</span>
+            <div className={`h-8 w-px ${isKids ? 'bg-orange-200' : isElementary ? 'bg-green-200' : 'bg-border-subtle'} hidden md:block`} />
+            <div className={`px-5 py-2 ${isKids ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/20' : isElementary ? 'bg-green-500 text-white shadow-lg shadow-green-500/20' : 'bg-white/5 border border-border-subtle text-text-muted'} rounded-full flex items-center gap-3`}>
+               <div className={`w-2 h-2 ${isKids || isElementary ? 'bg-white' : 'bg-accent-emerald'} rounded-full animate-pulse`} />
+               <span className="text-[0.6rem] font-black uppercase tracking-widest">{isTraining ? 'Training Lab Active' : 'Assessment Mode Active'}</span>
             </div>
           </div>
           
           <div className="flex items-center gap-5 w-full md:w-auto">
-            <div className={`flex-1 md:flex-none flex items-center justify-between gap-6 px-10 py-4 rounded-xl border transition-all ${timeLeft < 20 ? 'bg-accent-rose/10 border-accent-rose/30 text-accent-rose' : 'bg-white/5 border-border-subtle text-white'}`}>
-              <Timer className={`w-5 h-5 ${timeLeft < 20 ? 'animate-pulse' : 'opacity-40'}`} />
-              <span className="text-2xl font-black font-mono tracking-tighter">{String(Math.floor(timeLeft / 60)).padStart(2, '0')}:{String(timeLeft % 60).padStart(2, '0')}</span>
+            <div className={`flex-1 md:flex-none flex items-center justify-between gap-6 px-10 py-4 rounded-xl border transition-all ${isKids ? 'bg-white border-orange-200 shadow-xl' : isElementary ? 'bg-white border-green-200 shadow-xl' : (timeLeft < 20 ? 'bg-accent-rose/10 border-accent-rose/30 text-accent-rose' : 'bg-white/5 border-border-subtle text-white')}`}>
+              <Timer className={`w-5 h-5 ${timeLeft < 20 ? 'animate-pulse text-accent-rose' : (isKids ? 'text-orange-500' : isElementary ? 'text-green-500' : 'opacity-40')}`} />
+              <span className={`text-2xl font-black font-mono tracking-tighter ${isKids ? 'text-orange-600' : isElementary ? 'text-green-600' : ''}`}>{String(Math.floor(timeLeft / 60)).padStart(2, '0')}:{String(timeLeft % 60).padStart(2, '0')}</span>
             </div>
-            <button onClick={() => { playClick(); resetQuiz(); }} className="p-4 glass-card rounded-xl hover:bg-white/10 group transition-all">
-              <LogOut className="w-6 h-6 group-hover:text-accent-rose transition-colors" />
+            <button onClick={() => { playClick(); resetQuiz(); }} className={`p-4 ${isKids ? 'bg-orange-500 text-white hover:bg-orange-600 shadow-xl' : isElementary ? 'bg-green-500 text-white hover:bg-green-600 shadow-xl' : 'glass-card hover:bg-white/10'} rounded-xl group transition-all`}>
+              <LogOut className="w-6 h-6 group-hover:scale-110 transition-transform" />
             </button>
           </div>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start flex-1">
           {/* Main Assessment Area */}
-          <div className="lg:col-span-8 glass-card p-12 md:p-20 flex flex-col relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none select-none">
+          <div className={`${isKids ? 'bg-white shadow-2xl border-4 border-orange-400 rounded-[3.5rem]' : isElementary ? 'bg-white shadow-xl border-2 border-green-200 rounded-[3rem]' : 'glass-card'} lg:col-span-8 p-12 md:p-20 flex flex-col relative overflow-hidden`}>
+            <div className={`absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none select-none ${isKids ? 'text-orange-500' : isElementary ? 'text-green-500' : ''}`}>
               <div className="text-[12rem] font-display font-black italic">{state.currentQuestionIndex + 1}</div>
             </div>
             
             <div className="flex flex-col gap-4 mb-16 relative z-10">
                <div className="flex items-center gap-4">
-                  <span className="px-5 py-2 bg-accent-blue/10 text-accent-blue border border-accent-blue/20 rounded-full text-[0.65rem] font-black uppercase tracking-widest italic">
+                  <span className={`px-5 py-2 ${isKids ? 'bg-orange-500 text-white' : isElementary ? 'bg-green-500 text-white' : 'bg-accent-blue/10 text-accent-blue border border-accent-blue/20'} rounded-full text-[0.65rem] font-black uppercase tracking-widest italic`}>
                     Node: {courses[state.currentCourseId!].title} {state.currentLevel}
                   </span>
-                  {isStrictExam && (
-                    <span className="px-5 py-2 bg-accent-rose/10 text-accent-rose border border-accent-rose/20 rounded-full text-[0.65rem] font-black uppercase tracking-widest italic">
-                      Strict Exam Mode
-                    </span>
-                  )}
                </div>
-               <p className="text-[0.6rem] font-bold text-text-muted uppercase tracking-[0.4em]">Query Protocol Integrity Check</p>
+               <p className={`text-[0.6rem] font-bold ${isKids ? 'text-orange-400' : isElementary ? 'text-green-400' : 'text-text-muted'} uppercase tracking-[0.4em]`}>{isTraining ? 'Competency Growth Cycle' : 'Query Protocol Integrity Check'}</p>
             </div>
 
             <AnimatePresence mode="wait">
@@ -2054,7 +2269,7 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
                 exit={{ opacity: 0, scale: 1.02 }}
                 className="flex flex-col flex-1 relative z-10"
               >
-                <h2 className="text-3xl md:text-5xl font-display font-black mb-20 leading-tight tracking-tighter uppercase italic">
+                <h2 className={`text-3xl md:text-5xl font-display font-black mb-20 leading-tight tracking-tighter uppercase italic ${isKids ? 'text-orange-600' : isElementary ? 'text-green-600' : ''}`}>
                   {currentQuestion?.question}
                 </h2>
                 
@@ -2064,7 +2279,8 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
                     const isCorrect = showFeedback === 'correct' && label === currentQuestion.answer;
                     const isWrong = showFeedback === 'wrong' && label === state.answers[currentQuestion.id];
                     
-                    let behavior = "bg-white/5 border-border-subtle text-text-secondary hover:border-accent-blue/40 hover:bg-white/[0.08] hover:translate-x-2";
+                    let behavior = isKids ? "bg-orange-50 border-orange-200 text-orange-900 hover:bg-orange-100 hover:scale-[1.01]" : isElementary ? "bg-green-50 border-green-200 text-green-900 hover:bg-green-100 hover:scale-[1.01]" : "bg-white/5 border-border-subtle text-text-secondary hover:border-accent-blue/40 hover:bg-white/[0.08] hover:translate-x-2";
+                    
                     if (isCorrect) behavior = "bg-accent-emerald text-white border-accent-emerald shadow-xl scale-[1.02]";
                     else if (isWrong) behavior = "bg-accent-rose text-white border-accent-rose shadow-xl";
                     else if (showFeedback && label === currentQuestion.answer) behavior = "border-accent-emerald border-2 opacity-50";
@@ -2074,15 +2290,15 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
                         key={idx} 
                         onClick={() => handleAnswer(label)} 
                         disabled={!!showFeedback} 
-                        className={`group relative text-left p-6 md:p-8 rounded-2xl border transition-all flex items-center justify-between ${behavior}`}
+                        className={`group relative text-left p-6 md:p-8 ${isKids ? 'rounded-[2rem]' : 'rounded-2xl'} border transition-all flex items-center justify-between ${behavior}`}
                       >
                         <div className="flex items-center gap-8">
-                          <span className={`w-12 h-12 rounded-xl flex items-center justify-center text-xs font-black transition-all ${
-                            showFeedback ? (isCorrect || isWrong ? 'bg-black/10' : 'bg-transparent') : 'bg-white/5 group-hover:bg-accent-blue/20'
+                          <span className={`${isKids ? 'w-14 h-14 rounded-[1.5rem]' : 'w-12 h-12 rounded-xl'} flex items-center justify-center text-xs font-black transition-all ${
+                            showFeedback ? (isCorrect || isWrong ? 'bg-black/10' : 'bg-transparent') : (isKids ? 'bg-orange-200' : isElementary ? 'bg-green-200' : 'bg-white/5 group-hover:bg-accent-blue/20')
                           }`}>
                             {label}
                           </span>
-                          <span className="font-bold text-lg leading-tight">{option}</span>
+                          <span className={`font-bold ${isKids ? 'text-xl' : 'text-lg'} leading-tight`}>{option}</span>
                         </div>
                         {isCorrect && <CheckCircle2 className="w-6 h-6" />}
                         {isWrong && <XCircle className="w-6 h-6" />}
@@ -2096,61 +2312,63 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
 
           {/* Performance & Status Sidebar */}
           <div className="lg:col-span-4 space-y-10">
-            <div className="glass-card p-12 rounded-[2.5rem]">
-               <h3 className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-text-muted mb-12">Performance Analytics</h3>
+            <div className={`${isKids ? 'bg-white shadow-xl border-2 border-orange-100 rounded-[2.5rem]' : isElementary ? 'bg-white shadow-xl border-2 border-green-100 rounded-[2.5rem]' : 'glass-card'} p-12`}>
+               <h3 className={`text-[0.6rem] font-black uppercase tracking-[0.3em] ${isKids ? 'text-orange-400' : isElementary ? 'text-green-400' : 'text-text-muted'} mb-12`}>Performance Analytics</h3>
                <div className="space-y-12">
                  <div>
                    <div className="flex justify-between items-end mb-4">
-                     <span className="text-[0.65rem] font-bold text-text-muted uppercase">Logic Sync Rate</span>
-                     <span className="text-4xl font-display font-black italic tracking-tighter text-white">
+                     <span className={`text-[0.65rem] font-bold ${isKids ? 'text-orange-900/50' : 'text-text-muted'} uppercase`}>Sync Rate</span>
+                     <span className={`text-4xl font-display font-black italic tracking-tighter ${isKids ? 'text-orange-600' : isElementary ? 'text-green-600' : 'text-white'}`}>
                         {Math.round((state.score / (state.currentQuestionIndex || 1)) * 100)}%
                      </span>
                    </div>
-                   <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden border border-border-subtle p-[1px]">
+                   <div className={`h-3 w-full ${isKids ? 'bg-orange-100' : isElementary ? 'bg-green-100' : 'bg-white/5'} rounded-full overflow-hidden border ${isKids ? 'border-orange-200' : 'border-border-subtle'} p-[2px]`}>
                      <motion.div 
                         initial={{ width: 0 }}
-                        animate={{ width: `${(state.score / (currentLevelQuestions.length || 1)) * 100}%` }}
-                        className="h-full bg-accent-blue rounded-full shadow-[0_0_20px_rgba(37,99,235,0.3)]"
+                        animate={{ width: `${((state.currentQuestionIndex) / (currentLevelQuestions.length || 1)) * 100}%` }}
+                        className={`h-full ${isKids ? 'bg-orange-500' : isElementary ? 'bg-green-500' : 'bg-accent-blue'} rounded-full shadow-lg`}
                      />
                    </div>
                  </div>
                  
-                 <div className="pt-10 border-t border-border-subtle grid grid-cols-2 gap-8">
+                 <div className={`pt-10 border-t ${isKids ? 'border-orange-100' : 'border-border-subtle'} grid grid-cols-2 gap-8`}>
                     <div>
-                      <span className="text-[0.6rem] font-black uppercase tracking-widest text-text-muted mb-2 block">Verified</span>
-                      <div className="text-3xl font-display font-black italic text-accent-emerald">{state.score}</div>
+                      <span className={`text-[0.6rem] font-black uppercase tracking-widest ${isKids ? 'text-orange-900/40' : 'text-text-muted'} mb-2 block`}>Success</span>
+                      <div className={`text-3xl font-display font-black italic ${isKids ? 'text-orange-500' : 'text-accent-emerald'}`}>{state.score}</div>
                     </div>
                     <div>
-                      <span className="text-[0.6rem] font-black uppercase tracking-widest text-text-muted mb-2 block">Errors</span>
-                      <div className="text-3xl font-display font-black italic text-accent-rose">{state.currentQuestionIndex - state.score}</div>
+                      <span className={`text-[0.6rem] font-black uppercase tracking-widest ${isKids ? 'text-orange-900/40' : 'text-text-muted'} mb-2 block`}>Retries</span>
+                      <div className={`text-3xl font-display font-black italic ${isKids ? 'text-orange-500' : 'text-accent-rose'}`}>{state.currentQuestionIndex - state.score}</div>
                     </div>
                  </div>
                </div>
             </div>
 
-            <div className="glass-card p-10 rounded-[2.5rem] flex-1">
-               <div className="flex items-center gap-4 text-accent-amber mb-6 uppercase text-[0.65rem] font-black tracking-widest italic">
-                  <Activity className="w-5 h-5 animate-pulse" /> Assessment Pulse
+            <div className={`${isKids ? 'bg-orange-500 text-white' : isElementary ? 'bg-green-500 text-white' : 'glass-card'} p-10 rounded-[2.5rem] flex-1 shadow-2xl`}>
+               <div className={`flex items-center gap-4 mb-6 uppercase text-[0.65rem] font-black tracking-widest italic`}>
+                  {isKids ? <Rocket className="w-5 h-5 animate-bounce" /> : <Activity className="w-5 h-5 animate-pulse" />} Lab Pulse
                </div>
-               <p className="text-sm text-text-muted leading-relaxed font-medium"> Session data is being synchronized with the global certification cloud logic. Professional standards are active.</p>
+               <p className={`text-sm ${isKids || isElementary ? 'text-white' : 'text-text-muted'} leading-relaxed font-medium`}> 
+                 {isKids ? "You're doing great! Keep going to unlock more magic nodes! 🚀" : "Competency tracking is live. Keep building your domain knowledge base."}
+               </p>
             </div>
           </div>
         </div>
         
         {/* Progress Timeline */}
         <div className="mt-16 mb-8 w-full">
-           <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-border-subtle relative">
+           <div className={`h-2 w-full ${isKids ? 'bg-orange-200' : isElementary ? 'bg-green-200' : 'bg-white/5'} rounded-full overflow-hidden relative`}>
              <motion.div 
-                className="h-full bg-accent-blue" 
+                className={`h-full ${isKids ? 'bg-orange-500' : isElementary ? 'bg-green-500' : 'bg-accent-blue'}`} 
                 initial={{ width: 0 }} 
                 animate={{ width: `${((state.currentQuestionIndex + 1) / (currentLevelQuestions.length || 1)) * 100}%` }} 
                 transition={{ duration: 0.5 }} 
              />
            </div>
            <div className="flex justify-between mt-4">
-              <span className="text-[0.6rem] font-black uppercase tracking-widest text-text-muted opacity-40">Initialization</span>
-              <span className="text-[0.6rem] font-black uppercase tracking-widest text-white italic">Node {state.currentQuestionIndex + 1} of {currentLevelQuestions.length}</span>
-              <span className="text-[0.6rem] font-black uppercase tracking-widest text-text-muted opacity-40">Completion</span>
+              <span className={`text-[0.6rem] font-black uppercase tracking-widest ${isKids ? 'text-orange-600' : isElementary ? 'text-green-600' : 'text-text-muted opacity-40'}`}>Start</span>
+              <span className={`text-[0.6rem] font-black uppercase tracking-widest ${isKids ? 'text-orange-900' : isElementary ? 'text-green-900' : 'text-white'} italic font-display`}>Quest Node {state.currentQuestionIndex + 1} of {currentLevelQuestions.length}</span>
+              <span className={`text-[0.6rem] font-black uppercase tracking-widest ${isKids ? 'text-orange-600' : isElementary ? 'text-green-600' : 'text-text-muted opacity-40'}`}>Finish</span>
            </div>
         </div>
 

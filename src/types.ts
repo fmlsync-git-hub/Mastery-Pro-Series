@@ -10,12 +10,14 @@ export interface Question {
   answer: string;
 }
 
-export type Level = 'beginner' | 'intermediate' | 'advanced';
+export type Level = 'beginner' | 'intermediate' | 'advanced' | 'kids' | 'elementary' | 'highschool' | 'academic' | 'pro';
+export type AppMode = 'certification' | 'training';
 
 export interface LevelData {
   title: string;
   description: string;
   questions: Question[];
+  trainingContent?: string; // Markdown for the training module
 }
 
 export interface CourseData {
@@ -37,6 +39,7 @@ export interface UserProfile {
 
 export interface AppState {
   user: UserProfile | null;
+  mode: AppMode;
   currentCourseId: string | null;
   currentLevel: Level | null;
   currentQuestionIndex: number;
