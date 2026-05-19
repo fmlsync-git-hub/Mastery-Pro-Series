@@ -1841,41 +1841,41 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
           </div>
         )}
 
-        <div className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+        <div className="pt-24 md:pt-32 pb-24 px-4 sm:px-8 md:px-12 max-w-7xl mx-auto">
           {/* Dashboard Header */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-12"
+            className="flex flex-col xl:flex-row justify-between items-start xl:items-end gap-10 mb-16"
           >
             <div className="flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full text-[0.6rem] font-bold text-text-secondary mb-4 border border-white/5">
-                Institutional ID: {state.user.email}
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full text-[0.6rem] font-bold text-text-secondary mb-6 border border-white/5 uppercase tracking-[0.1em]">
+                System Entity: {state.user.email}
               </div>
-              <h2 className="text-5xl md:text-6xl font-display font-black tracking-tighter italic leading-[0.9] uppercase">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black tracking-tighter italic leading-[0.85] uppercase">
                 {state.mode === 'certification' ? 'Certification' : 'Competency'} <br />
                 <span className="text-gradient-azure">{state.mode === 'certification' ? 'Laboratories.' : 'Labs Center.'}</span>
               </h2>
             </div>
             
-            <div className="flex flex-wrap gap-4">
-              <div className="bg-white/5 p-1.5 rounded-2xl border border-white/10 flex gap-2">
+            <div className="flex flex-wrap items-center gap-4 w-full xl:w-auto">
+              <div className="bg-white/5 p-1.5 rounded-2xl border border-white/10 flex gap-1 w-full sm:w-auto">
                 <button 
                   onClick={() => { playClick(); setState(prev => ({...prev, mode: 'certification', currentCourseId: null, currentLevel: null})); }}
-                  className={`px-6 py-3 rounded-xl text-[0.6rem] font-black uppercase tracking-widest transition-all ${state.mode === 'certification' ? 'bg-accent-blue text-white shadow-lg' : 'text-text-secondary hover:text-white'}`}
+                  className={`flex-1 sm:flex-none px-6 py-3 rounded-xl text-[0.6rem] font-black uppercase tracking-widest transition-all ${state.mode === 'certification' ? 'bg-accent-blue text-white shadow-lg' : 'text-text-secondary hover:text-white'}`}
                 >
                   Certification
                 </button>
                 <button 
                   onClick={() => { playClick(); setState(prev => ({...prev, mode: 'training', currentCourseId: null, currentLevel: null})); }}
-                  className={`px-6 py-3 rounded-xl text-[0.6rem] font-black uppercase tracking-widest transition-all ${state.mode === 'training' ? 'bg-accent-azure text-white shadow-lg' : 'text-text-secondary hover:text-white'}`}
+                  className={`flex-1 sm:flex-none px-6 py-3 rounded-xl text-[0.6rem] font-black uppercase tracking-widest transition-all ${state.mode === 'training' ? 'bg-accent-azure text-white shadow-lg' : 'text-text-secondary hover:text-white'}`}
                 >
-                  Competency Labs
+                  Competency
                 </button>
               </div>
               <button 
                 onClick={() => setViewingHistory(true)}
-                className="px-8 py-4 glass-card rounded-2xl font-bold text-[0.65rem] uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-3"
+                className="w-full sm:w-auto px-8 py-4 glass-card rounded-2xl font-bold text-[0.65rem] uppercase tracking-widest hover:bg-white/10 transition-all flex items-center justify-center gap-3"
               >
                 <Award className="w-4 h-4 text-accent-rose" /> Verification cloud
               </button>
@@ -1904,7 +1904,7 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
           </AnimatePresence>
 
           {!state.currentCourseId ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
               {Object.values(courses).map((course, i) => {
                 const colorMap: Record<string, string> = {
                   orange: 'bg-orange-500/10 text-orange-500 border-orange-500/20 hover:border-orange-500/50 hover:bg-orange-500/[0.05]',
@@ -1971,23 +1971,23 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
               animate={{ opacity: 1, x: 0 }}
               className="space-y-12"
             >
-              <div className="flex items-center gap-6">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-6">
                 <button 
                   onClick={() => { playClick(); setState(prev => ({...prev, currentCourseId: null})); }}
-                  className="p-4 glass-card rounded-2xl hover:bg-white/10 transition-all border border-border-subtle"
+                  className="p-4 w-fit glass-card rounded-2xl hover:bg-white/10 transition-all border border-border-subtle"
                 >
                   <ChevronLeft className="w-5 h-5 text-accent-blue" />
                 </button>
                 <div>
-                  <h3 className={`text-5xl font-display font-black tracking-tighter uppercase italic leading-none`}>
+                  <h3 className={`text-3xl sm:text-4xl md:text-5xl font-display font-black tracking-tighter uppercase italic leading-none`}>
                     <span className="text-accent-azure drop-shadow-[0_0_20px_rgba(14,165,233,0.3)]">{currentCourse?.subjectShortName}</span>
-                    <span className="opacity-20 ml-6">{currentCourse?.title}</span>
+                    <span className="opacity-20 ml-4 md:ml-6">{currentCourse?.title}</span>
                   </h3>
-                  <p className="text-xs text-text-secondary font-bold uppercase tracking-[0.2em] opacity-40 mt-4">Select an assessment tier to begin global verification</p>
+                  <p className="text-[0.6rem] sm:text-xs text-text-secondary font-bold uppercase tracking-[0.2em] opacity-40 mt-4">Select an assessment tier to begin global verification</p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
                 {state.mode === 'certification' ? (
                   (['beginner', 'intermediate', 'advanced'] as Level[]).map((level, i) => {
                     const levelInfo = courses[state.currentCourseId!].levels[level];
@@ -2099,55 +2099,55 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
 
   if (state.viewingReview) {
     return (
-      <div className="min-h-screen bg-bg-main text-text-primary p-6 md:p-12 font-sans selection:bg-accent-blue selection:text-white">
+      <div className="min-h-screen bg-bg-main text-text-primary px-4 sm:px-8 md:px-12 py-12 font-sans selection:bg-accent-blue selection:text-white">
         <div className="max-w-4xl mx-auto">
-          <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-8">
-            <div className="flex items-center gap-6">
-               <div className="w-16 h-16 bg-accent-blue rounded-2xl flex items-center justify-center shadow-lg shadow-accent-blue/20">
-                  <Eye className="w-8 h-8 text-white" />
+          <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 sm:mb-16 gap-8">
+            <div className="flex items-center gap-4 sm:gap-6">
+               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-accent-blue rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg shadow-accent-blue/20">
+                  <Eye className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                </div>
                <div>
-                  <h2 className="text-4xl font-display font-black tracking-tighter italic uppercase">Assessment Review</h2>
-                  <p className="text-xs font-bold text-text-secondary uppercase tracking-widest mt-1 opacity-60">Competency diagnostic feedback</p>
+                  <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tighter italic uppercase">Assessment Review</h2>
+                  <p className="text-[0.6rem] sm:text-xs font-bold text-text-secondary uppercase tracking-widest mt-1 opacity-60">Competency diagnostic feedback</p>
                </div>
             </div>
             <button 
               onClick={() => { playClick(); setState(prev => ({...prev, viewingReview: false})); }} 
-              className="px-10 py-4 bg-accent-blue text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-accent-hover transition-all enterprise-shadow"
+              className="w-full md:w-auto px-8 sm:px-10 py-4 bg-accent-blue text-white rounded-xl text-[0.65rem] font-black uppercase tracking-widest hover:bg-accent-hover transition-all enterprise-shadow"
             >
               Back to Summary
             </button>
           </header>
 
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             {currentLevelQuestions.map((q, idx) => {
               const userAnswer = state.answers[q.id];
               const isCorrect = userAnswer === q.answer;
               return (
-                <div key={idx} className={`glass-card p-10 overflow-hidden border-l-8 ${isCorrect ? 'border-l-accent-emerald' : 'border-l-accent-rose'}`}>
-                  <div className="flex justify-between items-start mb-8">
-                    <span className="text-[0.65rem] font-bold text-text-muted uppercase tracking-[0.3em]">Query Sequence {idx + 1}</span>
+                <div key={idx} className={`glass-card p-6 sm:p-8 md:p-10 overflow-hidden border-l-4 sm:border-l-8 ${isCorrect ? 'border-l-accent-emerald' : 'border-l-accent-rose'}`}>
+                  <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-8">
+                    <span className="text-[0.6rem] sm:text-[0.65rem] font-bold text-text-muted uppercase tracking-[0.3em]">Query Sequence {idx + 1}</span>
                     <span className={`px-4 py-1.5 rounded-full text-[0.6rem] font-black uppercase tracking-widest ${isCorrect ? 'bg-accent-emerald/10 text-accent-emerald' : 'bg-accent-rose/10 text-accent-rose'}`}>
                       {isCorrect ? 'Verified Content' : 'Diagnostic Error'}
                     </span>
                   </div>
-                  <h4 className="text-xl font-bold mb-10 leading-tight opacity-90">{q.question}</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <h4 className="text-lg sm:text-xl md:text-2xl font-bold mb-8 leading-relaxed opacity-90">{q.question}</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                     {Object.entries(q.options || {}).map(([key, val]) => {
                       const letter = ['A', 'B', 'C', 'D'][parseInt(key)];
                       const isCorrectOption = letter === q.answer;
                       const isUserOption = letter === userAnswer;
                       
-                      let appearance = "bg-white/5 border-border-subtle text-text-secondary";
-                      if (isCorrectOption) appearance = "bg-accent-emerald/20 border-accent-emerald/50 text-accent-emerald";
-                      else if (isUserOption) appearance = "bg-accent-rose/20 border-accent-rose/50 text-accent-rose";
+                      let appearance = "bg-white/5 border-border-subtle text-text-secondary opacity-60";
+                      if (isCorrectOption) appearance = "bg-accent-emerald/20 border-accent-emerald/50 text-accent-emerald opacity-100";
+                      else if (isUserOption) appearance = "bg-accent-rose/20 border-accent-rose/50 text-accent-rose opacity-100";
 
                       return (
-                        <div key={key} className={`p-5 rounded-xl border text-sm font-medium flex items-center gap-4 transition-all ${appearance}`}>
+                        <div key={key} className={`p-4 sm:p-5 rounded-xl border text-[0.8rem] sm:text-sm font-medium flex items-center gap-4 transition-all ${appearance}`}>
                            <span className="text-xs font-black opacity-40">{letter}</span>
-                           <span>{val}</span>
-                           {isCorrectOption && <CheckCircle2 className="w-4 h-4 ml-auto" />}
-                           {isUserOption && !isCorrectOption && <XCircle className="w-4 h-4 ml-auto" />}
+                           <span className="text-sm sm:text-base font-medium">{val}</span>
+                           {isCorrectOption && <CheckCircle2 className="w-4 h-4 ml-auto shrink-0" />}
+                           {isUserOption && !isCorrectOption && <XCircle className="w-4 h-4 ml-auto shrink-0" />}
                         </div>
                       );
                     })}
@@ -2159,7 +2159,7 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
           <div className="mt-16 flex justify-center">
              <button 
               onClick={() => { playClick(); setState(prev => ({...prev, viewingReview: false})); }} 
-              className="px-12 py-5 bg-white text-black rounded-xl text-sm font-black uppercase tracking-widest hover:bg-white/90 transition-all shadow-2xl"
+              className="w-full sm:w-auto px-12 py-5 bg-white text-black rounded-xl text-sm font-black uppercase tracking-widest hover:bg-white/90 transition-all shadow-2xl"
             >
               Return to Session Summary
             </button>
@@ -2176,26 +2176,26 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
     const verificationUrl = `${window.location.origin}${window.location.pathname}?verify=${verificationToken}`;
 
     return (
-      <div className="min-h-screen bg-bg-main text-text-primary px-6 p-12 flex items-center justify-center font-sans selection:bg-accent-blue selection:text-white">
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-2xl w-full glass-card rounded-[3rem] p-16 text-center relative overflow-hidden">
-          {verificationToken && passed && <div className="absolute top-0 right-0 p-10 opacity-[0.03]"><ShieldCheck className="w-48 h-48 text-accent-blue" /></div>}
+      <div className="min-h-screen bg-bg-main text-text-primary px-4 sm:px-8 md:px-12 py-12 flex items-center justify-center font-sans selection:bg-accent-blue selection:text-white">
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-2xl w-full glass-card rounded-[2.5rem] sm:rounded-[3rem] p-8 sm:p-12 md:p-16 text-center relative overflow-hidden">
+          {verificationToken && passed && <div className="absolute top-0 right-0 p-10 opacity-[0.03] hidden sm:block"><ShieldCheck className="w-48 h-48 text-accent-blue" /></div>}
           
-          <div className="mb-12 relative inline-block">
+          <div className="mb-8 sm:mb-12 relative inline-block">
             <div className={`absolute inset-0 blur-3xl rounded-full ${passed ? 'bg-accent-emerald/20' : 'bg-accent-rose/20'}`} />
-            <Trophy className={`w-24 h-24 relative z-10 mx-auto ${passed ? 'text-accent-emerald' : 'text-accent-rose'}`} />
+            <Trophy className={`w-16 h-16 sm:w-24 sm:h-24 relative z-10 mx-auto ${passed ? 'text-accent-emerald' : 'text-accent-rose'}`} />
           </div>
 
           <p className="text-[0.6rem] font-black text-text-muted uppercase tracking-[0.4em] mb-4">Assessment Session Results</p>
-          <h2 className="text-5xl md:text-6xl font-display font-black tracking-tighter mb-8 uppercase italic leading-none">{passed ? 'Qualified.' : 'Unsuccessful.'}</h2>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-black tracking-tighter mb-8 uppercase italic leading-none">{passed ? 'Qualified.' : 'Unsuccessful.'}</h2>
           
-          <div className="flex justify-center items-center gap-8 mb-16 py-10 border-y border-border-subtle">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 mb-12 sm:mb-16 py-8 sm:py-10 border-y border-border-subtle">
              <div className="text-center">
-                <div className={`text-6xl font-display font-black tracking-tighter ${passed ? 'text-accent-emerald' : 'text-accent-rose'}`}>{percentage}%</div>
+                <div className={`text-5xl sm:text-6xl font-display font-black tracking-tighter ${passed ? 'text-accent-emerald' : 'text-accent-rose'}`}>{percentage}%</div>
                 <div className="text-[0.6rem] font-bold text-text-muted uppercase tracking-widest mt-2">Accuracy Rate</div>
              </div>
-             <div className="w-px h-16 bg-border-subtle" />
+             <div className="w-full sm:w-px h-px sm:h-16 bg-border-subtle" />
              <div className="text-center">
-                <div className="text-6xl font-display font-black tracking-tighter text-white">{state.score}/{totalQCount}</div>
+                <div className="text-5xl sm:text-6xl font-display font-black tracking-tighter text-white">{state.score}/{totalQCount}</div>
                 <div className="text-[0.6rem] font-bold text-text-muted uppercase tracking-widest mt-2">Points Awarded</div>
              </div>
           </div>
@@ -2264,41 +2264,41 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
         handleLogout={handleLogout} 
         setAuthMode={setAuthMode} 
       />
-      <div className="w-full max-w-7xl flex flex-col flex-1 mt-20">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-8 shrink-0">
-          <div className="flex items-center gap-6">
-            <div className={`text-4xl font-display font-black tracking-tighter uppercase italic flex items-center gap-3 ${isKids ? 'text-orange-600' : isElementary ? 'text-green-600' : ''}`}>
-              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg transform -rotate-6 ${isKids ? 'bg-orange-500' : isElementary ? 'bg-green-500' : 'bg-accent-blue'}`}>
-                <Zap className="w-7 h-7 text-white fill-current" />
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-12 flex flex-col flex-1 mt-24 md:mt-32">
+        <header className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-12 sm:mb-16 gap-8 shrink-0">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+            <div className={`text-3xl sm:text-4xl font-display font-black tracking-tighter uppercase italic flex items-center gap-3 ${isKids ? 'text-orange-600' : isElementary ? 'text-green-600' : ''}`}>
+              <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg transform -rotate-6 ${isKids ? 'bg-orange-500' : isElementary ? 'bg-green-500' : 'bg-accent-blue'}`}>
+                <Zap className="w-5 h-5 sm:w-7 sm:h-7 text-white fill-current" />
               </div>
-              <div className="flex flex-col h-12 justify-center">
+              <div className="flex flex-col h-10 sm:h-12 justify-center">
                 <span className="leading-[0.8] mb-1">Mastery</span>
-                <span className={`text-xs not-italic tracking-[0.4em] font-black opacity-50 ${isKids ? 'text-orange-900' : isElementary ? 'text-green-900' : 'text-accent-blue'}`}>
+                <span className={`text-[0.6rem] sm:text-xs not-italic tracking-[0.4em] font-black opacity-50 ${isKids ? 'text-orange-900' : isElementary ? 'text-green-900' : 'text-accent-blue'}`}>
                   {isKids ? 'Kids Lab' : isElementary ? 'Junior' : 'Pro Series'}
                 </span>
               </div>
             </div>
-            <div className={`h-12 w-px ${isKids ? 'bg-orange-200' : isElementary ? 'bg-green-200' : 'bg-white/10'} hidden md:block`} />
-            <div className={`px-6 py-2.5 ${isKids ? 'bg-orange-500 text-white shadow-xl shadow-orange-500/20' : isElementary ? 'bg-green-500 text-white shadow-xl shadow-green-500/20' : 'bg-white/5 border border-white/10 text-white/50'} rounded-full flex items-center gap-3`}>
-               <div className={`w-2.5 h-2.5 ${isKids || isElementary ? 'bg-white' : 'bg-accent-emerald'} rounded-full animate-pulse shadow-[0_0_15px_rgba(255,255,255,0.5)]`} />
-               <span className="text-[0.7rem] font-black uppercase tracking-[0.2em]">{isTraining ? 'Training Core Live' : 'Assessment Engine Active'}</span>
+            <div className={`h-10 sm:h-12 w-px ${isKids ? 'bg-orange-200' : isElementary ? 'bg-green-200' : 'bg-white/10'} hidden sm:block`} />
+            <div className={`px-4 sm:px-6 py-2 sm:py-2.5 ${isKids ? 'bg-orange-500 text-white shadow-xl shadow-orange-500/20' : isElementary ? 'bg-green-500 text-white shadow-xl shadow-green-500/20' : 'bg-white/5 border border-white/10 text-white/50'} rounded-full flex items-center gap-3 w-fit`}>
+               <div className={`w-2 h-2 sm:w-2.5 sm:h-2.5 ${isKids || isElementary ? 'bg-white' : 'bg-accent-emerald'} rounded-full animate-pulse shadow-[0_0_15px_rgba(255,255,255,0.5)]`} />
+               <span className="text-[0.6rem] sm:text-[0.7rem] font-black uppercase tracking-[0.2em]">{isTraining ? 'Training Live' : 'Engine Active'}</span>
             </div>
           </div>
           
-          <div className="flex items-center gap-5 w-full md:w-auto">
-            <div className={`flex-1 md:flex-none flex items-center justify-between gap-6 px-10 py-4 rounded-xl border transition-all ${isKids ? 'bg-white border-orange-200 shadow-xl' : isElementary ? 'bg-white border-green-200 shadow-xl' : (timeLeft < 20 ? 'bg-accent-rose/10 border-accent-rose/30 text-accent-rose' : 'bg-white/5 border-border-subtle text-white')}`}>
-              <Timer className={`w-5 h-5 ${timeLeft < 20 ? 'animate-pulse text-accent-rose' : (isKids ? 'text-orange-500' : isElementary ? 'text-green-500' : 'opacity-40')}`} />
-              <span className={`text-2xl font-black font-mono tracking-tighter ${isKids ? 'text-orange-600' : isElementary ? 'text-green-600' : ''}`}>{String(Math.floor(timeLeft / 60)).padStart(2, '0')}:{String(timeLeft % 60).padStart(2, '0')}</span>
+          <div className="flex items-center gap-4 sm:gap-5 w-full xl:w-auto">
+            <div className={`flex-1 xl:flex-none flex items-center justify-between xl:justify-start gap-6 px-6 sm:px-10 py-3 sm:py-4 rounded-xl border transition-all ${isKids ? 'bg-white border-orange-200 shadow-xl' : isElementary ? 'bg-white border-green-200 shadow-xl' : (timeLeft < 20 ? 'bg-accent-rose/10 border-accent-rose/30 text-accent-rose' : 'bg-white/5 border-border-subtle text-white')}`}>
+              <Timer className={`w-4 h-4 sm:w-5 sm:h-5 ${timeLeft < 20 ? 'animate-pulse text-accent-rose' : (isKids ? 'text-orange-500' : isElementary ? 'text-green-500' : 'opacity-40')}`} />
+              <span className={`text-xl sm:text-2xl font-black font-mono tracking-tighter ${isKids ? 'text-orange-600' : isElementary ? 'text-green-600' : ''}`}>{String(Math.floor(timeLeft / 60)).padStart(2, '0')}:{String(timeLeft % 60).padStart(2, '0')}</span>
             </div>
-            <button onClick={() => { playClick(); resetQuiz(); }} className={`p-4 ${isKids ? 'bg-orange-500 text-white hover:bg-orange-600 shadow-xl' : isElementary ? 'bg-green-500 text-white hover:bg-green-600 shadow-xl' : 'glass-card hover:bg-white/10'} rounded-xl group transition-all`}>
-              <LogOut className="w-6 h-6 group-hover:scale-110 transition-transform" />
+            <button onClick={() => { playClick(); resetQuiz(); }} className={`p-3 sm:p-4 ${isKids ? 'bg-orange-500 text-white hover:bg-orange-600 shadow-xl' : isElementary ? 'bg-green-500 text-white hover:bg-green-600 shadow-xl' : 'glass-card hover:bg-white/10'} rounded-xl group transition-all`}>
+              <LogOut className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
             </button>
           </div>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start flex-1">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-start flex-1 mb-20">
           {/* Main Assessment Area */}
-          <div className={`${isKids ? 'bg-white shadow-2xl border-4 border-orange-400 rounded-[3.5rem]' : isElementary ? 'bg-white shadow-xl border-2 border-green-200 rounded-[3rem]' : 'glass-card'} lg:col-span-8 p-12 md:p-20 flex flex-col relative overflow-hidden`}>
+          <div className={`${isKids ? 'bg-white shadow-2xl border-4 border-orange-400 rounded-[2.5rem] sm:rounded-[3.5rem]' : isElementary ? 'bg-white shadow-xl border-2 border-green-200 rounded-[2rem] sm:rounded-[3rem]' : 'glass-card'} lg:col-span-8 p-8 sm:p-12 md:p-16 lg:p-20 flex flex-col relative overflow-hidden`}>
             <div className={`absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none select-none ${isKids ? 'text-orange-500' : isElementary ? 'text-green-500' : ''}`}>
               <div className="text-[12rem] font-display font-black italic">{state.currentQuestionIndex + 1}</div>
             </div>
@@ -2320,11 +2320,11 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
                 exit={{ opacity: 0, scale: 1.02 }}
                 className="flex flex-col flex-1 relative z-10"
               >
-                <h2 className={`text-3xl md:text-5xl font-display font-black mb-20 leading-tight tracking-tighter uppercase italic ${isKids ? 'text-orange-600' : isElementary ? 'text-green-600' : ''}`}>
+                <h2 className={`text-2xl md:text-4xl font-sans font-bold mb-16 leading-relaxed tracking-tight ${isKids ? 'text-orange-950' : isElementary ? 'text-green-950' : 'text-white'}`}>
                   {currentQuestion?.question}
                 </h2>
                 
-                <div className="grid gap-4 mt-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-auto">
                   {currentQuestion?.options.map((option, idx) => {
                     const label = ['A', 'B', 'C', 'D'][idx];
                     const isCorrect = showFeedback === 'correct' && label === currentQuestion.answer;
@@ -2344,12 +2344,12 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
                         className={`group relative text-left p-6 md:p-8 ${isKids ? 'rounded-[2rem]' : 'rounded-2xl'} border transition-all flex items-center justify-between ${behavior}`}
                       >
                         <div className="flex items-center gap-8">
-                          <span className={`${isKids ? 'w-14 h-14 rounded-[1.5rem]' : 'w-12 h-12 rounded-xl'} flex items-center justify-center text-xs font-black transition-all ${
+                          <span className={`${isKids ? 'w-14 h-14 rounded-[1.5rem]' : 'w-12 h-12 rounded-xl'} flex items-center justify-center text-sm font-black transition-all ${
                             showFeedback ? (isCorrect || isWrong ? 'bg-black/10' : 'bg-transparent') : (isKids ? 'bg-orange-200' : isElementary ? 'bg-green-200' : 'bg-white/5 group-hover:bg-accent-blue/20')
                           }`}>
                             {label}
                           </span>
-                          <span className={`font-bold ${isKids ? 'text-xl' : 'text-lg'} leading-tight`}>{option}</span>
+                          <span className={`font-medium ${isKids ? 'text-xl' : 'text-lg'} leading-relaxed`}>{option}</span>
                         </div>
                         {isCorrect && <CheckCircle2 className="w-6 h-6" />}
                         {isWrong && <XCircle className="w-6 h-6" />}
