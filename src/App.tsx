@@ -101,6 +101,8 @@ import html2canvas from 'html2canvas';
 import { auth, db, storage, rdb, handleFirestoreError, OperationType } from './lib/firebase';
 import { levels, courses } from './data';
 import { Question, Level, AppState, UserProfile } from './types';
+import { QUESTION_BANK } from './data/questionBank';
+import { TRAINING_BANK } from './data/trainingBank';
 
 interface Certification {
   id: string;
@@ -572,48 +574,51 @@ export default function App() {
     setTimeout(() => setNotification(null), 5000);
   };
 
-  const fetchQuestions = async (courseId: string, level: string) => {
+  const fetchQuestions = async (courseId: string, level: Level) => {
     setIsGeneratingQuestions(true);
+    // Simulate slight delay for "feeling" of loading
+    await new Promise(r => setTimeout(r, 800));
+    
     try {
-      const courseTitle = courses[courseId]?.title || courseId;
-      const response = await fetch('/api/assessment/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic: courseTitle, level, count: 20, mode: state.mode })
-      });
-      const data = await response.json();
-      if (data.questions) {
-        return data.questions as Question[];
+      // Pull from Local Question Bank
+      const bankQuestions = QUESTION_BANK[courseId]?.[level] || [];
+      
+      // If bank is empty for this specific combination, fallback to static course data or a generic set
+      if (bankQuestions.length === 0) {
+        const fallbacks = courses[courseId]?.levels[level]?.questions || [];
+        if (fallbacks.length > 0) return fallbacks;
+        
+        // Notify if completely missing
+        notify(`Subject nodes for ${courseId} / ${level} currently being indexed. Check back soon!`, "error");
+        return null;
       }
-      throw new Error("Invalid response from generator");
+
+      // Shuffle and take a subset (max 20)
+      return [...bankQuestions].sort(() => Math.random() - 0.5).slice(0, 20);
     } catch (e) {
-      console.error("Generator Error", e);
-      notify("Intelligence Engine Sync Failure: Reverting to fallback sets", "error");
+      console.error("Local Bank Error", e);
       return null;
     } finally {
       setIsGeneratingQuestions(false);
     }
   };
 
-  const fetchTrainingContent = async (courseId: string, level: string) => {
+  const fetchTrainingContent = async (courseId: string, level: Level) => {
     setIsGeneratingTraining(true);
     playClick();
+    await new Promise(r => setTimeout(r, 1000));
+
     try {
-      const courseTitle = courses[courseId]?.title || courseId;
-      const response = await fetch('/api/training/content', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic: courseTitle, level })
-      });
-      const data = await response.json();
-      if (data.title) {
-        setTrainingContent(data);
-        return data;
+      const content = TRAINING_BANK[courseId]?.[level];
+      if (content) {
+        setTrainingContent(content);
+        return content;
       }
-      throw new Error("Invalid training data");
+      
+      notify(`Scientific modules for ${courseId} are currently under review.`, "error");
+      return null;
     } catch (e) {
-      console.error("Training Error", e);
-      notify("Training Module Sync Failure: Reconnecting...", "error");
+      console.error("Training Bank Error", e);
       return null;
     } finally {
       setIsGeneratingTraining(false);
