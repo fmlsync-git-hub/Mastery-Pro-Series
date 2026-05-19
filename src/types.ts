@@ -4,7 +4,7 @@
  */
 
 export interface Question {
-  id: number;
+  id: string | number;
   question: string;
   options: string[];
   answer: string;
@@ -41,7 +41,7 @@ export interface AppState {
   currentLevel: Level | null;
   currentQuestionIndex: number;
   score: number;
-  answers: Record<number, string>;
+  answers: Record<string, string>;
   isFinished: boolean;
   showMilestone: boolean;
   viewingReview: boolean;
