@@ -100,7 +100,7 @@ export const advancedQuestions: Question[] = [
   { id: 297, question: "Which element defines preformatted code blocks?", options: ["<pre>", "<code>", "Both A and B", "<script>"], answer: "C" },
   { id: 298, question: "Which HTML element is used for representing keyboard input?", options: ["<kbd>", "<key>", "<input>", "<cmd>"], answer: "A" },
   { id: 299, question: "Which HTML principle improves long-term maintainability?", options: ["Semantic structure", "Inline styling", "Table layouts", "Image-heavy design"], answer: "A" },
-  { id: 300, question: "What is the ultimate goal of modern HTML architecture?", options: ["Speed and SEO", "Visual Beauty", "Accessibility and Interoperability", "Replace JavaScript"], answer: "C" },
+  { id: 300, question: "What is the ultimate goal of modern web data engineering?", options: ["Speed and SEO", "Visual Beauty", "Accessibility and Interoperability", "Replace JavaScript"], answer: "C" },
   // Adding generated questions 301-350 to reach 350 as requested
   { id: 301, question: "Which HTML element is used to represent the output of a calculation?", options: ["<result>", "<output>", "<compute>", "<math>"], answer: "B" },
   { id: 302, question: "What is the correct way to specify an image map in HTML?", options: ["<img usemap=\"#mapname\">", "<img ismap>", "<map name=\"mapname\">", "Both A and C are needed"], answer: "D" },

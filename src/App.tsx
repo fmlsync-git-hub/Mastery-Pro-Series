@@ -8,6 +8,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   Trophy, 
   ChevronRight, 
+  ChevronLeft,
+  ChevronDown,
+  Layers,
+  FileCode2,
   Award, 
   Target, 
   CheckCircle2, 
@@ -499,7 +503,7 @@ export default function App() {
            <div className="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl text-[0.6rem] font-black uppercase tracking-widest text-accent-emerald flex items-center justify-center gap-3">
              <CheckCircle2 className="w-4 h-4" /> Authenticity Confirmed by Mastery Pro Cloud
            </div>
-           <button onClick={() => window.location.href = '/'} className="text-[0.6rem] font-black uppercase tracking-widest text-text-secondary hover:text-white transition-colors">Return to Architecture Core</button>
+           <button onClick={() => window.location.href = '/'} className="text-[0.6rem] font-black uppercase tracking-widest text-text-secondary hover:text-white transition-colors">Return to Central Hub</button>
         </div>
       </motion.div>
     </div>
@@ -560,7 +564,7 @@ export default function App() {
     const body = `
 OFFICIAL VERIFICATION REPORT: ${user.fullName}
 
-Mastery Pro Series Protocol has verified the following architectural competencies for candidate ${user.email}:
+Mastery Pro Series Protocol has verified the following professional competencies for candidate ${user.email}:
 
 REGISTRATION IDENTITY: ${user.fullName}
 VERIFIED CREDENTIALS:
@@ -961,112 +965,301 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
     setTimeLeft(30);
   };
 
-  const LandingPageView = () => (
-    <div className="min-h-screen bg-bg-dark text-text-primary p-6 md:p-12 font-sans overflow-x-hidden">
-      <div className="max-w-6xl mx-auto py-12 md:py-24">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16 md:mb-24">
-          <div className="inline-flex items-center gap-3 bg-accent-emerald/10 border border-accent-emerald/30 px-6 py-2 rounded-full mb-8">
-            <div className="w-2 h-2 bg-accent-emerald rounded-full animate-ping" />
-            <span className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-accent-emerald">V4.0 Architecture Protocol Active</span>
-          </div>
-          <h1 className="text-5xl md:text-8xl font-black tracking-[0.1em] uppercase italic mb-6">
-            Mastery<span className="text-accent-emerald">Pro</span>.Series
-          </h1>
-          <p className="text-sm md:text-lg text-text-secondary max-w-2xl mx-auto font-medium leading-relaxed uppercase tracking-widest">
-            The world's most advanced architectural verification system for 
-            high-performance domain mastery.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-card-dark border border-border-dark p-10 rounded-[3rem] relative overflow-hidden group">
-            <div className="relative z-10">
-              <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-8 border border-blue-500/20">
-                <BookOpen className="w-7 h-7 text-blue-400" />
-              </div>
-              <h3 className="text-2xl font-black tracking-tighter mb-4 uppercase">Practice Engine</h3>
-              <p className="text-xs text-text-secondary font-bold uppercase tracking-widest leading-relaxed">
-                Analyze thousands of curated architectural patterns. Non-destructive learning cycles for deep semantic retention.
-              </p>
-            </div>
-            <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-blue-400/5 blur-[50px] rounded-full" />
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-card-dark border border-accent-emerald/30 p-10 rounded-[3rem] relative overflow-hidden ring-1 ring-accent-emerald/20 shadow-[0_0_50px_rgba(16,185,129,0.05)]">
-            <div className="relative z-10">
-              <div className="w-14 h-14 bg-accent-emerald/10 rounded-2xl flex items-center justify-center mb-8 border border-accent-emerald/20">
-                <ShieldCheck className="w-7 h-7 text-accent-emerald" />
-              </div>
-              <h3 className="text-2xl font-black tracking-tighter mb-4 uppercase">Strict Exam Mode</h3>
-              <p className="text-xs text-secondary font-black uppercase tracking-widest leading-relaxed text-accent-emerald">
-                High-integrity verification gate. Zero-tolerance for tab switching or security breaches. Official certification only.
-              </p>
-            </div>
-            <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-accent-emerald/10 blur-[50px] rounded-full" />
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="bg-card-dark border border-border-dark p-10 rounded-[3rem] relative overflow-hidden">
-            <div className="relative z-10">
-              <div className="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center mb-8 border border-amber-500/20">
-                <Award className="w-7 h-7 text-amber-400" />
-              </div>
-              <h3 className="text-2xl font-black tracking-tighter mb-4 uppercase">Verification Cloud</h3>
-              <p className="text-xs text-text-secondary font-bold uppercase tracking-widest leading-relaxed">
-                Export high-fidelity credentials to LinkedIn. Global pulse synchronization for verified mastery benchmarks.
-              </p>
-            </div>
-            <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-amber-400/5 blur-[50px] rounded-full" />
-          </motion.div>
-        </div>
-
-        <div className="bg-white/5 border border-white/10 rounded-[4rem] p-12 md:p-20 relative overflow-hidden mb-24">
-          <div className="relative z-10">
-            <div className="flex flex-col md:flex-row gap-12 items-center">
-              <div className="flex-1">
-                <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-6 uppercase italic">Subscription Matrix</h2>
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="mt-1 w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-[0.6rem]">01</div>
-                    <div>
-                      <p className="text-sm font-black uppercase tracking-widest text-white">Tier I & II: Open Access</p>
-                      <p className="text-xs text-text-secondary font-bold uppercase tracking-widest mt-1">Beginner and Intermediate protocols are fully authorized for all verified identities.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="mt-1 w-5 h-5 rounded-full bg-accent-emerald/20 flex items-center justify-center text-accent-emerald font-bold text-[0.6rem]">02</div>
-                    <div>
-                      <p className="text-sm font-black uppercase tracking-widest text-white">Advanced Tier: Premium Authorization</p>
-                      <p className="text-xs text-text-secondary font-bold uppercase tracking-widest mt-1">Senior architectural concepts require a one-time gateway payment ($9.99) for lifetime access and certification.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="w-72 h-72 bg-accent-emerald rounded-full flex items-center justify-center relative group">
-                <div className="absolute inset-0 bg-accent-emerald blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity" />
-                <div className="text-center">
-                  <p className="text-[0.6rem] font-black tracking-[0.4em] uppercase text-black/60 mb-2">Initialize Now</p>
-                  <button 
-                    onClick={() => { playClick(); setState(prev => ({...prev, hasSeenLanding: true})); }}
-                    className="bg-black text-white px-10 py-5 rounded-full font-black uppercase tracking-widest text-[0.8rem] hover:scale-105 transition-all shadow-2xl"
-                  >
-                    Enter Core
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="absolute -left-20 -top-20 w-96 h-96 bg-accent-emerald/5 blur-[120px] rounded-full" />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 opacity-60">
-           {['256-BIT ENCRYPTION', 'GDPR COMPLIANT', 'REAL-TIME SYNC', 'PCI DSS SECURE'].map((tag, i) => (
-             <div key={i} className="flex items-center justify-center gap-3 bg-white/5 border border-white/5 py-4 rounded-2xl">
-               <ShieldCheck className="w-4 h-4 text-accent-emerald" />
-               <span className="text-[0.6rem] font-black uppercase tracking-[0.2em]">{tag}</span>
-             </div>
-           ))}
+  const Navbar = () => (
+    <nav className="fixed top-0 left-0 right-0 z-[100] glass-panel border-b border-white/5 py-4 px-6 md:px-12 flex justify-between items-center h-20">
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 bg-accent-emerald rounded-xl flex items-center justify-center font-black text-black">M</div>
+        <div className="text-xl font-display font-black tracking-tighter uppercase italic">
+          Mastery<span className="text-accent-emerald">Pro</span>
         </div>
       </div>
+      <div className="hidden md:flex items-center gap-8">
+        <a href="#" className="text-[0.65rem] font-black uppercase tracking-widest text-text-secondary hover:text-white transition-colors">Enterprise</a>
+        <a href="#" className="text-[0.65rem] font-black uppercase tracking-widest text-text-secondary hover:text-white transition-colors">Verification Cloud</a>
+        <a href="#" className="text-[0.65rem] font-black uppercase tracking-widest text-text-secondary hover:text-white transition-colors">Academic Protocols</a>
+      </div>
+      <div className="flex items-center gap-4">
+        {state.user ? (
+          <div className="flex items-center gap-3">
+            <div className="text-right hidden sm:block">
+              <div className="text-[0.6rem] font-black uppercase text-white/50">{state.user.fullName}</div>
+              <div className="text-[0.5rem] font-bold text-accent-emerald uppercase tracking-widest">Verified Dev</div>
+            </div>
+            <button onClick={handleLogout} className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all">
+              <LogOut className="w-4 h-4" />
+            </button>
+          </div>
+        ) : (
+          <button onClick={() => setAuthMode('login')} className="px-6 py-2.5 rounded-xl bg-accent-emerald text-black font-black text-[0.65rem] uppercase tracking-widest hover:opacity-90 transition-all shadow-lg shadow-emerald-500/20">
+            Sign In
+          </button>
+        )}
+      </div>
+    </nav>
+  );
+
+  const LandingPageView = () => (
+    <div className="min-h-screen bg-bg-dark text-text-primary font-sans overflow-x-hidden selection:bg-accent-emerald selection:text-black">
+      <Navbar />
+      
+      {/* Hero Section */}
+      <section className="relative pt-44 pb-24 px-6 md:px-12 overflow-hidden">
+        {/* Abstract Background Elements */}
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-accent-indigo/10 blur-[120px] rounded-full -mr-96 -mt-96" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent-emerald/5 blur-[100px] rounded-full -ml-44 -mb-44" />
+        
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }} 
+              animate={{ opacity: 1, x: 0 }}
+              className="text-left"
+            >
+              <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full mb-8">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-emerald opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-emerald"></span>
+                </span>
+                <span className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-white/70">Global Standards Authorization Active</span>
+              </div>
+              
+              <h1 className="text-6xl md:text-8xl font-display font-black leading-[0.9] tracking-tighter uppercase mb-8">
+                Standardizing <br />
+                <span className="text-gradient">Competency.</span>
+              </h1>
+              
+              <p className="text-lg text-text-secondary font-medium leading-relaxed mb-10 max-w-lg">
+                The global benchmark for professional and academic auditing. Verify your domain mastery through rigorous technical protocols recognized by industry leaders.
+              </p>
+              
+              <div className="flex flex-wrap gap-4">
+                <button 
+                  onClick={() => { playClick(); setState(prev => ({...prev, hasSeenLanding: true})); }}
+                  className="px-10 py-5 bg-white text-black rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-all shadow-2xl shadow-white/5"
+                >
+                  Get Started Free
+                </button>
+                <button className="px-10 py-5 bg-white/5 border border-white/10 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-white/10 transition-all">
+                  Watch Demo
+                </button>
+              </div>
+            </motion.div>
+            
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }} 
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="relative"
+            >
+              <div className="relative z-10 rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl shadow-indigo-500/10">
+                <img 
+                  src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200" 
+                  alt="High Tech Dashboard" 
+                  className="w-full aspect-[4/3] object-cover"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/80 via-transparent to-transparent" />
+              </div>
+              
+              {/* Floating Stat Card */}
+              <motion.div 
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -bottom-10 -left-10 glass-panel p-6 rounded-3xl z-20 hidden md:block"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-accent-emerald/20 rounded-xl flex items-center justify-center">
+                    <ShieldCheck className="w-6 h-6 text-accent-emerald" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-black font-display tracking-tight leading-none">12.4k</div>
+                    <div className="text-[0.6rem] font-black uppercase text-text-secondary tracking-widest mt-1">Verified Credentials</div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Grid Features */}
+      <section className="py-24 px-6 md:px-12 bg-white/[0.02]">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-16">
+            <h2 className="text-sm font-black text-accent-indigo uppercase tracking-[0.4em] mb-4">Industrial Standards</h2>
+            <h3 className="text-4xl font-display font-black tracking-tighter uppercase leading-none">Designed for Global Impact</h3>
+          </div>
+          
+          <div className="bento-grid">
+            <div className="col-span-12 md:col-span-8 glass-panel p-10 rounded-[3.5rem] relative overflow-hidden group">
+              <div className="relative z-10">
+                <BookOpen className="w-10 h-10 text-accent-indigo mb-6" />
+                <h4 className="text-3xl font-black font-display tracking-tighter uppercase mb-4">Competency Modeling</h4>
+                <p className="text-sm text-text-secondary font-medium leading-relaxed max-w-md">
+                   Our algorithmic assessment engine identifies granular performance gaps, ensuring 100% technical saturation before certification issuance.
+                </p>
+                <div className="mt-8 flex gap-4 overflow-hidden">
+                  {[1,2,3,4].map(i => (
+                    <div key={i} className="h-2 w-12 rounded-full bg-white/5 overflow-hidden">
+                      <motion.div 
+                        initial={{ x: "-100%" }}
+                        animate={{ x: "0%" }}
+                        transition={{ duration: 2, delay: i * 0.5, repeat: Infinity }}
+                        className="h-full w-full bg-accent-indigo"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-accent-indigo/10 blur-[80px] rounded-full group-hover:bg-accent-indigo/20 transition-colors" />
+            </div>
+            
+            <div className="col-span-12 md:col-span-4 glass-panel p-10 rounded-[3.5rem] border-accent-emerald/30 shadow-lg shadow-emerald-500/5">
+              <ShieldCheck className="w-10 h-10 text-accent-emerald mb-6" />
+              <h4 className="text-3xl font-black font-display tracking-tighter uppercase mb-4">Institutional Integrity</h4>
+              <p className="text-sm text-text-secondary font-medium leading-relaxed">
+                 Anti-breach proctoring protocols designed for corporate and academic regulatory compliance.
+              </p>
+            </div>
+            
+            <div className="col-span-12 md:col-span-5 glass-panel p-10 rounded-[3rem]">
+              <Target className="w-10 h-10 text-accent-rose mb-6" />
+              <h4 className="text-3xl font-black font-display tracking-tighter uppercase mb-4">Precision Analytics</h4>
+              <p className="text-sm text-text-secondary font-medium leading-relaxed">
+                 Detailed performance metrics across every evaluation node.
+              </p>
+            </div>
+            
+            <div className="col-span-12 md:col-span-7 bg-accent-emerald p-10 rounded-[3rem] text-black overflow-hidden relative">
+              <div className="relative z-10 flex flex-col justify-between h-full">
+                <div>
+                  <Award className="w-12 h-12 mb-6 opacity-40" />
+                  <h4 className="text-4xl font-black font-display tracking-tighter uppercase italic leading-none">Standardized <br /> Recognition</h4>
+                </div>
+                <p className="text-sm font-bold uppercase tracking-tight mt-10 max-w-xs">
+                  Your verification is globally accessible via a unique cryptographic hash.
+                </p>
+              </div>
+              <div className="absolute top-10 right-10 text-8xl font-display font-black opacity-10">V4</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Global Partnerships */}
+      <section className="py-24 px-6 md:px-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="glass-panel p-16 rounded-[4rem] flex flex-col md:flex-row items-center gap-16 overflow-hidden relative">
+            <div className="flex-1 relative z-10">
+              <h3 className="text-sm font-black text-accent-indigo uppercase tracking-[0.4em] mb-6">Strategic Expansion</h3>
+              <h4 className="text-4xl md:text-5xl font-display font-black tracking-tighter uppercase italic leading-[0.9] mb-8">
+                Institutional & <br />
+                <span className="text-gradient">Professional Synergy</span>
+              </h4>
+              <p className="text-text-secondary font-medium leading-relaxed mb-10">
+                Mastery Pro is built to interface directly with major professional entities like LinkedIn, Glassdoor, and Global Enterprise HR systems. Our long-term mission is to standardize human competency across every academic and professional domain worldwide.
+              </p>
+              <div className="flex flex-wrap gap-8 opacity-40 grayscale group-hover:grayscale-0 transition-all">
+                <span className="text-xl font-black italic">LINKEDIN READY</span>
+                <span className="text-xl font-black italic">GLASSDOOR SYNC</span>
+                <span className="text-xl font-black italic">VERIFIED HR</span>
+              </div>
+            </div>
+            <div className="w-full md:w-1/3 aspect-square bg-white/5 rounded-[3rem] border border-white/10 flex items-center justify-center relative overflow-hidden">
+               <Globe className="w-32 h-32 text-accent-indigo opacity-20" />
+               <div className="absolute inset-0 bg-gradient-to-br from-accent-indigo/20 to-transparent" />
+            </div>
+            <div className="absolute -right-20 -top-20 w-96 h-96 bg-accent-indigo/5 blur-[120px] rounded-full" />
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing / Tiers */}
+      <section className="py-24 px-6 md:px-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-display font-black tracking-tighter uppercase italic mb-6">Certification Tracks</h2>
+            <p className="text-text-secondary max-w-2xl mx-auto uppercase tracking-widest font-black text-xs">A modular framework for global career recognition</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch max-w-4xl mx-auto">
+            <div className="glass-panel p-12 rounded-[4rem] relative group border-white/5">
+              <div className="text-accent-indigo text-xs font-black tracking-[0.4em] uppercase mb-10">Access Tier 01 & 02</div>
+              <h4 className="text-5xl font-display font-black tracking-tighter uppercase mb-4 italic">Foundational</h4>
+              <p className="text-sm text-text-secondary font-medium mb-12">Core and Intermediate verification tracks are open for public professional development.</p>
+              <ul className="space-y-4 mb-12">
+                {['Public Ledger Export', 'Core Skillsets', 'Verified Profile', 'Global Benchmarking'].map(item => (
+                  <li key={item} className="flex items-center gap-3 text-xs font-black uppercase text-white/60">
+                    <CheckCircle2 className="w-4 h-4 text-accent-emerald" /> {item}
+                  </li>
+                ))}
+              </ul>
+              <div className="text-3xl font-display font-black italic">$0.00</div>
+            </div>
+            
+            <div className="bg-white p-12 rounded-[4rem] relative group text-black shadow-[0_0_80px_rgba(255,255,255,0.1)]">
+              <div className="bg-accent-rose text-white text-[0.6rem] font-black tracking-[0.4em] uppercase py-1.5 px-6 rounded-full inline-block mb-10">Professional Tier</div>
+              <h4 className="text-5xl font-display font-black tracking-tighter uppercase mb-4 italic">Elite Audit</h4>
+              <p className="text-sm text-black/60 font-bold uppercase tracking-tight mb-12 italic">The industry benchmark for senior professional and technical verification.</p>
+              <ul className="space-y-4 mb-12">
+                {['Advanced Field Auditing', 'Priority Recruitment Sync', 'Lifetime Pro Status', 'Institutional Print Ready'].map(item => (
+                  <li key={item} className="flex items-center gap-3 text-xs font-black uppercase text-black/80">
+                    <CheckCircle2 className="w-4 h-4 text-accent-emerald" /> {item}
+                  </li>
+                ))}
+              </ul>
+              <div className="flex items-end gap-3 font-display">
+                <span className="text-5xl font-black italic">$9.99</span>
+                <span className="text-xs font-black uppercase opacity-40 mb-2">Certification Fee</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-20 text-center">
+            <button 
+              onClick={() => { playClick(); setState(prev => ({...prev, hasSeenLanding: true})); }}
+              className="px-12 py-6 bg-accent-emerald text-black rounded-full font-black uppercase tracking-widest text-sm hover:scale-105 transition-all shadow-2xl shadow-emerald-500/20"
+            >
+              Begin Verification Sequence
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Upcoming Expansion */}
+      <section className="py-24 px-6 md:px-12 opacity-40">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="text-[0.6rem] font-black uppercase tracking-[0.5em] text-text-secondary mb-12 italic">Expansion Protocol: Scheduled Domains</div>
+          <div className="flex flex-wrap justify-center gap-12">
+            {['Medical Sciences', 'Aerospace Engineering', 'Legal Jurisprudence', 'Quantum Computing', 'Economic Modeling'].map(domain => (
+              <div key={domain} className="text-xl font-display font-black tracking-tighter uppercase italic">{domain}</div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-12 border-t border-white/5 mt-24">
+        <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="flex flex-col items-center md:items-start gap-2">
+            <div className="flex items-center gap-3 opacity-50">
+              <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center font-black text-black text-[0.6rem]">M</div>
+              <div className="text-md font-display font-black tracking-tighter uppercase italic">MasteryPro</div>
+            </div>
+            <div className="text-[0.5rem] font-black uppercase tracking-[0.2em] text-text-secondary opacity-30 mt-2">
+              The Global Standard for Competency Auditing
+            </div>
+          </div>
+          <div className="flex gap-8">
+            {['Privacy', 'Ethics', 'Compliance', 'Security'].map(item => (
+              <a key={item} href="#" className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-white transition-colors">{item}</a>
+            ))}
+          </div>
+          <div className="text-[0.6rem] font-black uppercase tracking-widest text-text-secondary opacity-50">
+            © 2026 MASTERY PRO SERIES | GS V4.2.0-ELITE
+          </div>
+        </div>
+      </footer>
     </div>
   );
 
@@ -1084,63 +1277,75 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
 
   if (!state.user) {
     return (
-      <div className="min-h-screen bg-bg-dark text-text-primary p-6 flex flex-col items-center justify-center font-sans overflow-hidden">
-        <header className="mb-12 text-center">
+      <div className="min-h-screen bg-bg-dark text-text-primary p-6 flex flex-col items-center justify-center font-sans overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent-indigo/5 blur-[120px] rounded-full -mr-44 -mt-44" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent-emerald/5 blur-[120px] rounded-full -ml-44 -mb-44" />
+
+        <header className="mb-12 text-center relative z-10">
+          <button 
+            onClick={() => setState(prev => ({...prev, hasSeenLanding: false}))}
+            className="mb-8 p-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-all inline-flex items-center gap-2 text-[0.6rem] font-black uppercase tracking-widest group"
+          >
+            <ChevronLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" /> Back to Matrix
+          </button>
+
           {appLogo ? (
-            <img src={appLogo} alt="Logo" className="h-16 mx-auto mb-6 rounded-xl shadow-2xl shadow-emerald-500/10" />
+            <img src={appLogo} alt="Logo" className="h-20 mx-auto mb-8 rounded-[2rem] shadow-2xl shadow-emerald-500/20 grayscale hover:grayscale-0 transition-all cursor-pointer" />
           ) : (
-            <div className="brand text-3xl font-black tracking-tighter mb-4">
-              MASTERY<span className="text-accent-emerald">PRO</span>.SERIES
+            <div className="brand text-4xl font-display font-black tracking-tighter mb-4 uppercase italic">
+              Mastery<span className="text-accent-emerald">Pro</span>
             </div>
           )}
-          <p className="text-[0.6rem] text-text-secondary uppercase tracking-[0.2em] font-black border-y border-white/5 py-2 inline-block px-8">
-            {authMode === 'login' ? 'Secure Credential Verification' : 'Protocol Synchronization Request'}
+          <p className="text-[0.65rem] text-text-secondary uppercase tracking-[0.3em] font-black border-y border-white/10 py-3 inline-block px-12">
+            {authMode === 'login' ? 'Authentication Required' : 'Protocol Initialization'}
           </p>
         </header>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md bg-card-dark border border-border-dark p-8 rounded-[2.5rem] shadow-2xl">
-          <div className="flex bg-bg-dark p-1 rounded-2xl mb-8 border border-border-dark">
-            <button onClick={() => setAuthMode('login')} className={`flex-1 py-3 rounded-xl font-black text-[0.6rem] uppercase tracking-widest transition-all ${authMode === 'login' ? 'bg-accent-emerald text-black shadow-lg shadow-emerald-500/20' : 'text-text-secondary hover:text-white'}`}>Login</button>
-            <button onClick={() => setAuthMode('register')} className={`flex-1 py-3 rounded-xl font-black text-[0.6rem] uppercase tracking-widest transition-all ${authMode === 'register' ? 'bg-accent-emerald text-black shadow-lg shadow-emerald-500/20' : 'text-text-secondary hover:text-white'}`}>Register</button>
-          </div>
-          
-          <form onSubmit={handleAuth} className="space-y-4">
-            {authMode === 'register' && (
-              <div className="space-y-1.5">
-                <label className="text-[0.6rem] font-black uppercase tracking-widest text-text-secondary px-1">Full Name</label>
-                <div className="relative">
-                  <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
-                  <input required type="text" placeholder="John Doe" className="w-full bg-bg-dark border border-border-dark rounded-xl py-4 pl-12 pr-4 text-sm focus:border-accent-emerald outline-none transition-all" value={regData.fullName} onChange={e => setRegData(prev => ({ ...prev, fullName: e.target.value }))} />
+        <div className="w-full max-w-md relative z-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-panel p-10 md:p-12 rounded-[3.5rem] shadow-2xl shadow-black/50 border border-white/10">
+            <div className="flex bg-bg-dark p-1 rounded-2xl mb-10 border border-white/5">
+              <button onClick={() => setAuthMode('login')} className={`flex-1 py-3 rounded-xl font-black text-[0.6rem] uppercase tracking-widest transition-all ${authMode === 'login' ? 'bg-accent-emerald text-black shadow-lg shadow-emerald-500/10' : 'text-text-secondary hover:text-white'}`}>Login</button>
+              <button onClick={() => setAuthMode('register')} className={`flex-1 py-3 rounded-xl font-black text-[0.6rem] uppercase tracking-widest transition-all ${authMode === 'register' ? 'bg-accent-emerald text-black shadow-lg shadow-emerald-500/10' : 'text-text-secondary hover:text-white'}`}>Register</button>
+            </div>
+            
+            <form onSubmit={handleAuth} className="space-y-6">
+              {authMode === 'register' && (
+                <div className="space-y-2">
+                  <label className="text-[0.6rem] font-black uppercase tracking-widest text-text-secondary px-1">Identity Name</label>
+                  <div className="relative">
+                    <UserIcon className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
+                    <input required type="text" placeholder="Full Name" className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-14 pr-5 text-sm focus:border-accent-emerald outline-none transition-all placeholder:opacity-30" value={regData.fullName} onChange={e => setRegData(prev => ({ ...prev, fullName: e.target.value }))} />
+                  </div>
                 </div>
+              )}
+              <div className="space-y-2">
+                  <label className="text-[0.6rem] font-black uppercase tracking-widest text-text-secondary px-1">Network Identity (Email)</label>
+                  <div className="relative">
+                    <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
+                    <input required type="email" placeholder="name@standard.com" className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-14 pr-5 text-sm focus:border-accent-emerald outline-none transition-all placeholder:opacity-30" value={regData.email} onChange={e => setRegData(prev => ({ ...prev, email: e.target.value }))} />
+                  </div>
               </div>
-            )}
-            <div className="space-y-1.5">
-                <label className="text-[0.6rem] font-black uppercase tracking-widest text-text-secondary px-1">User ID / Email</label>
-                <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
-                  <input required type="text" placeholder="name@domain.com" className="w-full bg-bg-dark border border-border-dark rounded-xl py-4 pl-12 pr-4 text-sm focus:border-accent-emerald outline-none transition-all" value={regData.email} onChange={e => setRegData(prev => ({ ...prev, email: e.target.value }))} />
-                </div>
-                {authMode === 'register' && (
-                  <p className="text-[0.5rem] font-bold text-text-secondary/40 uppercase tracking-widest ml-1">Guideline: Standard corporate format</p>
-                )}
-            </div>
-            <div className="space-y-1.5">
-                <label className="text-[0.6rem] font-black uppercase tracking-widest text-text-secondary px-1">Access Token</label>
-                <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
-                  <input required type="password" placeholder="••••••••" className="w-full bg-bg-dark border border-border-dark rounded-xl py-4 pl-12 pr-4 text-sm focus:border-accent-emerald outline-none transition-all" value={regData.password} onChange={e => setRegData(prev => ({ ...prev, password: e.target.value }))} />
-                </div>
-                {authMode === 'register' && (
-                  <p className={`text-[0.5rem] font-black uppercase tracking-widest transition-colors ml-1 ${regData.password.length >= 6 ? 'text-accent-emerald' : 'text-text-secondary/40'}`}>
-                    {regData.password.length >= 6 ? '🛡️ Encryption Verified' : 'Security: Minimum 6 characters'}
-                  </p>
-                )}
-            </div>
-            <button type="submit" disabled={loading} className="w-full py-5 bg-accent-emerald text-black font-black uppercase tracking-[0.2em] rounded-xl hover:opacity-90 disabled:opacity-50 transition-all mt-6 text-[0.65rem] flex items-center justify-center gap-2">
-              {authMode === 'login' ? 'ESTABLISH SESSION' : 'INITIALIZE PROFILE'} <ChevronRight className="w-4 h-4" />
-            </button>
-          </form>
-        </motion.div>
+              <div className="space-y-2">
+                  <label className="text-[0.6rem] font-black uppercase tracking-widest text-text-secondary px-1">Security Token</label>
+                  <div className="relative">
+                    <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
+                    <input required type="password" placeholder="••••••••" className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-14 pr-5 text-sm focus:border-accent-emerald outline-none transition-all placeholder:opacity-30" value={regData.password} onChange={e => setRegData(prev => ({ ...prev, password: e.target.value }))} />
+                  </div>
+              </div>
+              <button type="submit" disabled={loading} className="w-full py-6 bg-accent-emerald text-black font-black uppercase tracking-[0.3em] rounded-2xl hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 transition-all mt-8 text-[0.7rem] flex items-center justify-center gap-3 shadow-xl shadow-emerald-500/10">
+                {authMode === 'login' ? 'Establish Session' : 'Register Profile'} <ChevronRight className="w-4 h-4" />
+              </button>
+            </form>
+          </motion.div>
+          
+          <div className="mt-12 flex items-center justify-center gap-10 opacity-30">
+             <ShieldCheck className="w-5 h-5" />
+             <div className="h-px bg-white/20 w-12" />
+             <Lock className="w-5 h-5" />
+             <div className="h-px bg-white/20 w-12" />
+             <Target className="w-5 h-5" />
+          </div>
+        </div>
       </div>
     );
   }
@@ -1151,11 +1356,11 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
         <div className="max-w-7xl mx-auto">
           <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 border-b border-border-dark pb-8 gap-6">
             <div>
-              <h1 className="text-3xl font-black tracking-tighter flex items-center gap-3">
-                <LayoutDashboard className="text-accent-emerald text-4xl" /> 
-                MASTER PANEL
+              <h1 className="text-3xl font-display font-black tracking-tighter flex items-center gap-4 italic uppercase">
+                <LayoutDashboard className="text-accent-indigo text-4xl" /> 
+                Executive Governance
               </h1>
-              <p className="text-[0.6rem] text-text-secondary font-black uppercase tracking-[0.2em] mt-2">Executive Analytics & Data Exfiltration</p>
+              <p className="text-[0.65rem] text-text-secondary font-black uppercase tracking-[0.3em] mt-2">Administrative auditing and global metric intelligence</p>
             </div>
             <div className="flex flex-wrap gap-3">
               <button onClick={exportToExcel} className="px-4 py-2 bg-green-500/10 border border-green-500/30 text-green-500 hover:bg-green-500 hover:text-black rounded-xl text-[0.6rem] font-black uppercase tracking-widest transition-all flex items-center gap-2"><Table className="w-3 h-3" /> Export Excel</button>
@@ -1373,33 +1578,56 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
 
   if (!state.currentLevel) {
     return (
-      <div className="min-h-screen bg-bg-dark text-text-primary p-6 md:p-12 font-sans overflow-x-hidden">
+      <div className="min-h-screen bg-bg-dark text-text-primary font-sans overflow-x-hidden selection:bg-accent-emerald selection:text-black">
+        <Navbar />
+        
         {isProcessingPayment && (
-          <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex items-center justify-center">
+          <div className="fixed inset-0 z-[200] bg-black/90 backdrop-blur-2xl flex items-center justify-center">
             <div className="text-center">
-              <div className="w-20 h-20 border-4 border-accent-emerald border-t-transparent rounded-full animate-spin mx-auto mb-8 shadow-[0_0_50px_rgba(16,185,129,0.2)]" />
-              <h2 className="text-3xl font-black uppercase tracking-tighter italic">Initializing Secure Gate</h2>
-              <p className="text-[0.65rem] text-text-secondary font-black uppercase tracking-widest mt-3 flex items-center justify-center gap-3">
-                 <ShieldCheck className="w-4 h-4 text-accent-emerald" /> 
-                 Encrypted Payment Protocol Active
+              <div className="w-24 h-24 border-[6px] border-accent-emerald border-t-transparent rounded-full animate-spin mx-auto mb-10 shadow-[0_0_80px_rgba(0,242,164,0.3)]" />
+              <h2 className="text-4xl font-display font-black uppercase tracking-tighter italic">Initializing Gateway</h2>
+              <p className="text-[0.7rem] text-text-secondary font-black uppercase tracking-[0.3em] mt-4 flex items-center justify-center gap-3">
+                 <ShieldCheck className="w-5 h-5 text-accent-emerald" /> 
+                 End-to-End Encrypted Handshake
               </p>
             </div>
           </div>
         )}
-        <div className="max-w-6xl mx-auto">
-          {/* Hidden Certificate Template for Export */}
-          <div className="fixed -left-[2000px] top-0 pointer-events-none">
-            {state.user && state.currentLevel && (
-              <Certificate 
-                user={state.user.fullName}
-                level={state.currentLevel}
-                topic={currentCourse?.title || "Professional Architecture"}
-                score={state.score}
-                total={currentLevelQuestions.length}
-                date={new Date().toLocaleDateString()}
-              />
-            )}
-          </div>
+
+        <div className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+          {/* Dashboard Header */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col lg:flex-row justify-between items-end gap-8 mb-20"
+          >
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full text-[0.55rem] font-black uppercase tracking-widest text-text-secondary mb-4 border border-white/5">
+                Session Protocol 08.2
+              </div>
+              <h2 className="text-5xl md:text-6xl font-display font-black tracking-tighter uppercase italic leading-none">
+                Select Your <br />
+                <span className="text-gradient">Verification Node</span>
+              </h2>
+            </div>
+            
+            <div className="flex flex-wrap gap-4">
+              <button 
+                onClick={() => setViewingHistory(true)}
+                className="px-8 py-4 glass-panel rounded-2xl font-black text-[0.65rem] uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-3"
+              >
+                <Award className="w-4 h-4 text-accent-rose" /> History
+              </button>
+              {state.user?.isAdmin && (
+                 <button 
+                   onClick={() => { setState(prev => ({...prev, viewingAdmin: true})); fetchAdminData(); }}
+                   className="px-8 py-4 bg-accent-indigo text-white rounded-2xl font-black text-[0.65rem] uppercase tracking-widest hover:opacity-90 transition-all flex items-center gap-3 shadow-lg shadow-indigo-500/20"
+                 >
+                   <ShieldCheck className="w-4 h-4" /> Management
+                 </button>
+              )}
+            </div>
+          </motion.div>
 
           <AnimatePresence>
             {notification && (
@@ -1416,289 +1644,118 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
             )}
           </AnimatePresence>
 
-            <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-              <div className="flex items-center gap-4">
-                {appLogo ? (
-                  <img src={appLogo} alt="Logo" className="h-10 rounded-lg" />
-                ) : (
-                  <div className="brand text-2xl font-black tracking-tighter">
-                    {currentCourse ? (
-                      <>
-                        {currentCourse.title}<span className="text-accent-emerald">.PRO</span>
-                      </>
-                    ) : (
-                      <>
-                        MASTERY<span className="text-accent-emerald">PRO</span>.SERIES
-                      </>
-                    )}
-                  </div>
-                )}
-                <div className="h-4 w-px bg-border-dark hidden md:block" />
-                <div className="text-[0.6rem] text-text-secondary font-black uppercase tracking-widest hidden md:block">
-                  Series: <span className="text-text-primary">{currentCourse ? currentCourse.title : 'Architectural Core'}</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                 {state.currentCourseId && (
-                   <button onClick={() => setState(prev => ({...prev, currentCourseId: null}))} className="px-4 py-2.5 bg-white/5 border border-border-dark rounded-xl text-[0.6rem] font-black uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-2">
-                     <ArrowLeft className="w-3 h-3" /> Change Course
-                   </button>
-                 )}
-                 <button 
-                   onClick={() => setSoundEnabled(!soundEnabled)} 
-                   className={`p-2.5 rounded-xl border border-border-dark transition-all ${soundEnabled ? 'bg-accent-emerald/10 text-accent-emerald border-accent-emerald/30' : 'bg-white/5 text-text-secondary'}`}
-                   title="Toggle Sound"
-                 >
-                   {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
-                 </button>
-
-                 <div className="hidden lg:flex items-center gap-2 bg-white/5 border border-border-dark px-4 py-2.5 rounded-xl text-[0.6rem] font-black uppercase tracking-widest text-text-secondary">
-                   <Globe className="w-3 h-3 text-accent-emerald" />
-                   <span className="text-text-primary">{onlineCount}</span> ONLINE
-                 </div>
-
-                 {state.user.isAdmin && (
-                   <button onClick={() => { setState(prev => ({...prev, viewingAdmin: true})); fetchAdminData(); }} className="bg-white/5 border border-border-dark hover:bg-emerald-500 hover:text-black p-2.5 rounded-xl text-text-secondary transition-all" title="Admin Dashboard">
-                     <LayoutDashboard className="w-5 h-5" />
-                   </button>
-                 )}
-                 <div className="flex items-center gap-3 bg-white/5 border border-border-dark pl-2 pr-4 py-1.5 rounded-full text-[0.65rem] font-black uppercase tracking-widest text-text-secondary">
-                  <div className="w-8 h-8 rounded-full bg-accent-emerald flex items-center justify-center text-black font-black">{(state.user.fullName || 'U')[0]}</div>
-                  {state.user.fullName?.split(' ')[0] || 'User'}
-                </div>
-                <button onClick={handleLogout} className="p-2.5 hover:bg-red-500/10 rounded-xl text-text-secondary hover:text-red-400 transition-colors">
-                  <LogOut className="w-5 h-5" />
-                </button>
-              </div>
-            </header>
-
-            <AnimatePresence>
-              {viewingHistory && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[110] bg-black/90 backdrop-blur-xl p-6 flex items-center justify-center">
-                  <div className="max-w-4xl w-full bg-card-dark border border-white/10 rounded-[3rem] p-12 relative max-h-[80vh] flex flex-col">
-                    <button onClick={() => setViewingHistory(false)} className="absolute top-8 right-8 p-3 hover:bg-white/5 rounded-2xl transition-colors"><X className="w-6 h-6" /></button>
-                    <h2 className="text-3xl font-black tracking-tighter mb-2 italic">Certification History</h2>
-                    <p className="text-[0.6rem] text-text-secondary font-black tracking-[0.3em] uppercase mb-10 pb-6 border-b border-white/5">Verified Credentials for {state.user.fullName}</p>
-                    
-                    <div className="flex-1 overflow-y-auto space-y-4 pr-4 custom-scrollbar">
-                      {certHistory.length === 0 ? (
-                        <div className="text-center py-20 bg-white/[0.02] rounded-[2rem] border border-white/5">
-                           <Award className="w-16 h-16 text-white/5 mx-auto mb-4" />
-                           <p className="text-[0.65rem] font-black uppercase tracking-widest text-text-secondary">No certifications finalized in cloud</p>
-                        </div>
-                      ) : (
-                        certHistory.map((cert, i) => (
-                          <div key={i} className="bg-white/[0.02] border border-white/5 p-6 rounded-2xl flex items-center justify-between hover:border-accent-emerald/30 transition-all">
-                             <div className="flex items-center gap-6">
-                               <div className="w-12 h-12 bg-accent-emerald/10 rounded-xl flex items-center justify-center text-accent-emerald font-black text-xs border border-accent-emerald/20">{Math.round((cert.score / cert.total) * 100)}%</div>
-                               <div>
-                                 <div className="font-black text-sm uppercase tracking-tighter">{cert.level} Tier Certification</div>
-                                 <div className="text-[0.55rem] text-text-secondary font-bold uppercase tracking-widest mt-1">Issued: {cert.dateString.split(' ').slice(0, 4).join(' ')}</div>
-                               </div>
-                             </div>
-                             <div className="flex gap-2">
-                               <button onClick={() => window.open(`${window.location.origin}${window.location.pathname}?verify=${cert.id}`, '_blank')} className="p-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-colors" title="Verify Online"><ExternalLink className="w-4 h-4" /></button>
-                               <button onClick={() => { navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}?verify=${cert.id}`); notify("Verification Link Copied", "success"); }} className="p-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-colors" title="Copy Link"><Share2 className="w-4 h-4" /></button>
-                             </div>
-                          </div>
-                        ))
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-          <div className="bento-grid grid-rows-[auto_auto_auto]">
-            {state.currentCourseId === null ? (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="col-span-full">
-                <div className="mb-12">
-                   <h2 className="text-4xl font-black tracking-tighter uppercase italic">Select Learning Track</h2>
-                   <p className="text-[0.65rem] text-text-secondary font-black uppercase tracking-widest mt-2 border-b border-white/5 pb-6">Initialize architecture protocol for specific domain mastery</p>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {Object.values(courses).map((course, idx) => {
-                    const Icon = ({ Layout, Palette, Code2, Terminal }[course.icon] || Code2) as any;
-                    return (
-                      <motion.button 
-                        key={course.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.05 }}
-                        onClick={() => handleSelectCourse(course.id)}
-                        className="group bg-card-dark border border-border-dark p-8 rounded-[3rem] text-left hover:border-accent-emerald transition-all relative overflow-hidden"
-                      >
-                        <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center mb-6 border border-white/5 group-hover:border-accent-emerald/30 group-hover:bg-accent-emerald/10 transition-all text-text-secondary group-hover:text-accent-emerald">
-                          <Icon className="w-7 h-7" />
-                        </div>
-                        <h3 className="text-2xl font-black tracking-tighter mb-2 uppercase">{course.title}</h3>
-                        <p className="text-[0.6rem] text-text-secondary font-bold uppercase tracking-widest leading-relaxed">{course.description}</p>
-                        
-                        <div className="mt-8 flex items-center justify-between">
-                           <div className="text-[0.55rem] font-black uppercase tracking-[0.2em] px-3 py-1.5 bg-white/5 rounded-full border border-white/10">{Object.keys(course.levels).length} TIERS</div>
-                           <ChevronRight className="w-6 h-6 text-text-secondary group-hover:text-accent-emerald group-hover:translate-x-1 transition-all" />
-                        </div>
-
-                        <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-white/[0.02] blur-[40px] rounded-full group-hover:bg-accent-emerald/5 transition-all" />
-                      </motion.button>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            ) : (
-              <>
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="col-span-full md:col-span-2 bg-card-dark border border-border-dark p-10 rounded-[3rem] flex flex-col justify-center relative overflow-hidden">
+          {!state.currentCourseId ? (
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {Object.entries(courses).map(([id, course], i) => (
+                <motion.div 
+                  key={id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  onClick={() => { playClick(); setState(prev => ({...prev, currentCourseId: id as CourseId})); }}
+                  className="group glass-panel p-10 rounded-[3.5rem] cursor-pointer hover:border-accent-emerald transition-all relative overflow-hidden"
+                >
                   <div className="relative z-10">
-                    <h1 className="text-4xl md:text-5xl font-black mb-4 tracking-tighter">Identity: {state.user.fullName?.split(' ')[0] || 'User'}.</h1>
-                    <p className="text-text-secondary text-sm max-w-sm leading-relaxed font-medium">Continuing session across {currentCourse ? Object.values(currentCourse.levels).reduce((acc, l) => acc + l.questions.length, 0) : 0} curated questions in {currentCourse?.title}. High-precision analytics enabled.</p>
-                  </div>
-                  <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-accent-emerald/5 blur-[100px] rounded-full" />
-                </motion.div>
-
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="col-span-full md:col-span-1 bg-card-dark border border-border-dark p-10 rounded-[3rem] flex flex-col justify-between">
-                  <div className="text-text-secondary text-[0.55rem] font-black uppercase tracking-[0.25em] mb-4 bg-white/5 py-1.5 px-3 rounded-full w-fit">Domain Core</div>
-                  <div className="text-5xl font-black tracking-tighter mb-1 uppercase">{currentCourse?.id}</div>
-                  <div className="text-[0.6rem] text-accent-emerald font-black uppercase tracking-widest">Active Track</div>
-                </motion.div>
-
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="col-span-full md:col-span-1 bg-card-dark border border-border-dark p-10 rounded-[3rem] flex flex-col justify-between">
-                   <div className="text-text-secondary text-[0.55rem] font-black uppercase tracking-[0.25em] mb-4 bg-white/5 py-1.5 px-3 rounded-full w-fit">Tier Status</div>
-                   <div className="text-xl font-black uppercase tracking-widest">{state.user.isAdmin ? 'Master Executive' : 'Apprentice'}</div>
-                   <div className="h-2 w-full bg-border-dark rounded-full overflow-hidden mt-4">
-                     <div className="h-full bg-accent-emerald w-1/3" />
-                   </div>
-                </motion.div>
-
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="col-span-full bg-card-dark border border-border-dark p-10 rounded-[3rem]">
-                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
-                    <div>
-                      <h3 className="text-xl font-black tracking-tight flex items-center gap-3 uppercase italic">Assessment Tiers</h3>
-                      <p className="text-[0.6rem] text-text-secondary font-black tracking-[0.2em] mt-2 uppercase">Select clearance level for {currentCourse?.title} assessment</p>
+                    <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center mb-8 border border-white/5 group-hover:scale-110 transition-transform">
+                      {id === 'html' ? <FileCode2 className="w-8 h-8 text-orange-400" /> : <Layers className="w-8 h-8 text-blue-400" />}
                     </div>
-                    <div className="flex gap-3">
-                       <button onClick={fetchCertHistory} className="bg-white/5 border border-white/10 px-6 py-2.5 rounded-xl font-black text-[0.6rem] uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-2"><History className="w-3 h-3" /> Certification History</button>
+                    <h3 className="text-4xl font-display font-black tracking-tighter uppercase mb-2 leading-none">{course.title}</h3>
+                    <p className="text-xs text-text-secondary uppercase font-bold tracking-widest leading-relaxed mb-12">{course.description}</p>
+                    <div className="flex justify-between items-center">
+                       <div className="text-[0.6rem] font-black uppercase tracking-widest opacity-40">{Object.keys(course.levels).length} Performance Tiers</div>
+                       <ChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform opacity-40" />
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {(Object.keys(currentCourse?.levels || {}) as Level[]).map((level, i) => {
-                      const isPaid = level === 'advanced';
-                      const purchaseId = `${state.currentCourseId || 'html'}_${level}`;
-                      const isPurchased = state.user?.purchasedLevels?.includes(purchaseId) || state.user?.isAdmin;
-                      const isLocked = isPaid && !isPurchased;
+                  <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 blur-[60px] rounded-full group-hover:bg-accent-emerald/5 transition-colors" />
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="space-y-12"
+            >
+              <div className="flex items-center gap-6">
+                <button 
+                  onClick={() => setState(prev => ({...prev, currentCourseId: null}))}
+                  className="p-4 glass-panel rounded-2xl hover:bg-white/10 transition-all border border-white/5"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <div>
+                  <h3 className="text-3xl font-display font-black tracking-tighter uppercase italic">{currentCourse?.title} Curriculum</h3>
+                  <p className="text-[0.6rem] text-text-secondary uppercase font-black tracking-widest opacity-50 mt-1">Select assessment layer to begin</p>
+                </div>
+              </div>
 
-                      return (
-                        <div key={level} className={`group bg-bg-dark border ${isLocked ? 'border-amber-500/20' : 'border-border-dark'} p-8 rounded-[2.5rem] hover:border-accent-emerald/40 transition-all relative overflow-hidden flex flex-col justify-between min-h-[320px]`}>
-                          <div className="relative z-10">
-                            <div className="flex justify-between items-start mb-6">
-                              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border ${i === 0 ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : i === 1 ? 'bg-orange-500/10 border-orange-500/30 text-orange-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
-                                {i === 0 ? <BookOpen className="w-6 h-6" /> : i === 1 ? <Target className="w-6 h-6" /> : <Award className="w-6 h-6" />}
-                              </div>
-                              <div className="text-[0.55rem] font-black text-text-secondary uppercase tracking-[0.2em]">{currentCourse?.levels[level].questions.length} Items</div>
-                            </div>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {(Object.keys(currentCourse?.levels || {}) as Level[]).map((level, i) => {
+                  const isPaid = level === 'advanced';
+                  const purchaseId = `${state.currentCourseId || 'html'}_${level}`;
+                  const isPurchased = state.user?.purchasedLevels?.includes(purchaseId) || state.user?.isAdmin;
+                  const isLocked = isPaid && !isPurchased;
 
-                            {isLocked && (
-                               <div className="absolute top-0 right-0 flex flex-col items-end">
-                                 <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-full">
-                                   <Lock className="w-3 h-3 text-amber-500" />
-                                   <span className="text-[0.5rem] font-black text-amber-500 uppercase tracking-widest">PRO TIER</span>
-                                 </div>
-                                 <div className="text-[0.7rem] font-black mt-2 text-white/50 tracking-tighter uppercase">$9.99 Access</div>
-                               </div>
-                            )}
-
-                            <h4 className="text-2xl font-black mb-2 uppercase tracking-tighter flex items-center gap-3">
-                              {level}
-                              {isPurchased && isPaid && <CheckCircle2 className="w-5 h-5 text-accent-emerald" />}
-                            </h4>
-                            <p className="text-[0.6rem] text-text-secondary uppercase font-bold tracking-widest leading-relaxed">
-                              {currentCourse?.levels[level].description}
-                            </p>
+                  return (
+                    <motion.div 
+                      key={level} 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      className={`group glass-panel p-10 rounded-[3.5rem] relative overflow-hidden flex flex-col justify-between min-h-[420px] transition-all hover:translate-y-[-5px] ${isLocked ? 'border-amber-500/20' : 'hover:border-accent-emerald/40'}`}
+                    >
+                      <div className="relative z-10">
+                        <div className="flex justify-between items-start mb-10">
+                          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border ${i === 0 ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' : i === 1 ? 'bg-accent-indigo/10 border-accent-indigo/20 text-accent-indigo' : 'bg-accent-rose/10 border-accent-rose/20 text-accent-rose'}`}>
+                            {i === 0 ? <BookOpen className="w-7 h-7" /> : i === 1 ? <Target className="w-7 h-7" /> : <Award className="w-7 h-7" />}
                           </div>
-
-                          <div className="space-y-3 mt-8 relative z-10">
-                            <button onClick={() => handleSelectLevel(level)} className="w-full py-4 bg-white/5 border border-white/10 rounded-xl font-black text-[0.6rem] uppercase tracking-widest hover:bg-white/10 transition-all flex items-center justify-center gap-2">Practice Mode <Eye className="w-3 h-3" /></button>
-                            <button 
-                              onClick={() => handleSelectLevel(level, true)} 
-                              className={`w-full py-4 ${isLocked ? 'bg-amber-500 text-black shadow-amber-500/10' : 'bg-accent-emerald text-black shadow-emerald-500/10'} rounded-xl font-black text-[0.6rem] uppercase tracking-widest hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-lg`}
-                            >
-                              {isLocked ? (
-                                <><Lock className="w-3 h-3" /> UNLOCK PRO SERIES</>
-                              ) : (
-                                <><ShieldCheck className="w-3 h-3" /> Pro Series Exam</>
-                              )}
-                            </button>
-                          </div>
-
-                          <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-white/[0.02] blur-[40px] rounded-full group-hover:bg-accent-emerald/5 transition-colors" />
+                          <div className="px-3 py-1.5 bg-white/5 rounded-full text-[0.55rem] font-bold text-text-secondary uppercase tracking-widest border border-white/5">{currentCourse?.levels[level].questions.length} Protocols</div>
                         </div>
-                      );
-                    })}
-                  </div>
-                </motion.div>
 
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="col-span-full md:col-span-1 bg-card-dark border border-border-dark p-10 rounded-[3rem] flex flex-col justify-between items-center text-center">
-                  <Award className="w-12 h-12 text-accent-emerald mb-4" />
-                  <h3 className="text-xl font-black uppercase tracking-tight mb-2">Credentials</h3>
-                  <p className="text-[0.6rem] text-text-secondary font-bold uppercase tracking-widest leading-relaxed mb-6">Professional Certification Access</p>
-                  
-                  <div className="w-full space-y-3">
-                     <button 
-                       onClick={downloadCertificate}
-                       disabled={state.score === 0} 
-                       className="w-full py-4 bg-white/5 border border-border-dark hover:border-accent-emerald rounded-2xl flex items-center justify-center gap-2 transition-all group disabled:opacity-30 disabled:cursor-not-allowed"
-                     >
-                       <Download className="w-4 h-4 text-accent-emerald group-hover:scale-110 transition-transform" />
-                       <span className="text-[0.6rem] font-black uppercase tracking-widest">GET CERTIFICATE</span>
-                     </button>
-                     <button 
-                       onClick={shareOnLinkedIn}
-                       disabled={state.score === 0}
-                       className="w-full py-4 bg-white/5 border border-border-dark hover:border-blue-500 rounded-2xl flex items-center justify-center gap-2 transition-all group disabled:opacity-30 disabled:cursor-not-allowed"
-                     >
-                       <Linkedin className="w-4 h-4 text-blue-500 group-hover:scale-110 transition-transform" />
-                       <span className="text-[0.6rem] font-black uppercase tracking-widest">LINKEDIN SYNC</span>
-                     </button>
-                  </div>
-                  
-                  {!state.isFinished && state.score > 0 && (
-                    <p className="mt-4 text-[0.5rem] font-black text-accent-emerald uppercase animate-pulse">Session Active</p>
-                  )}
-                </motion.div>
+                        {isLocked && (
+                           <div className="absolute top-0 right-0 flex flex-col items-end">
+                             <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 px-4 py-2 rounded-full">
+                               <Lock className="w-3.5 h-3.5 text-amber-500" />
+                               <span className="text-[0.6rem] font-black text-amber-500 uppercase tracking-widest">PRO TIER</span>
+                             </div>
+                             <div className="text-[0.75rem] font-black mt-3 text-white/40 tracking-tight uppercase">$9.99 ACCESS</div>
+                           </div>
+                        )}
 
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="col-span-full bg-card-dark border border-border-dark p-10 rounded-[3rem] overflow-hidden">
-                   <div className="flex items-center justify-between mb-8">
-                     <h3 className="text-xl font-black uppercase tracking-tight flex items-center gap-3">
-                       <Activity className="text-accent-emerald w-5 h-5" />
-                       GLOBAL PULSE
-                     </h3>
-                     <div className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-accent-emerald flex items-center gap-2">
-                       <div className="w-1.5 h-1.5 bg-accent-emerald rounded-full animate-ping" />
-                       LIVE SYNCHRONIZATION
-                     </div>
-                   </div>
-                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                     {liveActivity.length === 0 ? (
-                       <div className="col-span-full py-8 text-center text-[0.6rem] font-black uppercase tracking-widest text-text-secondary opacity-50">Awaiting Signal...</div>
-                     ) : (
-                       liveActivity.map((act, i) => (
-                         <div key={i} className="bg-white/5 border border-white/5 p-5 rounded-2xl flex flex-col justify-between hover:border-emerald-500/30 transition-all group">
-                           <div className="text-[0.6rem] font-black uppercase tracking-widest mb-3 flex items-center justify-between">
-                             <span className="text-accent-emerald truncate">{act.user}</span>
-                             <span className="text-text-secondary opacity-40 font-mono">{act.timestamp ? new Date(act.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'NOW'}</span>
-                           </div>
-                           <div className="text-[0.65rem] font-black uppercase tracking-tight leading-relaxed">
-                             {act.type === 'level_select' && `ENGAGED ${act.level.toUpperCase()} TIER`}
-                             {act.type === 'correct_answer' && `RESOLVED ${act.level.toUpperCase()} DATA`}
-                             {act.type === 'completed' && `CERTIFIED: ${act.accuracy}% ACCURACY`}
-                           </div>
-                         </div>
-                       ))
-                     )}
-                   </div>
-                </motion.div>
-              </>
-            )}
-          </div>
+                        <h4 className="text-4xl font-display font-black mb-4 uppercase tracking-tighter flex items-center gap-4 italic shrink-0">
+                          {level}
+                          {isPurchased && isPaid && <CheckCircle2 className="w-6 h-6 text-accent-emerald" />}
+                        </h4>
+                        <p className="text-[0.7rem] text-text-secondary uppercase font-bold tracking-widest leading-relaxed">
+                          {currentCourse?.levels[level].description}
+                        </p>
+                      </div>
+
+                      <div className="space-y-4 mt-12 relative z-10">
+                        <button onClick={() => handleSelectLevel(level)} className="w-full py-5 bg-white/5 border border-white/10 rounded-2xl font-black text-[0.7rem] uppercase tracking-widest hover:bg-white/10 transition-all flex items-center justify-center gap-3">Practice Mode <Eye className="w-4 h-4" /></button>
+                        <button 
+                          onClick={() => handleSelectLevel(level, true)} 
+                          className={`w-full py-5 ${isLocked ? 'bg-amber-500 text-black shadow-amber-500/10' : 'bg-accent-emerald text-black shadow-emerald-500/10'} rounded-2xl font-black text-[0.7rem] uppercase tracking-widest hover:opacity-90 transition-all flex items-center justify-center gap-3 shadow-lg`}
+                        >
+                          {isLocked ? (
+                            <><Lock className="w-4 h-4" /> Unlock High-Tier</>
+                          ) : (
+                            <><ShieldCheck className="w-4 h-4" /> Initialize Exam</>
+                          )}
+                        </button>
+                      </div>
+
+                      <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white/[0.01] blur-[60px] rounded-full group-hover:bg-accent-emerald/[0.05] transition-colors" />
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
         </div>
       </div>
     );
@@ -1707,15 +1764,22 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
   if (state.showMilestone) {
     const currentProgress = Math.round((state.score / state.currentQuestionIndex) * 100);
     return (
-      <div className="min-h-screen bg-bg-dark text-text-primary p-6 flex items-center justify-center font-sans uppercase">
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full bg-card-dark rounded-[3rem] border border-border-dark shadow-2xl p-12 text-center">
-          <div className="mb-10 relative inline-block">
+      <div className="min-h-screen bg-bg-dark text-text-primary p-6 flex items-center justify-center font-sans uppercase selection:bg-accent-emerald selection:text-black">
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-xl w-full glass-panel rounded-[4rem] border border-white/10 shadow-2xl p-16 text-center bg-white/[0.02]">
+          <div className="mb-12 relative inline-block">
             <div className="absolute inset-0 bg-accent-emerald/20 blur-3xl rounded-full" />
-            <Award className="w-24 h-24 text-accent-emerald relative z-10 mx-auto" />
+            <Trophy className="w-24 h-24 text-accent-emerald relative z-10 mx-auto" />
           </div>
-          <h2 className="text-3xl font-black tracking-tight mb-4">Milestone Reached</h2>
-          <p className="text-[0.65rem] text-text-secondary font-black tracking-widest mb-10 leading-relaxed">System Verification Pending. You have processed {state.currentQuestionIndex} questions with {currentProgress}% architectural accuracy.</p>
-          <button onClick={handleContinue} className="w-full py-5 bg-accent-emerald text-black rounded-2xl font-black tracking-[0.2em] hover:opacity-90 transition-all flex items-center justify-center gap-3 text-xs">COMMENCE NEXT CYCLE <ChevronRight className="w-5 h-5" /></button>
+          <h2 className="text-4xl font-display font-black tracking-tighter mb-4 italic uppercase">Competency Verified</h2>
+          <p className="text-[0.7rem] text-text-secondary font-black tracking-[0.3em] mb-12 border-y border-white/5 py-4 inline-block px-10">
+             Protocol Level: {state.currentLevel} | Node Accuracy: {currentProgress}%
+          </p>
+          <p className="text-sm text-text-secondary leading-relaxed mb-12 max-w-sm mx-auto font-medium">
+            Subject performance is within certified parameters. Your profile is being synchronized with the global professional ledger.
+          </p>
+          <button onClick={handleContinue} className="w-full py-6 bg-accent-emerald text-black rounded-2xl font-black tracking-[0.3em] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-[0.7rem] shadow-xl shadow-emerald-500/10">
+             INITIALIZE NEXT PHASE <ChevronRight className="w-5 h-5" />
+          </button>
         </motion.div>
       </div>
     );
@@ -1836,7 +1900,7 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
             <Certificate 
               user={state.user.fullName}
               level={state.currentLevel}
-              topic={currentCourse?.title || "Professional Architecture"}
+              topic={currentCourse?.title || "Professional Domain Recovery"}
               score={state.score}
               total={currentLevelQuestions.length}
               date={new Date().toLocaleDateString()}
@@ -1848,42 +1912,95 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
   }
 
   return (
-    <div className="min-h-screen bg-bg-dark text-text-primary p-4 md:p-8 font-sans">
-      <div className="max-w-6xl mx-auto h-full flex flex-col">
-        <header className="flex items-center justify-between mb-10">
-          <div className="brand text-xl font-black tracking-tighter flex items-center gap-3 italic">
-            {appLogo ? <img src={appLogo} alt="Logo" className="h-8" /> : <>MASTERY<span className="text-accent-emerald">PRO</span></>}
-          </div>
+    <div className="min-h-screen bg-bg-dark text-text-primary p-6 md:p-12 font-sans selection:bg-accent-emerald selection:text-black overflow-hidden flex flex-col">
+      <div className="max-w-7xl mx-auto w-full h-full flex flex-col flex-1">
+        <header className="flex items-center justify-between mb-16 shrink-0">
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-3 text-[0.65rem] font-black uppercase tracking-[0.2em] bg-white/5 px-6 py-2.5 rounded-xl border border-white/5">
-              <span className={`w-4 h-4 ${timeLeft < 10 ? 'text-red-500 animate-pulse' : 'text-accent-emerald'}`}><Timer className="w-full h-full" /></span> {timeLeft}S
+            <div className="brand text-3xl font-display font-black tracking-tighter uppercase italic">
+              {appLogo ? <img src={appLogo} alt="Logo" className="h-10 rounded-lg" /> : <>Mastery<span className="text-accent-emerald">Pro</span></>}
             </div>
-            <button onClick={resetQuiz} className="text-[0.6rem] font-black uppercase tracking-widest text-text-secondary hover:text-white transition-colors border border-white/5 px-6 py-2.5 rounded-xl hover:bg-white/5">QUIT</button>
+            <div className="h-6 w-px bg-white/10 hidden md:block" />
+            <div className="px-5 py-2 bg-white/5 border border-white/10 rounded-full hidden md:flex items-center gap-3">
+               <div className="w-2 h-2 bg-accent-emerald rounded-full animate-pulse shadow-[0_0_10px_rgba(0,242,164,0.5)]" />
+               <span className="text-[0.65rem] font-black uppercase tracking-[0.3em] text-text-secondary">Uplink Secured: 256-BIT TLS</span>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-4">
+            <div className={`flex items-center gap-4 px-8 py-3.5 rounded-2xl border transition-all ${timeLeft < 10 ? 'bg-red-500/10 border-red-500/30 text-red-500 shadow-[0_0_40px_rgba(239,68,68,0.15)]' : 'bg-white/5 border-white/10 text-white'}`}>
+              <Timer className={`w-5 h-5 ${timeLeft < 10 ? 'animate-pulse' : 'opacity-40'}`} />
+              <span className="text-lg font-black font-mono tracking-tighter">{String(Math.floor(timeLeft / 60)).padStart(2, '0')}:{String(timeLeft % 60).padStart(2, '0')}</span>
+            </div>
+            <button onClick={resetQuiz} className="p-4 glass-panel rounded-2xl hover:bg-white/10 hover:text-red-400 transition-all border border-white/5 group relative overflow-hidden">
+              <div className="absolute inset-0 bg-red-500/0 group-hover:bg-red-500/5 transition-colors" />
+              <LogOut className="w-6 h-6 group-hover:scale-110 transition-transform relative z-10" />
+            </button>
           </div>
         </header>
 
-        <div className="bento-grid flex-1 items-stretch">
-          <div className="col-span-full md:col-span-3 bg-card-dark border border-border-dark p-10 md:p-16 rounded-[3.5rem] flex flex-col relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity">
-              <div className="text-[12rem] font-black tracking-tighter">{state.currentQuestionIndex + 1}</div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start flex-1 overflow-visible">
+          {/* Main Assessment Area */}
+          <div className="lg:col-span-8 glass-panel p-10 md:p-20 rounded-[5rem] flex flex-col relative overflow-hidden group border border-white/10 bg-white/[0.02] shadow-[0_40px_100px_rgba(0,0,0,0.5)]">
+            <div className="absolute top-0 right-0 p-20 opacity-[0.015] group-hover:opacity-[0.03] transition-opacity pointer-events-none">
+              <div className="text-[20rem] font-display font-black tracking-tighter leading-none italic">{state.currentQuestionIndex + 1}</div>
             </div>
-            <div className="flex justify-between items-center mb-10 relative z-10">
-              <div className="level-tag inline-block px-4 py-2 bg-accent-emerald/10 border border-accent-emerald/30 rounded-xl text-[0.55rem] font-black uppercase tracking-[0.25em] text-accent-emerald">Tier: {state.currentLevel}</div>
-              <div className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-text-secondary opacity-40 italic">{state.currentQuestionIndex + 1} OF {currentLevelQuestions.length}</div>
+            
+            <div className="flex justify-between items-center mb-20 relative z-10">
+              <div className="flex items-center gap-4">
+                <span className="px-6 py-2.5 bg-accent-emerald text-black rounded-full text-[0.65rem] font-black uppercase tracking-[0.4em] italic shadow-lg shadow-emerald-500/20">
+                  Tier: {state.currentLevel}
+                </span>
+                <span className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[0.6rem] font-black uppercase text-text-secondary tracking-widest">
+                  Assessment ID: {Math.random().toString(36).substring(7).toUpperCase()}
+                </span>
+              </div>
+              <div className="text-[0.75rem] font-black uppercase tracking-[0.5em] text-text-secondary opacity-20 italic">
+                {state.currentQuestionIndex + 1} / {currentLevelQuestions.length} PROTOCOLS
+              </div>
             </div>
+
             <AnimatePresence mode="wait">
-              <motion.div key={state.currentQuestionIndex} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="flex flex-col flex-1 relative z-10">
-                <h2 className="text-3xl md:text-5xl font-black mb-16 leading-[1.1] tracking-tighter lowercase first-letter:uppercase">{currentQuestion?.question}</h2>
-                <div className="grid gap-4 mb-auto">
+              <motion.div 
+                key={state.currentQuestionIndex} 
+                initial={{ opacity: 0, x: 40 }} 
+                animate={{ opacity: 1, x: 0 }} 
+                exit={{ opacity: 0, x: -40 }} 
+                className="flex flex-col flex-1 relative z-10"
+              >
+                <div className="text-accent-indigo text-[0.65rem] font-black tracking-[0.4em] uppercase mb-6 opacity-60">System Inquiry // {state.currentQuestionIndex + 1}</div>
+                <h2 className="text-4xl md:text-6xl font-display font-black mb-24 leading-[0.95] tracking-tighter uppercase italic">
+                  {currentQuestion?.question}
+                </h2>
+                
+                <div className="grid gap-5 mt-auto">
                   {currentQuestion?.options.map((option, idx) => {
-                    const label = String.fromCharCode(65 + idx);
+                    const label = String.fromCharCode(64 + idx + 1);
                     const isCorrect = showFeedback === 'correct' && label === currentQuestion.answer;
                     const isWrong = showFeedback === 'wrong' && label === state.answers[currentQuestion.id];
+                    
                     return (
-                      <button key={idx} onClick={() => handleAnswer(label)} disabled={!!showFeedback} className={`group relative text-left p-6 rounded-[1.5rem] border transition-all flex items-center justify-between ${showFeedback === 'correct' && label === currentQuestion.answer ? 'bg-accent-emerald border-accent-emerald text-black shadow-xl shadow-emerald-500/20' : showFeedback === 'wrong' && label === currentQuestion.answer ? 'border-accent-emerald/50 border-2' : showFeedback === 'wrong' && label === state.answers[currentQuestion.id] ? 'bg-red-500 border-red-500 text-black shadow-xl shadow-red-500/20' : 'bg-white/[0.02] border-white/5 hover:border-accent-emerald hover:bg-emerald-500/5'}`}>
-                        <div className="flex items-center gap-6"><span className={`w-10 h-10 rounded-xl flex items-center justify-center text-xs font-black transition-all ${showFeedback ? 'bg-transparent' : 'bg-white/5 group-hover:bg-accent-emerald group-hover:text-black'}`}>{label}</span><span className="font-black text-sm uppercase tracking-widest">{option}</span></div>
-                        {showFeedback && label === currentQuestion.answer && <CheckCircle2 className="w-6 h-6 shrink-0" />}
-                        {showFeedback === 'wrong' && label === state.answers[currentQuestion.id] && <XCircle className="w-6 h-6 shrink-0" />}
+                      <button 
+                        key={idx} 
+                        onClick={() => handleAnswer(label)} 
+                        disabled={!!showFeedback} 
+                        className={`group relative text-left p-8 md:p-10 rounded-[3rem] border transition-all flex items-center justify-between ${
+                          isCorrect ? 'bg-accent-emerald border-accent-emerald text-black shadow-2xl shadow-emerald-500/30 scale-[1.02]' : 
+                          isWrong ? 'bg-accent-rose border-accent-rose text-white shadow-2xl shadow-rose-500/30' : 
+                          showFeedback && label === currentQuestion.answer ? 'border-accent-emerald border-4' :
+                          'bg-white/[0.04] border-white/5 hover:border-white/20 hover:bg-white/[0.08] hover:translate-x-2'
+                        }`}
+                      >
+                        <div className="flex items-center gap-10">
+                          <span className={`w-14 h-14 rounded-2xl flex items-center justify-center text-sm font-black transition-all ${
+                            showFeedback ? (isCorrect || isWrong ? 'bg-black/10' : 'bg-transparent') : 'bg-white/5 group-hover:bg-white/10'
+                          }`}>
+                            {label}
+                          </span>
+                          <span className="font-display font-black text-lg md:text-2xl uppercase tracking-tighter italic">{option}</span>
+                        </div>
+                        {isCorrect && <CheckCircle2 className="w-8 h-8 shrink-0" />}
+                        {isWrong && <XCircle className="w-8 h-8 shrink-0" />}
+                        <div className="absolute inset-0 rounded-[3rem] bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                       </button>
                     );
                   })}
@@ -1891,23 +2008,139 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
               </motion.div>
             </AnimatePresence>
           </div>
-          <div className="col-span-full md:col-span-1 space-y-6">
-            <div className="bg-card-dark border border-border-dark p-10 rounded-[3rem] shadow-xl relative overflow-hidden">
+
+          {/* Proctoring & Intelligence Sidebar */}
+          <div className="lg:col-span-4 flex flex-col gap-10 h-full">
+            {/* AI Proctoring Mock */}
+            <div className="glass-panel p-8 rounded-[4rem] bg-white/[0.02] border-white/10 overflow-hidden relative group">
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-red-500 rounded-full animate-blink shadow-[0_0_10px_rgba(239,68,68,0.8)]" />
+                    <span className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-white">Live AI Monitoring</span>
+                  </div>
+                  <div className="text-[0.5rem] font-bold text-text-secondary opacity-40 uppercase tracking-widest italic">NODE_GLOBAL_IV</div>
+                </div>
+                
+                {/* Webcam Simulation */}
+                <div className="aspect-video bg-black rounded-3xl relative overflow-hidden border border-white/10 mb-8">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <UserIcon className="w-20 h-20 text-white/5" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+                       <div>
+                         <div className="text-[0.4rem] font-black uppercase text-accent-emerald tracking-widest mb-1">Face Recognition: ACTIVE</div>
+                         <div className="text-[0.4rem] font-black uppercase text-accent-emerald tracking-widest">Integrity: 100%</div>
+                       </div>
+                       <div className="space-y-1">
+                          <div className="h-1 w-8 bg-accent-emerald/20 overflow-hidden rounded-full"><motion.div className="h-full bg-accent-emerald" animate={{ width: ["20%", "80%", "40%"] }} transition={{ duration: 2, repeat: Infinity }} /></div>
+                          <div className="h-1 w-8 bg-accent-emerald/20 overflow-hidden rounded-full"><motion.div className="h-full bg-accent-emerald" animate={{ width: ["60%", "30%", "90%"] }} transition={{ duration: 1.5, repeat: Infinity }} /></div>
+                       </div>
+                    </div>
+                    {/* Face Scan Mesh */}
+                    <div className="absolute inset-0 border border-accent-emerald/10 grid grid-cols-6 grid-rows-6 opacity-20 pointer-events-none">
+                      {Array.from({ length: 36 }).map((_, i) => <div key={i} className="border-[0.5px] border-accent-emerald/10" />)}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <div className="flex items-center gap-3">
+                      <Lock className="w-4 h-4 text-accent-indigo opacity-60" />
+                      <span className="text-[0.55rem] font-black uppercase tracking-widest text-text-secondary">Browser Lock</span>
+                    </div>
+                    <span className="text-[0.55rem] font-black text-accent-emerald uppercase tracking-widest italic">SECURED</span>
+                  </div>
+                  <div className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <div className="flex items-center gap-3">
+                      <ShieldCheck className="w-4 h-4 text-accent-indigo opacity-60" />
+                      <span className="text-[0.55rem] font-black uppercase tracking-widest text-text-secondary">Proctor Eye</span>
+                    </div>
+                    <span className="text-[0.55rem] font-black text-accent-emerald uppercase tracking-widest italic">MONITORING</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Performance Node */}
+            <div className="glass-panel p-10 rounded-[4rem] relative overflow-hidden bg-white/[0.02]">
                <div className="relative z-10">
-                 <h3 className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-text-secondary mb-8 block">Live Analytics</h3>
-                 <div className="space-y-10">
-                   <div><div className="text-[0.55rem] font-black uppercase tracking-widest text-text-secondary mb-2">Points Accumulated</div><div className="text-4xl font-black text-emerald-500 tracking-tighter italic">{state.score * 12}</div></div>
-                   <div><div className="text-[0.55rem] font-black uppercase tracking-widest text-text-secondary mb-2">Architectural Accuracy</div><div className="text-xl font-black tracking-tight">{Math.round((state.score / (state.currentQuestionIndex || 1)) * 100)}%</div><div className="h-1.5 w-full bg-white/5 rounded-full mt-4 overflow-hidden"><motion.div initial={{ width: 0 }} animate={{ width: `${(state.score / (currentLevelQuestions.length || 1)) * 100}%` }} className="h-full bg-accent-emerald" /></div></div>
+                 <h3 className="text-[0.65rem] font-black uppercase tracking-[0.4em] text-text-secondary mb-12 opacity-50 italic">Dynamic Performance Core</h3>
+                 <div className="space-y-12">
+                   <div>
+                     <div className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-text-secondary mb-3">Cognitive Saturation</div>
+                     <div className="text-6xl font-display font-black text-white tracking-tighter italic leading-none">
+                       {Math.round((state.score / (state.currentQuestionIndex || 1)) * 100)}%
+                     </div>
+                     <div className="h-2.5 w-full bg-white/5 rounded-full mt-8 overflow-hidden border border-white/10 p-[2px]">
+                       <motion.div 
+                         initial={{ width: 0 }} 
+                         animate={{ width: `${(state.score / (currentLevelQuestions.length || 1)) * 100}%` }} 
+                         className="h-full bg-gradient-to-r from-accent-indigo to-accent-emerald rounded-full shadow-[0_0_30px_rgba(0,242,164,0.3)]" 
+                       />
+                     </div>
+                   </div>
+                   
+                   <div className="pt-8 border-t border-white/10">
+                     <div className="flex justify-between items-end">
+                       <div>
+                         <div className="text-[0.6rem] font-black uppercase tracking-[0.2em] text-text-secondary mb-3">Global Rank Pulse</div>
+                         <div className="text-4xl font-display font-black text-accent-indigo tracking-tight italic leading-none">
+                           TOP 4.2% <span className="text-[0.5rem] uppercase tracking-widest pl-2 opacity-50">PERCENTILE</span>
+                         </div>
+                       </div>
+                       <div className="flex gap-1 items-end h-10">
+                          {[40, 70, 50, 90, 60, 80].map((h, i) => (
+                            <motion.div 
+                              key={i} 
+                              initial={{ height: 0 }}
+                              animate={{ height: `${h}%` }}
+                              className="w-1 bg-accent-indigo rounded-full opacity-40" 
+                            />
+                          ))}
+                       </div>
+                     </div>
+                   </div>
                  </div>
                </div>
-               <div className="absolute -left-10 -top-10 w-32 h-32 bg-accent-emerald/5 blur-[50px] rounded-full" />
+               <div className="absolute -left-10 -top-10 w-40 h-40 bg-accent-indigo/5 blur-[80px] rounded-full" />
             </div>
-            <div className="bg-card-dark border border-border-dark p-10 rounded-[3rem] hidden md:block">
-              <div className="flex items-center gap-4 text-accent-emerald mb-4 uppercase text-[0.6rem] font-black tracking-widest"><Target className="w-5 h-5 animate-pulse" /> Diagnostic Feedback</div>
-              <p className="text-[0.6rem] text-text-secondary leading-relaxed font-bold uppercase tracking-widest">Architectural precision is required for full certification. All data streams are audited.</p>
+
+            <div className="glass-panel p-10 rounded-[4rem] bg-white/[0.02] flex flex-col justify-between flex-1 border-white/5 group">
+              <div className="relative z-10">
+                <div className="flex items-center gap-4 text-accent-rose mb-8 uppercase text-[0.65rem] font-black tracking-widest italic font-display">
+                  <Activity className="w-5 h-5 animate-pulse" /> Diagnostic Protocol
+                </div>
+                <p className="text-[0.7rem] text-text-secondary leading-relaxed font-black uppercase tracking-[0.1em] opacity-40 group-hover:opacity-100 transition-opacity">
+                   Session stability verified. All competency protocols are recorded in the cryptographic ledger for institutional auditing.
+                </p>
+              </div>
+              
+              <div className="mt-12 flex justify-between items-end opacity-20 group-hover:opacity-60 transition-all">
+                 <Globe className="w-12 h-12 text-white" />
+                 <Target className="w-12 h-12 text-white" />
+                 <ShieldCheck className="w-12 h-12 text-white" />
+              </div>
             </div>
           </div>
-          <div className="col-span-full bg-card-dark border border-border-dark p-8 rounded-[2.5rem]"><div className="h-2 w-full bg-white/5 rounded-full overflow-hidden"><motion.div className="h-full bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.5)]" initial={{ width: 0 }} animate={{ width: `${((state.currentQuestionIndex + 1) / (currentLevelQuestions.length || 1)) * 100}%` }} transition={{ type: "spring", bounce: 0, duration: 0.5 }} /></div></div>
+        </div>
+        
+        {/* Progress Timeline */}
+        <div className="mt-12 mb-12 shrink-0">
+           <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden border border-white/5 shadow-inner">
+             <motion.div 
+               className="h-full bg-gradient-to-r from-accent-indigo via-accent-rose to-accent-emerald" 
+               initial={{ width: 0 }} 
+               animate={{ width: `${((state.currentQuestionIndex + 1) / (currentLevelQuestions.length || 1)) * 100}%` }} 
+               transition={{ duration: 0.8, ease: "circOut" }} 
+             />
+           </div>
+           <div className="flex justify-between mt-4">
+              <div className="text-[0.55rem] font-black uppercase tracking-[0.3em] text-text-secondary opacity-30">Assessment Initiation</div>
+              <div className="text-[0.55rem] font-black uppercase tracking-[0.3em] text-accent-emerald italic">Node Synchronization Checkpoint</div>
+              <div className="text-[0.55rem] font-black uppercase tracking-[0.3em] text-text-secondary opacity-30">Certification Finalization</div>
+           </div>
         </div>
       </div>
     </div>
