@@ -302,10 +302,10 @@ const LandingPageView = ({
           <motion.h1 
             initial={{ opacity: 0, scale: 0.98 }} 
             animate={{ opacity: 1, scale: 1 }}
-            className="text-6xl md:text-8xl font-display font-black leading-[0.9] tracking-tighter mb-8"
+            className="text-7xl md:text-9xl font-display font-black leading-tight tracking-tighter mb-10 uppercase italic"
           >
             Train. Practice. <br />
-            <span className="text-accent-blue">Get Certified.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-blue via-accent-violet to-accent-azure">Get Certified.</span>
           </motion.h1>
           
           <motion.p 
@@ -1378,7 +1378,7 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
     const bgClass = isKids ? 'bg-orange-50' : isElementary ? 'bg-green-50' : 'bg-bg-main';
     const cardClass = isKids ? 'bg-white border-4 border-orange-400 rounded-[3rem] shadow-xl' : isElementary ? 'bg-white border-2 border-green-200 rounded-[2.5rem]' : 'glass-card rounded-[2rem]';
     const textClass = isKids ? 'text-orange-900 font-bold' : isElementary ? 'text-green-900 font-medium' : 'text-text-primary font-medium';
-    const headingClass = isKids ? 'text-4xl font-black text-orange-600 tracking-normal' : isElementary ? 'text-3xl font-extrabold text-green-700' : 'text-4xl font-display font-black tracking-tighter italic uppercase';
+    const headingClass = isKids ? 'text-4xl font-black text-orange-600 tracking-normal leading-tight' : isElementary ? 'text-3xl font-extrabold text-green-700 leading-tight' : 'text-4xl font-display font-black tracking-tighter italic uppercase leading-tight';
     const buttonClass = isKids ? 'bg-orange-500 hover:bg-orange-600 text-white rounded-[2rem] py-6 text-lg' : isElementary ? 'bg-green-600 hover:bg-green-700 text-white rounded-2xl py-5' : 'bg-accent-azure hover:bg-accent-azure/80 text-white rounded-xl py-5';
 
     return (
@@ -1905,38 +1905,65 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
 
           {!state.currentCourseId ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {Object.values(courses).map((course, i) => (
-                <motion.div
-                  key={course.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: (i % 8) * 0.05 }}
-                  whileHover={{ y: -5 }}
-                  onClick={() => { playClick(); handleSelectCourse(course.id); }}
-                  className="glass-card p-10 cursor-pointer group hover:bg-white/[0.02]"
-                >
-                  <div className="w-16 h-16 bg-bg-main border border-border-subtle rounded-2xl flex items-center justify-center mb-8 group-hover:border-accent-blue/40 transition-colors shadow-sm">
-                    {course.icon === 'Layout' && <Layout className="w-8 h-8 text-accent-blue" />}
-                    {course.icon === 'Palette' && <Palette className="w-8 h-8 text-accent-blue" />}
-                    {course.icon === 'Code2' && <Code2 className="w-8 h-8 text-accent-blue" />}
-                    {course.icon === 'Terminal' && <FileCode2 className="w-8 h-8 text-accent-blue" />}
-                    {course.icon === 'Database' && <Database className="w-8 h-8 text-accent-blue" />}
-                    {course.icon === 'Cpu' && <Cpu className="w-8 h-8 text-accent-blue" />}
-                    {course.icon === 'Shield' && <Shield className="w-8 h-8 text-accent-blue" />}
-                    {course.icon === 'Activity' && <Activity className="w-8 h-8 text-accent-blue" />}
-                    {course.icon === 'Workflow' && <Workflow className="w-8 h-8 text-accent-blue" />}
-                    {course.icon === 'Zap' && <Zap className="w-8 h-8 text-accent-blue" />}
-                    {course.icon === 'Smartphone' && <Smartphone className="w-8 h-8 text-accent-blue" />}
-                  </div>
-                  <h3 className="text-2xl font-display font-black tracking-tighter mb-4 italic uppercase">{course.title}</h3>
-                  <p className="text-sm text-text-secondary leading-relaxed mb-10 opacity-70">
-                    {course.description}
-                  </p>
-                  <div className="flex items-center gap-3 text-accent-blue text-[0.65rem] font-black uppercase tracking-widest group-hover:translate-x-2 transition-transform">
-                    Enter Certification Tier <ChevronRight className="w-4 h-4" />
-                  </div>
-                </motion.div>
-              ))}
+              {Object.values(courses).map((course, i) => {
+                const colorMap: Record<string, string> = {
+                  orange: 'bg-orange-500/10 text-orange-500 border-orange-500/20 hover:border-orange-500/50 hover:bg-orange-500/[0.05]',
+                  blue: 'bg-blue-500/10 text-blue-500 border-blue-500/20 hover:border-blue-500/50 hover:bg-blue-500/[0.05]',
+                  amber: 'bg-amber-500/10 text-amber-500 border-amber-500/20 hover:border-amber-500/50 hover:bg-amber-500/[0.05]',
+                  sky: 'bg-sky-500/10 text-sky-500 border-sky-500/20 hover:border-sky-500/50 hover:bg-sky-500/[0.05]',
+                  red: 'bg-red-500/10 text-red-500 border-red-500/20 hover:border-red-500/50 hover:bg-red-500/[0.05]',
+                  rose: 'bg-rose-500/10 text-rose-500 border-rose-500/20 hover:border-rose-500/50 hover:bg-rose-500/[0.05]',
+                  cyan: 'bg-cyan-500/10 text-cyan-500 border-cyan-500/20 hover:border-cyan-500/50 hover:bg-cyan-500/[0.05]',
+                  indigo: 'bg-indigo-500/10 text-indigo-500 border-indigo-500/20 hover:border-indigo-500/50 hover:bg-indigo-500/[0.05]',
+                  purple: 'bg-purple-500/10 text-purple-500 border-purple-500/20 hover:border-purple-500/50 hover:bg-purple-500/[0.05]',
+                  emerald: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:border-emerald-500/50 hover:bg-emerald-500/[0.05]',
+                  teal: 'bg-teal-500/10 text-teal-500 border-teal-500/20 hover:border-teal-500/50 hover:bg-teal-500/[0.05]',
+                  violet: 'bg-violet-500/10 text-violet-500 border-violet-500/20 hover:border-violet-500/50 hover:bg-violet-500/[0.05]',
+                };
+                
+                const variant = colorMap[course.color || 'blue'] || colorMap.blue;
+                const iconColor = variant.split(' ')[1];
+
+                return (
+                  <motion.div
+                    key={course.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: (i % 8) * 0.05 }}
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    onClick={() => { playClick(); handleSelectCourse(course.id); }}
+                    className={`glass-card p-8 cursor-pointer group transition-all duration-300 border-transparent hover:shadow-2xl overflow-hidden`}
+                  >
+                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 transition-all duration-500 group-hover:rotate-6 group-hover:scale-110 shadow-lg bg-accent-blue/10 border border-accent-blue/20`}>
+                      {course.icon === 'Layout' && <Layout className={`w-8 h-8 text-accent-azure`} />}
+                      {course.icon === 'Palette' && <Palette className={`w-8 h-8 text-accent-azure`} />}
+                      {course.icon === 'Code2' && <Code2 className={`w-8 h-8 text-accent-azure`} />}
+                      {course.icon === 'Terminal' && <FileCode2 className={`w-8 h-8 text-accent-azure`} />}
+                      {course.icon === 'Database' && <Database className={`w-8 h-8 text-accent-azure`} />}
+                      {course.icon === 'Cpu' && <Cpu className={`w-8 h-8 text-accent-azure`} />}
+                      {course.icon === 'Shield' && <Shield className={`w-8 h-8 text-accent-azure`} />}
+                      {course.icon === 'Activity' && <Activity className={`w-8 h-8 text-accent-azure`} />}
+                      {course.icon === 'Workflow' && <Workflow className={`w-8 h-8 text-accent-azure`} />}
+                      {course.icon === 'Zap' && <Zap className={`w-8 h-8 text-accent-azure`} />}
+                      {course.icon === 'Smartphone' && <Smartphone className={`w-8 h-8 text-accent-azure`} />}
+                    </div>
+                    
+                    <div className="flex flex-col gap-1 mb-6 min-h-[90px]">
+                      <span className="text-accent-azure font-black tracking-[0.3em] text-[0.6rem] uppercase opacity-90 drop-shadow-[0_0_8px_rgba(14,165,233,0.3)]">Subject: {course.subjectShortName}</span>
+                      <h3 className="text-2xl font-display font-black tracking-tighter uppercase italic leading-[1.1] break-words text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-accent-azure group-hover:to-accent-violet transition-all duration-300">
+                        {course.title}
+                      </h3>
+                    </div>
+
+                    <p className="text-[0.75rem] text-text-secondary leading-relaxed mb-10 opacity-50 font-medium uppercase tracking-wide group-hover:opacity-80 transition-opacity">
+                      {course.description}
+                    </p>
+                    <div className="flex items-center gap-3 text-accent-azure text-[0.65rem] font-black uppercase tracking-[0.2em] group-hover:translate-x-3 transition-all duration-300">
+                      Launch Protocol <ChevronRight className="w-4 h-4" />
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           ) : (
             <motion.div 
@@ -1952,8 +1979,11 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
                   <ChevronLeft className="w-5 h-5 text-accent-blue" />
                 </button>
                 <div>
-                  <h3 className="text-3xl font-display font-black tracking-tighter uppercase italic">{currentCourse?.title} Hub</h3>
-                  <p className="text-xs text-text-secondary font-bold uppercase tracking-widest opacity-50 mt-1">Select an assessment tier to begin global verification</p>
+                  <h3 className={`text-5xl font-display font-black tracking-tighter uppercase italic leading-none`}>
+                    <span className="text-accent-azure">{currentCourse?.subjectShortName}</span>
+                    <span className="opacity-20 ml-4">{currentCourse?.title}</span>
+                  </h3>
+                  <p className="text-xs text-text-secondary font-bold uppercase tracking-widest opacity-50 mt-3">Select an assessment tier to begin global verification</p>
                 </div>
               </div>
 
@@ -2216,7 +2246,15 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
   const isTraining = state.mode === 'training';
 
   return (
-    <div className={`min-h-screen ${isKids ? 'bg-orange-50 text-orange-900' : isElementary ? 'bg-green-50 text-green-900' : 'bg-bg-main text-text-primary'} p-6 md:p-12 font-sans selection:bg-accent-blue selection:text-white flex flex-col items-center transition-colors duration-500`}>
+    <div className={`min-h-screen ${isKids ? 'bg-orange-50 text-orange-900' : isElementary ? 'bg-green-50 text-green-900' : 'bg-bg-dark text-text-primary'} p-6 md:p-12 font-sans selection:bg-accent-blue selection:text-white flex flex-col items-center transition-colors duration-700 relative overflow-hidden`}>
+      {/* Dynamic Background Blobs */}
+      {!isKids && !isElementary && (
+        <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+          <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-accent-blue/5 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent-violet/5 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] bg-accent-emerald/5 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '4s' }} />
+        </div>
+      )}
       <Navbar 
         user={state.user} 
         resetQuiz={resetQuiz} 
@@ -2229,13 +2267,21 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
       <div className="w-full max-w-7xl flex flex-col flex-1 mt-20">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-8 shrink-0">
           <div className="flex items-center gap-6">
-            <div className={`text-3xl font-display font-black tracking-tighter uppercase italic ${isKids ? 'text-orange-600' : isElementary ? 'text-green-600' : ''}`}>
-              {appLogo && !isKids && !isElementary ? <img src={appLogo} alt="Logo" className="h-10 rounded-xl" /> : <>Mastery<span className="text-accent-blue">{isKids ? 'Kids' : isElementary ? 'Junior' : 'Pro'}</span></>}
+            <div className={`text-4xl font-display font-black tracking-tighter uppercase italic flex items-center gap-3 ${isKids ? 'text-orange-600' : isElementary ? 'text-green-600' : ''}`}>
+              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg transform -rotate-6 ${isKids ? 'bg-orange-500' : isElementary ? 'bg-green-500' : 'bg-accent-blue'}`}>
+                <Zap className="w-7 h-7 text-white fill-current" />
+              </div>
+              <div className="flex flex-col h-12 justify-center">
+                <span className="leading-[0.8] mb-1">Mastery</span>
+                <span className={`text-xs not-italic tracking-[0.4em] font-black opacity-50 ${isKids ? 'text-orange-900' : isElementary ? 'text-green-900' : 'text-accent-blue'}`}>
+                  {isKids ? 'Kids Lab' : isElementary ? 'Junior' : 'Pro Series'}
+                </span>
+              </div>
             </div>
-            <div className={`h-8 w-px ${isKids ? 'bg-orange-200' : isElementary ? 'bg-green-200' : 'bg-border-subtle'} hidden md:block`} />
-            <div className={`px-5 py-2 ${isKids ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/20' : isElementary ? 'bg-green-500 text-white shadow-lg shadow-green-500/20' : 'bg-white/5 border border-border-subtle text-text-muted'} rounded-full flex items-center gap-3`}>
-               <div className={`w-2 h-2 ${isKids || isElementary ? 'bg-white' : 'bg-accent-emerald'} rounded-full animate-pulse`} />
-               <span className="text-[0.6rem] font-black uppercase tracking-widest">{isTraining ? 'Training Lab Active' : 'Assessment Mode Active'}</span>
+            <div className={`h-12 w-px ${isKids ? 'bg-orange-200' : isElementary ? 'bg-green-200' : 'bg-white/10'} hidden md:block`} />
+            <div className={`px-6 py-2.5 ${isKids ? 'bg-orange-500 text-white shadow-xl shadow-orange-500/20' : isElementary ? 'bg-green-500 text-white shadow-xl shadow-green-500/20' : 'bg-white/5 border border-white/10 text-white/50'} rounded-full flex items-center gap-3`}>
+               <div className={`w-2.5 h-2.5 ${isKids || isElementary ? 'bg-white' : 'bg-accent-emerald'} rounded-full animate-pulse shadow-[0_0_15px_rgba(255,255,255,0.5)]`} />
+               <span className="text-[0.7rem] font-black uppercase tracking-[0.2em]">{isTraining ? 'Training Core Live' : 'Assessment Engine Active'}</span>
             </div>
           </div>
           

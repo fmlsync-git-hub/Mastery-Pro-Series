@@ -25,6 +25,8 @@ export interface CourseData {
   title: string;
   description: string;
   icon: string;
+  color?: string;
+  subjectShortName?: string;
   levels: Record<string, LevelData>;
 }
 
