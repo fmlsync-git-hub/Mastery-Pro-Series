@@ -1948,9 +1948,9 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
                       {course.icon === 'Smartphone' && <Smartphone className={`w-8 h-8 text-accent-azure`} />}
                     </div>
                     
-                    <div className="flex flex-col gap-1 mb-6 min-h-[90px]">
-                      <span className="text-accent-azure font-black tracking-[0.3em] text-[0.6rem] uppercase opacity-90 drop-shadow-[0_0_8px_rgba(14,165,233,0.3)]">Subject: {course.subjectShortName}</span>
-                      <h3 className="text-2xl font-display font-black tracking-tighter uppercase italic leading-[1.1] break-words text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-accent-azure group-hover:to-accent-violet transition-all duration-300">
+                    <div className="flex flex-col gap-2 mb-6 min-h-[100px]">
+                      <span className="text-accent-azure font-black tracking-[0.4em] text-[0.6rem] uppercase opacity-90 drop-shadow-[0_0_8px_rgba(14,165,233,0.3)]">Subject: {course.subjectShortName}</span>
+                      <h3 className="text-2xl font-display font-extrabold tracking-tight uppercase italic leading-tight break-words text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-accent-azure group-hover:to-accent-violet transition-all duration-300">
                         {course.title}
                       </h3>
                     </div>
@@ -1979,11 +1979,11 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
                   <ChevronLeft className="w-5 h-5 text-accent-blue" />
                 </button>
                 <div>
-                  <h3 className={`text-5xl font-display font-black tracking-tighter uppercase italic leading-none`}>
-                    <span className="text-accent-azure">{currentCourse?.subjectShortName}</span>
-                    <span className="opacity-20 ml-4">{currentCourse?.title}</span>
+                  <h3 className={`text-5xl font-display font-extrabold tracking-tight uppercase italic leading-tight`}>
+                    <span className="text-accent-azure drop-shadow-[0_0_20px_rgba(14,165,233,0.3)]">{currentCourse?.subjectShortName}</span>
+                    <span className="opacity-20 ml-6">{currentCourse?.title}</span>
                   </h3>
-                  <p className="text-xs text-text-secondary font-bold uppercase tracking-widest opacity-50 mt-3">Select an assessment tier to begin global verification</p>
+                  <p className="text-xs text-text-secondary font-bold uppercase tracking-[0.2em] opacity-40 mt-4">Select an assessment tier to begin global verification</p>
                 </div>
               </div>
 
