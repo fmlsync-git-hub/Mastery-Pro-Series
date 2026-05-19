@@ -302,7 +302,7 @@ const LandingPageView = ({
           <motion.h1 
             initial={{ opacity: 0, scale: 0.98 }} 
             animate={{ opacity: 1, scale: 1 }}
-            className="text-7xl md:text-9xl font-display font-black leading-tight tracking-tighter mb-10 uppercase italic"
+            className="text-7xl md:text-9xl font-display font-black leading-[0.85] tracking-tighter mb-10 uppercase italic"
           >
             Train. Practice. <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-blue via-accent-violet to-accent-azure">Get Certified.</span>
@@ -1979,7 +1979,7 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
                   <ChevronLeft className="w-5 h-5 text-accent-blue" />
                 </button>
                 <div>
-                  <h3 className={`text-5xl font-display font-extrabold tracking-tight uppercase italic leading-tight`}>
+                  <h3 className={`text-5xl font-display font-black tracking-tighter uppercase italic leading-none`}>
                     <span className="text-accent-azure drop-shadow-[0_0_20px_rgba(14,165,233,0.3)]">{currentCourse?.subjectShortName}</span>
                     <span className="opacity-20 ml-6">{currentCourse?.title}</span>
                   </h3>
