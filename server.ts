@@ -3,11 +3,22 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import axios from "axios";
 import dotenv from "dotenv";
+import { GoogleGenAI, Type } from "@google/genai";
 
 dotenv.config();
 
 const app = express();
 const PORT = 3000;
+
+// Gemini Initialization
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+  httpOptions: {
+    headers: {
+      'User-Agent': 'aistudio-build',
+    }
+  }
+});
 
 // Paystack Helper
 const initializePaystack = async (email: string, amount: number, level: string, courseId: string, metadata: any, origin: string) => {
@@ -39,6 +50,49 @@ app.use(express.json());
 // API Routes
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
+});
+
+app.post("/api/assessment/generate", async (req, res) => {
+  const { topic, level, count = 10 } = req.body;
+
+  try {
+    const prompt = `Generate ${count} high-quality, professional multiple-choice questions for a certification exam in "${topic}". 
+    The level of difficulty should be "${level}".
+    Each question must have exactly 4 options and one correct answer (A, B, C, or D).
+    Return the response as a JSON array matching this structure:
+    [{ "id": "generated_id", "question": "Question text", "options": ["Option 1", "Option 2", "Option 3", "Option 4"], "answer": "A" }]
+    Ensure the questions are technically sound and would be found in a professional industry-standard certification.`;
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              id: { type: Type.STRING },
+              question: { type: Type.STRING },
+              options: { 
+                type: Type.ARRAY, 
+                items: { type: Type.STRING } 
+              },
+              answer: { type: Type.STRING }
+            },
+            required: ["id", "question", "options", "answer"]
+          }
+        }
+      }
+    });
+
+    const questions = JSON.parse(response.text);
+    res.json({ questions });
+  } catch (err: any) {
+    console.error("Gemini Error:", err);
+    res.status(500).json({ error: "Failed to generate assessment questions" });
+  }
 });
 
 app.post("/api/create-checkout-session", async (req, res) => {

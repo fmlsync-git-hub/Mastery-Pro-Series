@@ -57,16 +57,93 @@ export const courses: Record<string, CourseData> = {
   },
   python: {
     id: 'python',
-    title: 'Data & Intelligence Systems (Py)',
-    description: 'Scalable automation, data intelligence, and scientific computing protocols.',
+    title: 'Python Intelligence Systems',
+    description: 'Data science, automation protocols, and high-performance scripting standards.',
     icon: 'Terminal',
-    levels: levels // Default to HTML for now if no specific questions
+    levels: levels
+  },
+  oracle: {
+    id: 'oracle',
+    title: 'Oracle Database Engineering',
+    description: 'Enterprise data management, PL/SQL optimization, and high-availability architecture.',
+    icon: 'Database',
+    levels: levels
   },
   java: {
     id: 'java',
-    title: 'Enterprise Scalability (Java)',
+    title: 'Enterprise Runtime (Java)',
     description: 'Object-oriented engineering patterns and distributed system reliability.',
     icon: 'Code2',
-    levels: levels // Default to HTML for now if no specific questions
+    levels: levels
+  },
+  golang: {
+    id: 'golang',
+    title: 'Cloud-Native Concurrency (Go)',
+    description: 'Scalable backend architecture, microservices, and high-efficiency systems code.',
+    icon: 'Cpu',
+    levels: levels
+  },
+  rust: {
+    id: 'rust',
+    title: 'Systems Safety & Memory (Rust)',
+    description: 'Proximity-to-metal engineering with strict memory safety and performance.',
+    icon: 'Shield',
+    levels: levels
+  },
+  cpp: {
+    id: 'cpp',
+    title: 'Advanced C++ Engineering',
+    description: 'Metal-level performance, template metaprogramming, and low-latency systems.',
+    icon: 'Cpu',
+    levels: levels
+  },
+  csharp: {
+    id: 'csharp',
+    title: '.NET Enterprise Solutions (C#)',
+    description: 'Full-stack enterprise application development and robust software design.',
+    icon: 'Code2',
+    levels: levels
+  },
+  sql: {
+    id: 'sql',
+    title: 'Relational Data Science (SQL)',
+    description: 'Complex query optimization, database design, and data integrity protocols.',
+    icon: 'Database',
+    levels: levels
+  },
+  erlang: {
+    id: 'erlang',
+    title: 'Fault-Tolerant Patterns (Erlang)',
+    description: 'Distributed systems, telecommunications standards, and high-availability logic.',
+    icon: 'Activity',
+    levels: levels
+  },
+  clojure: {
+    id: 'clojure',
+    title: 'Functional Logic Mastery (Clojure)',
+    description: 'Immutable data structures, concurrent processing, and JVM-based functional code.',
+    icon: 'Workflow',
+    levels: levels
+  },
+  elixir: {
+    id: 'elixir',
+    title: 'Scalable Real-time Web (Elixir)',
+    description: 'Productive and reliable web engineering on the Erlang VM.',
+    icon: 'Zap',
+    levels: levels
+  },
+  swift: {
+    id: 'swift',
+    title: 'Native iOS Ecosystem (Swift)',
+    description: 'Declarative mobile architecture and high-performance Apple platform engineering.',
+    icon: 'Smartphone',
+    levels: levels
+  },
+  kotlin: {
+    id: 'kotlin',
+    title: 'Modern Android Stack (Kotlin)',
+    description: 'Cross-platform mobile development and expressive backend engineering.',
+    icon: 'Smartphone',
+    levels: levels
   }
 };

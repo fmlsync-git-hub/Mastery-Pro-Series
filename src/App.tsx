@@ -52,7 +52,13 @@ import {
   Code2,
   Terminal,
   Copy,
-  Search
+  Search,
+  Workflow,
+  Zap,
+  Smartphone,
+  Cpu,
+  Shield,
+  Database
 } from 'lucide-react';
 import { 
   signInWithEmailAndPassword, 
@@ -171,6 +177,329 @@ const Certificate = ({ user, level, score, total, topic, date }: {
   );
 };
 
+
+// Sub-components moved outside App for stability (Fixes blinking bug)
+const Navbar = ({ user, resetQuiz, playClick, fetchAdminData, setState, handleLogout, setAuthMode }: {
+  user: UserProfile | null;
+  resetQuiz: () => void;
+  playClick: () => void;
+  fetchAdminData: () => void;
+  setState: React.Dispatch<React.SetStateAction<AppState>>;
+  handleLogout: () => void;
+  setAuthMode: (mode: 'login' | 'register') => void;
+}) => (
+  <nav className="fixed top-0 left-0 right-0 z-[100] nav-blur py-4 px-6 md:px-12 flex justify-between items-center h-20">
+    <div className="flex items-center gap-3 cursor-pointer" onClick={() => { playClick(); resetQuiz(); }}>
+      <div className="w-10 h-10 bg-accent-blue rounded-xl flex items-center justify-center shadow-lg shadow-accent-blue/20">
+        <Award className="w-6 h-6 text-white" />
+      </div>
+      <div className="text-xl font-display font-extrabold tracking-tight">
+        Mastery<span className="text-accent-blue">Pro</span>
+      </div>
+    </div>
+    <div className="hidden lg:flex items-center gap-10">
+      <button onClick={() => { playClick(); resetQuiz(); }} className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-white transition-all">Assessment Center</button>
+      <button onClick={() => { playClick(); document.getElementById('strategic-impact')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-white transition-all">Enterprise</button>
+      <button onClick={() => { playClick(); document.getElementById('expansion-roadmap')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-white transition-all">Institutions</button>
+    </div>
+    <div className="flex items-center gap-4">
+      {user ? (
+        <div className="flex items-center gap-4">
+          {user.isAdmin && (
+            <button onClick={() => { playClick(); fetchAdminData(); setState(prev => ({...prev, viewingAdmin: true})); }} className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all">
+              <LayoutDashboard className="w-4 h-4 text-accent-blue" />
+            </button>
+          )}
+          <div className="text-right hidden sm:block">
+            <div className="text-xs font-bold text-white leading-none">{user.fullName}</div>
+            <div className="text-[0.6rem] font-bold text-accent-blue uppercase tracking-widest mt-1">Professional Identity</div>
+          </div>
+          <button onClick={handleLogout} className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all group">
+            <LogOut className="w-4 h-4 group-hover:text-red-400 transition-colors" />
+          </button>
+        </div>
+      ) : (
+        <button onClick={() => { playClick(); setAuthMode('login'); }} className="px-6 py-2.5 rounded-xl bg-accent-blue text-white font-bold text-sm hover:bg-accent-hover transition-all">
+          Get Started
+        </button>
+      )}
+    </div>
+  </nav>
+);
+
+const LandingPageView = ({ 
+  isGeneratingQuestions, 
+  playClick, 
+  setState, 
+  user, 
+  resetQuiz, 
+  fetchAdminData, 
+  handleLogout, 
+  setAuthMode 
+}: {
+  isGeneratingQuestions: boolean;
+  playClick: () => void;
+  setState: React.Dispatch<React.SetStateAction<AppState>>;
+  user: UserProfile | null;
+  resetQuiz: () => void;
+  fetchAdminData: () => void;
+  handleLogout: () => void;
+  setAuthMode: (mode: 'login' | 'register') => void;
+}) => (
+  <div className="min-h-screen bg-bg-main text-text-primary font-sans overflow-x-hidden selection:bg-accent-blue selection:text-white">
+    <Navbar 
+      user={user} 
+      resetQuiz={resetQuiz} 
+      playClick={playClick} 
+      fetchAdminData={fetchAdminData} 
+      setState={setState} 
+      handleLogout={handleLogout} 
+      setAuthMode={setAuthMode} 
+    />
+
+    <AnimatePresence>
+      {isGeneratingQuestions && (
+        <motion.div 
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[300] bg-bg-main/80 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center"
+        >
+          <div className="relative w-24 h-24 mb-10">
+            <div className="absolute inset-0 border-4 border-accent-blue/10 rounded-full" />
+            <div className="absolute inset-0 border-4 border-t-accent-blue rounded-full animate-spin" />
+          </div>
+          <h2 className="text-3xl font-display font-black tracking-tighter italic uppercase text-white mb-2">Syncing Knowledge Node</h2>
+          <p className="text-[0.65rem] text-text-secondary font-black uppercase tracking-[0.4em] animate-pulse">Establishing Neural Link to Professional Documentation...</p>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    
+    {/* Hero Section */}
+    <section className="relative pt-44 pb-32 px-6 md:px-12">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-accent-blue/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-accent-blue/5 blur-[120px] rounded-full" />
+      </div>
+      
+      <div className="max-w-6xl mx-auto relative z-10">
+        <div className="text-center mb-24">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full mb-8 shadow-sm"
+          >
+            <div className="w-2 h-2 bg-accent-emerald rounded-full" />
+            <span className="text-xs font-bold text-white/50 uppercase tracking-widest">v5.0 Global Assessment Protocol</span>
+          </motion.div>
+          
+          <motion.h1 
+            initial={{ opacity: 0, scale: 0.98 }} 
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-6xl md:text-8xl font-display font-black leading-[0.9] tracking-tighter mb-8"
+          >
+            Professional Mastery <br />
+            <span className="text-accent-blue">Unified Authority.</span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="text-lg md:text-xl text-text-secondary font-medium leading-relaxed mb-12 max-w-3xl mx-auto opacity-80"
+          >
+            Professional competency verification across 16 elite engineering domains including Rust, Go, Python, and Systems Architecture. Mastery Pro Series provides industrial-grade assessments recognized as the gold standard.
+          </motion.p>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="flex justify-center flex-wrap gap-4"
+          >
+            <button 
+              onClick={() => { playClick(); setState(prev => ({...prev, hasSeenLanding: true})); }}
+              className="px-10 py-5 bg-accent-blue text-white rounded-xl font-bold text-lg hover:bg-accent-hover transition-all enterprise-shadow"
+            >
+              Launch Assessment Center
+            </button>
+          </motion.div>
+        </div>
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }} 
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="relative max-w-5xl mx-auto glass-card rounded-[2.5rem] p-4 overflow-hidden"
+        >
+          <div className="rounded-[1.5rem] overflow-hidden border border-white/5">
+            <img 
+              src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=2400" 
+              alt="Cloud Dashboard" 
+              className="w-full aspect-video object-cover opacity-90"
+              referrerPolicy="no-referrer"
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-bg-main/60 to-transparent pointer-events-none" />
+        </motion.div>
+      </div>
+    </section>
+
+    {/* Global Recognition Section */}
+    <section id="strategic-impact" className="py-32 px-6 md:px-12 bg-white/[0.02]">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div>
+            <h2 className="text-sm font-bold text-accent-violet uppercase tracking-[0.4em] mb-4">Strategic Impact</h2>
+            <h3 className="text-4xl md:text-5xl font-display font-extrabold tracking-tight mb-8">Bridging the Gap Between <span className="text-accent-violet">Ambition & Authority.</span></h3>
+            <p className="text-lg text-text-secondary leading-relaxed mb-10">
+              Our platform doesn't just test skills—it builds professional legacies. By integrating directly with LinkedIn, Glassdoor, and global HR networks, your Mastery Pro certificate acts as a dynamic verifiable credential that travels with your career.
+            </p>
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <div className="text-4xl font-display font-black text-white mb-2">98%</div>
+                <div className="text-xs font-bold text-text-secondary uppercase tracking-widest">Industry Trust Score</div>
+              </div>
+              <div>
+                <div className="text-4xl font-display font-black text-white mb-2">1.2M+</div>
+                <div className="text-xs font-bold text-text-secondary uppercase tracking-widest">Verified Profiles</div>
+              </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-6">
+            {[
+              { icon: Globe, title: 'Global Recognition', desc: 'Accepted by 4,000+ institutions.' },
+              { icon: ShieldCheck, title: 'Secure Audits', desc: 'Enterprise-grade proctoring systems.' },
+              { icon: Target, title: 'Field Agnostic', desc: 'IT, Healthcare, Finance, and Law.' },
+              { icon: Award, title: 'Verifiable', desc: 'Cryptographically signed certificates.' }
+            ].map((item, i) => (
+              <div key={i} className="glass-card p-8 rounded-[2.5rem] group hover:border-accent-violet transition-all">
+                <item.icon className="w-10 h-10 text-accent-violet mb-6 group-hover:scale-110 transition-transform" />
+                <h4 className="text-lg font-bold mb-2">{item.title}</h4>
+                <p className="text-sm text-text-secondary leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Domain Expansion Section */}
+    <section id="expansion-roadmap" className="py-32 px-6 md:px-12 relative overflow-hidden">
+      <div className="absolute inset-0 bg-accent-azure/5 blur-[120px] rounded-full -left-96 bottom-0" />
+      <div className="max-w-6xl mx-auto text-center relative z-10">
+        <h2 className="text-sm font-bold text-accent-azure uppercase tracking-[0.4em] mb-4">The Expansion Roadmap</h2>
+        <h3 className="text-4xl md:text-5xl font-display font-extrabold tracking-tight mb-16">Universal Skill Verification</h3>
+        
+        <div className="flex flex-wrap justify-center gap-12 mb-20 opacity-40 grayscale group-hover:grayscale-0 transition-all">
+          {['Medical Board', 'Engineering Standards', 'Legal Jurisprudence', 'Economics Core', 'Applied Sciences'].map((domain) => (
+            <div key={domain} className="text-2xl font-display font-black tracking-tighter opacity-70 hover:opacity-100 transition-opacity whitespace-nowrap cursor-default uppercase">
+              {domain}
+            </div>
+          ))}
+        </div>
+        
+        <div className="glass-card p-12 md:p-20 rounded-[4rem] text-left max-w-4xl mx-auto border-accent-azure/20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h4 className="text-3xl font-display font-black mb-6 italic">Are You Ready?</h4>
+              <p className="text-text-secondary leading-relaxed mb-8 font-medium">
+                Join the elite circle of certified professionals. Whether you are a student establishing your first milestone or a veteran verifying your career status, Mastery Pro is your ultimate partner.
+              </p>
+              <button 
+                onClick={() => { playClick(); setState(prev => ({...prev, hasSeenLanding: true})); }}
+                className="px-10 py-5 bg-accent-azure text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-all shadow-2xl shadow-azure-500/20"
+              >
+                Enter Assessment Hub
+              </button>
+            </div>
+            <div className="hidden md:block">
+               <div className="aspect-square bg-gradient-to-br from-accent-azure to-accent-violet rounded-[3rem] p-1 shadow-2xl">
+                  <div className="w-full h-full bg-bg-dark rounded-[2.8rem] flex items-center justify-center">
+                     <Award className="w-24 h-24 text-accent-azure opacity-40 animate-float" />
+                  </div>
+               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Footer */}
+    <footer className="py-20 border-t border-white/5 relative z-10 bg-bg-dark">
+      <div className="max-w-6xl mx-auto px-6 md:px-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+          <div className="col-span-1 md:col-span-2">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-8 h-8 bg-accent-violet rounded-lg flex items-center justify-center font-black text-white text-xs">M</div>
+              <div className="text-lg font-display font-extrabold tracking-tight">Mastery<span className="text-accent-violet">Pro</span></div>
+            </div>
+            <p className="text-sm text-text-secondary max-w-sm font-medium">
+              Standardizing global competency assessments through cryptographically secure auditing and proctoring.
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-12 border-t border-white/5">
+          <div className="text-[0.65rem] font-bold text-text-secondary uppercase tracking-[0.4em]">© 2026 Mastery Pro Series | Global Standards GS-v4</div>
+          <div className="flex gap-8">
+            {['Twitter', 'LinkedIn', 'Status'].map(item => (
+              <span key={item} className="text-[0.65rem] font-black uppercase tracking-widest text-text-secondary">{item}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+);
+
+const PublicVerificationView = ({ publicCert }: { publicCert: any }) => (
+  <div className="min-h-screen bg-[#050505] text-white flex items-center justify-center p-6 font-sans lowercase">
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl w-full bg-[#0a0a0a] border-2 border-accent-emerald/20 rounded-[3rem] p-12 text-center relative overflow-hidden shadow-[0_0_100px_rgba(16,185,129,0.05)]">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1 bg-accent-emerald" />
+      <ShieldCheck className="w-20 h-20 text-accent-emerald mx-auto mb-8 animate-pulse" />
+      <h1 className="text-4xl font-black tracking-tighter mb-2 italic">Certificate Verified</h1>
+      <p className="text-[0.6rem] font-black uppercase tracking-[0.4em] text-text-secondary mb-12 border-b border-white/5 pb-6 inline-block">Official Mastery Pro Series Validation Gate</p>
+      
+      <div className="grid grid-cols-2 gap-8 text-left mb-12">
+        <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
+           <div className="text-[0.55rem] font-black uppercase tracking-widest text-text-secondary mb-2">Recipient Name</div>
+           <div className="text-lg font-black tracking-tight uppercase">{publicCert.userName}</div>
+        </div>
+        <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
+           <div className="text-[0.55rem] font-black uppercase tracking-widest text-text-secondary mb-2">Assessed Domain</div>
+           <div className="text-lg font-black tracking-tight uppercase text-accent-emerald">{publicCert.courseTitle || 'Mastery Pro'} - {publicCert.level}</div>
+        </div>
+        <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
+           <div className="text-[0.55rem] font-black uppercase tracking-widest text-text-secondary mb-2">Score Accuracy</div>
+           <div className="text-lg font-black tracking-tight uppercase">{Math.round((publicCert.score / publicCert.total) * 100)}% ({publicCert.score}/{publicCert.total})</div>
+        </div>
+        <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
+           <div className="text-[0.55rem] font-black uppercase tracking-widest text-text-secondary mb-2">Completion Date</div>
+           <div className="text-[0.7rem] font-mono uppercase text-text-secondary leading-tight">{publicCert.dateString}</div>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-4">
+         <div className="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl text-[0.6rem] font-black uppercase tracking-widest text-accent-emerald flex items-center justify-center gap-3">
+           <CheckCircle2 className="w-4 h-4" /> Authenticity Confirmed by Mastery Pro Cloud
+         </div>
+         <button onClick={() => window.location.href = '/'} className="text-[0.6rem] font-black uppercase tracking-widest text-text-secondary hover:text-white transition-colors">Return to Central Hub</button>
+      </div>
+    </motion.div>
+  </div>
+);
+
+const DisqualifiedView = ({ handleReset }: { handleReset: () => void }) => (
+  <div className="min-h-screen bg-bg-dark flex items-center justify-center p-6 uppercase">
+     <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full bg-card-dark border-2 border-red-500/30 rounded-[3rem] p-12 text-center shadow-[0_0_50px_rgba(239,68,68,0.1)]">
+        <AlertTriangle className="w-20 h-20 text-red-500 mx-auto mb-8 animate-bounce" />
+        <h2 className="text-3xl font-black tracking-tighter mb-2">Security Breach</h2>
+        <p className="text-[0.65rem] text-text-secondary font-black tracking-widest mb-10 leading-relaxed uppercase">The integrity monitor detected a tab switch or window blur. This assessment iteration has been terminated.</p>
+        <button onClick={handleReset} className="w-full py-5 bg-white/5 border border-white/10 text-white rounded-2xl font-black uppercase tracking-widest text-[0.6rem] hover:bg-white/10 transition-all">Establish New Session</button>
+     </motion.div>
+  </div>
+);
+
 export default function App() {
   const [state, setState] = useState<AppState>({
     user: null,
@@ -180,10 +509,10 @@ export default function App() {
     score: 0,
     answers: {},
     isFinished: false,
-    showMilestone: false,
-    viewingReview: false,
-    viewingAdmin: false,
     hasSeenLanding: false,
+    showMilestone: false,
+    viewingAdmin: false,
+    viewingReview: false,
   });
 
   const [loading, setLoading] = useState(true);
@@ -202,6 +531,92 @@ export default function App() {
   const [viewingHistory, setViewingHistory] = useState(false);
   const [certHistory, setCertHistory] = useState<any[]>([]);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [isGeneratingQuestions, setIsGeneratingQuestions] = useState(false);
+
+  // Audio State
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [bgMusic] = useState(new Audio('https://assets.mixkit.co/music/preview/mixkit-night-sky-loop-215.mp3'));
+  const [clickSound] = useState(new Audio('https://assets.mixkit.co/sfx/preview/mixkit-interface-click-1126.mp3'));
+
+  // Realtime State
+  const [onlineCount, setOnlineCount] = useState(0);
+  const [liveActivity, setLiveActivity] = useState<any[]>([]);
+  
+  // Admin Analytics State
+  const [adminData, setAdminData] = useState<{users: UserProfile[], sessions: any[]}>({ users: [], sessions: [] });
+  const [appLogo, setAppLogo] = useState<string | null>(null);
+  const [notification, setNotification] = useState<{message: string, type: 'error' | 'success'} | null>(null);
+
+  // Admin Search & Verification State
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedUserForReview, setSelectedUserForReview] = useState<UserProfile | null>(null);
+  const [userCerts, setUserCerts] = useState<Certification[]>([]);
+  const [isVerifying, setIsVerifying] = useState(false);
+
+  const notify = (message: string, type: 'error' | 'success' = 'error') => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 5000);
+  };
+
+  const fetchQuestions = async (courseId: string, level: string) => {
+    setIsGeneratingQuestions(true);
+    try {
+      const courseTitle = courses[courseId]?.title || courseId;
+      const response = await fetch('/api/assessment/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic: courseTitle, level, count: 20 })
+      });
+      const data = await response.json();
+      if (data.questions) {
+        return data.questions as Question[];
+      }
+      throw new Error("Invalid response from generator");
+    } catch (e) {
+      console.error("Generator Error", e);
+      notify("Intelligence Engine Sync Failure: Reverting to fallback sets", "error");
+      return null;
+    } finally {
+      setIsGeneratingQuestions(false);
+    }
+  };
+
+  const handleInitiatePayment = async (level: string) => {
+    if (!state.user) {
+      notify("AUTHENTICATION REQUIRED: Identity verification needed for payment protocol", "error");
+      setAuthMode('login');
+      return;
+    }
+
+    setIsProcessingPayment(true);
+    playClick();
+
+    try {
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: state.user.uid,
+          userEmail: state.user.email,
+          level,
+          courseId: state.currentCourseId || 'html',
+          origin: window.location.origin
+        })
+      });
+
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error(data.error || "Failed to create checkout session");
+      }
+    } catch (e: any) {
+      notify(`PAYMENT GATEWAY ERROR: ${e.message}`, "error");
+    } finally {
+      setIsProcessingPayment(false);
+    }
+  };
+
 
   // Handle Payment Successful Redirect
   useEffect(() => {
@@ -242,47 +657,6 @@ export default function App() {
       handlePaymentSuccess();
     }
   }, [state.user, state.currentCourseId]);
-
-  const handleInitiatePayment = async (level: string) => {
-    if (!state.user) {
-      notify("AUTHENTICATION REQUIRED: Identity verification needed for payment protocol", "error");
-      setAuthMode('login');
-      return;
-    }
-
-    setIsProcessingPayment(true);
-    playClick();
-
-    try {
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId: state.user.uid,
-          userEmail: state.user.email,
-          level,
-          courseId: state.currentCourseId || 'html',
-          origin: window.location.origin
-        })
-      });
-
-      const data = await response.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        throw new Error(data.error || "Failed to create checkout session");
-      }
-    } catch (e: any) {
-      notify(`PAYMENT GATEWAY ERROR: ${e.message}`, "error");
-    } finally {
-      setIsProcessingPayment(false);
-    }
-  };
-
-  const currentCourse = state.currentCourseId ? courses[state.currentCourseId] : null;
-  const currentLevelQuestions = shuffledQuestions.length > 0 ? shuffledQuestions : (state.currentLevel && currentCourse ? currentCourse.levels[state.currentLevel].questions : []);
-  const currentLevelData = state.currentLevel && currentCourse ? currentCourse.levels[state.currentLevel] : null;
-  const currentQuestion = currentLevelQuestions[state.currentQuestionIndex];
 
   // Verification Check
   useEffect(() => {
@@ -349,32 +723,11 @@ export default function App() {
       };
     }
   }, [isStrictExam, state.isFinished, isDisqualified]);
-  
-  // Audio State
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const [bgMusic] = useState(new Audio('https://assets.mixkit.co/music/preview/mixkit-night-sky-loop-215.mp3'));
-  const [clickSound] = useState(new Audio('https://assets.mixkit.co/sfx/preview/mixkit-interface-click-1126.mp3'));
-
-  // Realtime State
-  const [onlineCount, setOnlineCount] = useState(0);
-  const [liveActivity, setLiveActivity] = useState<any[]>([]);
-  
-  // Admin Analytics State
-  const [adminData, setAdminData] = useState<{users: UserProfile[], sessions: any[]}>({ users: [], sessions: [] });
-  const [appLogo, setAppLogo] = useState<string | null>(null);
-  const [notification, setNotification] = useState<{message: string, type: 'error' | 'success'} | null>(null);
-
-  // Session Timeout State
-  const lastActivityRef = React.useRef(Date.now());
-  const TIMEOUT_DURATION = 15 * 60 * 1000; // 15 minutes
-
-  // Admin Search & Verification State
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedUserForReview, setSelectedUserForReview] = useState<UserProfile | null>(null);
-  const [userCerts, setUserCerts] = useState<Certification[]>([]);
-  const [isVerifying, setIsVerifying] = useState(false);
 
   // Session Timeout Listener
+  const lastActivityRef = React.useRef(Date.now());
+  const TIMEOUT_DURATION = 15 * 60 * 1000; // 15 minutes
+  
   useEffect(() => {
     if (!state.user) return;
 
@@ -392,7 +745,7 @@ export default function App() {
         handleLogout();
         notify("SESSION EXPIRED: Authenticity re-verification required due to inactivity", "error");
       }
-    }, 30000); // Check every 30 seconds
+    }, 30000);
 
     return () => {
       window.removeEventListener('mousemove', updateActivity);
@@ -403,7 +756,7 @@ export default function App() {
     };
   }, [state.user]);
 
-  // Auth Listener
+  // Auth Listener & Presence
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -467,63 +820,6 @@ export default function App() {
 
     return () => unsubscribe();
   }, []);
-
-  // Audio Control Effect
-  useEffect(() => {
-    if (soundEnabled && !loading && state.user) {
-      bgMusic.play().catch(e => console.log("Audio play blocked", e));
-    } else {
-      bgMusic.pause();
-    }
-  }, [soundEnabled, loading, state.user]);
-
-  const PublicVerificationView = () => (
-    <div className="min-h-screen bg-[#050505] text-white flex items-center justify-center p-6 font-sans lowercase">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl w-full bg-[#0a0a0a] border-2 border-accent-emerald/20 rounded-[3rem] p-12 text-center relative overflow-hidden shadow-[0_0_100px_rgba(16,185,129,0.05)]">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1 bg-accent-emerald" />
-        <ShieldCheck className="w-20 h-20 text-accent-emerald mx-auto mb-8 animate-pulse" />
-        <h1 className="text-4xl font-black tracking-tighter mb-2 italic">Certificate Verified</h1>
-        <p className="text-[0.6rem] font-black uppercase tracking-[0.4em] text-text-secondary mb-12 border-b border-white/5 pb-6 inline-block">Official Mastery Pro Series Validation Gate</p>
-        
-        <div className="grid grid-cols-2 gap-8 text-left mb-12">
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-             <div className="text-[0.55rem] font-black uppercase tracking-widest text-text-secondary mb-2">Recipient Name</div>
-             <div className="text-lg font-black tracking-tight uppercase">{publicCert.userName}</div>
-          </div>
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-             <div className="text-[0.55rem] font-black uppercase tracking-widest text-text-secondary mb-2">Assessed Domain</div>
-             <div className="text-lg font-black tracking-tight uppercase text-accent-emerald">{publicCert.courseTitle || 'Mastery Pro'} - {publicCert.level}</div>
-          </div>
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-             <div className="text-[0.55rem] font-black uppercase tracking-widest text-text-secondary mb-2">Score Accuracy</div>
-             <div className="text-lg font-black tracking-tight uppercase">{Math.round((publicCert.score / publicCert.total) * 100)}% ({publicCert.score}/{publicCert.total})</div>
-          </div>
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-             <div className="text-[0.55rem] font-black uppercase tracking-widest text-text-secondary mb-2">Completion Date</div>
-             <div className="text-[0.7rem] font-mono uppercase text-text-secondary leading-tight">{publicCert.dateString}</div>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-4">
-           <div className="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl text-[0.6rem] font-black uppercase tracking-widest text-accent-emerald flex items-center justify-center gap-3">
-             <CheckCircle2 className="w-4 h-4" /> Authenticity Confirmed by Mastery Pro Cloud
-           </div>
-           <button onClick={() => window.location.href = '/'} className="text-[0.6rem] font-black uppercase tracking-widest text-text-secondary hover:text-white transition-colors">Return to Central Hub</button>
-        </div>
-      </motion.div>
-    </div>
-  );
-
-  const DisqualifiedView = () => (
-    <div className="min-h-screen bg-bg-dark flex items-center justify-center p-6 uppercase">
-       <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full bg-card-dark border-2 border-red-500/30 rounded-[3rem] p-12 text-center shadow-[0_0_50px_rgba(239,68,68,0.1)]">
-          <AlertTriangle className="w-20 h-20 text-red-500 mx-auto mb-8 animate-bounce" />
-          <h2 className="text-3xl font-black tracking-tighter mb-2">Security Breach</h2>
-          <p className="text-[0.65rem] text-text-secondary font-black tracking-widest mb-10 leading-relaxed uppercase">The integrity monitor detected a tab switch or window blur. This assessment iteration has been terminated.</p>
-          <button onClick={() => { setIsDisqualified(false); resetQuiz(); }} className="w-full py-5 bg-white/5 border border-white/10 text-white rounded-2xl font-black uppercase tracking-widest text-[0.6rem] hover:bg-white/10 transition-all">Establish New Session</button>
-       </motion.div>
-    </div>
-  );
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -619,10 +915,10 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
     }
   };
 
-  const notify = (message: string, type: 'error' | 'success' = 'error') => {
-    setNotification({ message, type });
-    setTimeout(() => setNotification(null), 5000);
-  };
+  const currentCourse = state.currentCourseId ? courses[state.currentCourseId] : null;
+  const currentLevelQuestions = shuffledQuestions.length > 0 ? shuffledQuestions : (state.currentLevel && currentCourse ? currentCourse.levels[state.currentLevel].questions : []);
+  const currentLevelData = state.currentLevel && currentCourse ? currentCourse.levels[state.currentLevel] : null;
+  const currentQuestion = currentLevelQuestions[state.currentQuestionIndex];
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -807,7 +1103,7 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
     }));
   };
 
-  const handleSelectLevel = (level: Level, strict: boolean = false) => {
+  const handleSelectLevel = async (level: Level, strict: boolean = false) => {
     if (level === 'advanced' && !state.user?.isAdmin) {
       const purchaseId = `${state.currentCourseId || 'html'}_${level}`;
       const isPurchased = state.user?.purchasedLevels?.includes(purchaseId);
@@ -829,9 +1125,22 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
       });
     }
 
-    // Shuffle logic
-    if (!currentCourse) return;
-    const questions = [...currentCourse.levels[level].questions].sort(() => Math.random() - 0.5);
+    // Dynamic question fetching for new subjects or to increase depth
+    let questions: Question[] = [];
+    const staticQuestions = currentCourse?.levels[level].questions || [];
+    
+    // Force dynamic generation for non-HTML courses to ensure subject accuracy
+    if (state.currentCourseId !== 'html' || staticQuestions.length === 0) {
+      const generated = await fetchQuestions(state.currentCourseId || 'html', level);
+      if (generated) {
+        questions = generated;
+      } else {
+        questions = [...staticQuestions].sort(() => Math.random() - 0.5);
+      }
+    } else {
+      questions = [...staticQuestions].sort(() => Math.random() - 0.5);
+    }
+
     setShuffledQuestions(questions);
     setIsStrictExam(strict);
     setIsDisqualified(false);
@@ -847,7 +1156,7 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
       showMilestone: false,
       viewingReview: false,
     }));
-    setTimeLeft(strict ? 20 : 30); // Stricter time limit for Pro Exam
+    setTimeLeft(strict ? 20 : 30);
   };
 
   const fetchCertHistory = async () => {
@@ -975,225 +1284,6 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
     setTimeLeft(30);
   };
 
-  const Navbar = () => (
-    <nav className="fixed top-0 left-0 right-0 z-[100] nav-blur py-4 px-6 md:px-12 flex justify-between items-center h-20">
-      <div className="flex items-center gap-3 cursor-pointer" onClick={() => { playClick(); resetQuiz(); }}>
-        <div className="w-10 h-10 bg-accent-blue rounded-xl flex items-center justify-center shadow-lg shadow-accent-blue/20">
-          <Award className="w-6 h-6 text-white" />
-        </div>
-        <div className="text-xl font-display font-extrabold tracking-tight">
-          Mastery<span className="text-accent-blue">Pro</span>
-        </div>
-      </div>
-      <div className="hidden md:flex items-center gap-8">
-        <button onClick={() => { playClick(); resetQuiz(); }} className="text-sm font-semibold text-text-secondary hover:text-white transition-colors">Assessment Center</button>
-      </div>
-      <div className="flex items-center gap-4">
-        {state.user ? (
-          <div className="flex items-center gap-4">
-            {state.user.isAdmin && (
-              <button onClick={() => { playClick(); fetchAdminData(); setState(prev => ({...prev, viewingAdmin: true})); }} className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all">
-                <LayoutDashboard className="w-4 h-4 text-accent-blue" />
-              </button>
-            )}
-            <div className="text-right hidden sm:block">
-              <div className="text-xs font-bold text-white leading-none">{state.user.fullName}</div>
-              <div className="text-[0.6rem] font-bold text-accent-blue uppercase tracking-widest mt-1">Professional Identity</div>
-            </div>
-            <button onClick={handleLogout} className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all group">
-              <LogOut className="w-4 h-4 group-hover:text-red-400 transition-colors" />
-            </button>
-          </div>
-        ) : (
-          <button onClick={() => { playClick(); setAuthMode('login'); }} className="px-6 py-2.5 rounded-xl bg-accent-blue text-white font-bold text-sm hover:bg-accent-hover transition-all">
-            Get Started
-          </button>
-        )}
-      </div>
-    </nav>
-  );
-
-  const LandingPageView = () => (
-    <div className="min-h-screen bg-bg-main text-text-primary font-sans overflow-x-hidden selection:bg-accent-blue selection:text-white">
-      <Navbar />
-      
-      {/* Hero Section */}
-      <section className="relative pt-44 pb-32 px-6 md:px-12">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full overflow-hidden pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-accent-blue/10 blur-[120px] rounded-full" />
-          <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-accent-blue/5 blur-[120px] rounded-full" />
-        </div>
-        
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-24">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }} 
-              animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full mb-8 shadow-sm"
-            >
-              <div className="w-2 h-2 bg-accent-emerald rounded-full" />
-              <span className="text-xs font-bold text-white/50 uppercase tracking-widest">v5.0 Global Assessment Protocol</span>
-            </motion.div>
-            
-            <motion.h1 
-              initial={{ opacity: 0, scale: 0.98 }} 
-              animate={{ opacity: 1, scale: 1 }}
-              className="text-6xl md:text-8xl font-display font-black leading-[0.9] tracking-tighter mb-8"
-            >
-              Professional Mastery <br />
-              <span className="text-accent-blue">Unified Authority.</span>
-            </motion.h1>
-            
-            <motion.p 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.1 }}
-              className="text-lg md:text-xl text-text-secondary font-medium leading-relaxed mb-12 max-w-3xl mx-auto opacity-80"
-            >
-              Elite competency verification for modern engineering and technology domains. Mastery Pro Series provides industrial-grade assessments recognized as the gold standard by global enterprises.
-            </motion.p>
-            
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }} 
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="flex justify-center flex-wrap gap-4"
-            >
-              <button 
-                onClick={() => { playClick(); setState(prev => ({...prev, hasSeenLanding: true})); }}
-                className="px-10 py-5 bg-accent-blue text-white rounded-xl font-bold text-lg hover:bg-accent-hover transition-all enterprise-shadow"
-              >
-                Launch Assessment Center
-              </button>
-            </motion.div>
-          </div>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }} 
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="relative max-w-5xl mx-auto glass-card rounded-[2.5rem] p-4 overflow-hidden"
-          >
-            <div className="rounded-[1.5rem] overflow-hidden border border-white/5">
-              <img 
-                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=2400" 
-                alt="Cloud Dashboard" 
-                className="w-full aspect-video object-cover opacity-90"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-bg-main/60 to-transparent pointer-events-none" />
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Global Recognition Section */}
-      <section className="py-32 px-6 md:px-12 bg-white/[0.02]">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <div>
-              <h2 className="text-sm font-bold text-accent-violet uppercase tracking-[0.4em] mb-4">Strategic Impact</h2>
-              <h3 className="text-4xl md:text-5xl font-display font-extrabold tracking-tight mb-8">Bridging the Gap Between <span className="text-accent-violet">Ambition & Authority.</span></h3>
-              <p className="text-lg text-text-secondary leading-relaxed mb-10">
-                Our platform doesn't just test skills—it builds professional legacies. By integrating directly with LinkedIn, Glassdoor, and global HR networks, your Mastery Pro certificate acts as a dynamic verifiable credential that travels with your career.
-              </p>
-              <div className="grid grid-cols-2 gap-8">
-                <div>
-                  <div className="text-4xl font-display font-black text-white mb-2">98%</div>
-                  <div className="text-xs font-bold text-text-secondary uppercase tracking-widest">Industry Trust Score</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-display font-black text-white mb-2">1.2M+</div>
-                  <div className="text-xs font-bold text-text-secondary uppercase tracking-widest">Verified Profiles</div>
-                </div>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-6">
-              {[
-                { icon: Globe, title: 'Global Recognition', desc: 'Accepted by 4,000+ institutions.' },
-                { icon: ShieldCheck, title: 'Secure Audits', desc: 'Enterprise-grade proctoring systems.' },
-                { icon: Target, title: 'Field Agnostic', desc: 'IT, Healthcare, Finance, and Law.' },
-                { icon: Award, title: 'Verifiable', desc: 'Cryptographically signed certificates.' }
-              ].map((item, i) => (
-                <div key={i} className="glass-card p-8 rounded-[2.5rem] group hover:border-accent-violet transition-all">
-                  <item.icon className="w-10 h-10 text-accent-violet mb-6 group-hover:scale-110 transition-transform" />
-                  <h4 className="text-lg font-bold mb-2">{item.title}</h4>
-                  <p className="text-sm text-text-secondary leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Domain Expansion Section */}
-      <section className="py-32 px-6 md:px-12 relative overflow-hidden">
-        <div className="absolute inset-0 bg-accent-azure/5 blur-[120px] rounded-full -left-96 bottom-0" />
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          <h2 className="text-sm font-bold text-accent-azure uppercase tracking-[0.4em] mb-4">The Expansion Roadmap</h2>
-          <h3 className="text-4xl md:text-5xl font-display font-extrabold tracking-tight mb-16">Universal Skill Verification</h3>
-          
-          <div className="flex flex-wrap justify-center gap-12 mb-20 opacity-40 grayscale group-hover:grayscale-0 transition-all">
-            {['Medical Board', 'Engineering Standards', 'Legal Jurisprudence', 'Economics Core', 'Applied Sciences'].map((domain) => (
-              <div key={domain} className="text-2xl font-display font-black tracking-tighter opacity-70 hover:opacity-100 transition-opacity whitespace-nowrap cursor-default uppercase">
-                {domain}
-              </div>
-            ))}
-          </div>
-          
-          <div className="glass-card p-12 md:p-20 rounded-[4rem] text-left max-w-4xl mx-auto border-accent-azure/20">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <div>
-                <h4 className="text-3xl font-display font-black mb-6 italic">Are You Ready?</h4>
-                <p className="text-text-secondary leading-relaxed mb-8 font-medium">
-                  Join the elite circle of certified professionals. Whether you are a student establishing your first milestone or a veteran verifying your career status, Mastery Pro is your ultimate partner.
-                </p>
-                <button 
-                  onClick={() => { playClick(); setState(prev => ({...prev, hasSeenLanding: true})); }}
-                  className="px-10 py-5 bg-accent-azure text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:scale-105 transition-all shadow-2xl shadow-azure-500/20"
-                >
-                  Enter Assessment Hub
-                </button>
-              </div>
-              <div className="hidden md:block">
-                 <div className="aspect-square bg-gradient-to-br from-accent-azure to-accent-violet rounded-[3rem] p-1 shadow-2xl">
-                    <div className="w-full h-full bg-bg-dark rounded-[2.8rem] flex items-center justify-center">
-                       <Award className="w-24 h-24 text-accent-azure opacity-40 animate-float" />
-                    </div>
-                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-20 border-t border-white/5 relative z-10 bg-bg-dark">
-        <div className="max-w-6xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-            <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 bg-accent-violet rounded-lg flex items-center justify-center font-black text-white text-xs">M</div>
-                <div className="text-lg font-display font-extrabold tracking-tight">Mastery<span className="text-accent-violet">Pro</span></div>
-              </div>
-              <p className="text-sm text-text-secondary max-w-sm font-medium">
-                Standardizing global competency assessments through cryptographically secure auditing and proctoring.
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-12 border-t border-white/5">
-            <div className="text-[0.65rem] font-bold text-text-secondary uppercase tracking-[0.4em]">© 2026 Mastery Pro Series | Global Standards GS-v4</div>
-            <div className="flex gap-8">
-              {['Twitter', 'LinkedIn', 'Status'].map(item => (
-                <span key={item} className="text-[0.65rem] font-black uppercase tracking-widest text-text-secondary">{item}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
-
   if (loading) {
     return (
       <div className="min-h-screen bg-bg-dark flex items-center justify-center">
@@ -1202,9 +1292,20 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
     );
   }
 
-  if (publicCert) return <PublicVerificationView />;
-  if (isDisqualified) return <DisqualifiedView />;
-  if (!state.hasSeenLanding) return <LandingPageView />;
+  if (publicCert) return <PublicVerificationView publicCert={publicCert} />;
+  if (isDisqualified) return <DisqualifiedView handleReset={() => { setIsDisqualified(false); resetQuiz(); }} />;
+  if (!state.hasSeenLanding) return (
+    <LandingPageView 
+      isGeneratingQuestions={isGeneratingQuestions}
+      playClick={playClick}
+      setState={setState}
+      user={state.user}
+      resetQuiz={resetQuiz}
+      fetchAdminData={fetchAdminData}
+      handleLogout={handleLogout}
+      setAuthMode={setAuthMode}
+    />
+  );
 
   if (!state.user) {
     return (
@@ -1523,7 +1624,33 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
   if (!state.currentLevel) {
     return (
       <div className="min-h-screen bg-bg-dark text-text-primary font-sans overflow-x-hidden selection:bg-accent-violet selection:text-white">
-        <Navbar />
+        <Navbar 
+          user={state.user} 
+          resetQuiz={resetQuiz} 
+          playClick={playClick} 
+          fetchAdminData={fetchAdminData} 
+          setState={setState} 
+          handleLogout={handleLogout} 
+          setAuthMode={setAuthMode} 
+        />
+
+        <AnimatePresence>
+          {isGeneratingQuestions && (
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[300] bg-black/80 backdrop-blur-3xl flex flex-col items-center justify-center p-6 text-center"
+            >
+              <div className="relative w-24 h-24 mb-10">
+                <div className="absolute inset-0 border-4 border-accent-blue/10 rounded-full" />
+                <div className="absolute inset-0 border-4 border-t-accent-blue rounded-full animate-spin" />
+              </div>
+              <h2 className="text-3xl font-display font-black tracking-tighter italic uppercase text-white mb-2">Syncing Intelligence Node</h2>
+              <p className="text-[0.65rem] text-text-secondary font-black uppercase tracking-[0.4em] animate-pulse">Generating Domain-Specific Assessment Deep-Sets...</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
         
         {isProcessingPayment && (
           <div className="fixed inset-0 z-[200] bg-black/90 backdrop-blur-3xl flex items-center justify-center">
@@ -1589,13 +1716,13 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
           </AnimatePresence>
 
           {!state.currentCourseId ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {Object.values(courses).map((course, i) => (
                 <motion.div
                   key={course.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: (i % 8) * 0.05 }}
                   whileHover={{ y: -5 }}
                   onClick={() => { playClick(); handleSelectCourse(course.id); }}
                   className="glass-card p-10 cursor-pointer group hover:bg-white/[0.02]"
@@ -1604,7 +1731,14 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
                     {course.icon === 'Layout' && <Layout className="w-8 h-8 text-accent-blue" />}
                     {course.icon === 'Palette' && <Palette className="w-8 h-8 text-accent-blue" />}
                     {course.icon === 'Code2' && <Code2 className="w-8 h-8 text-accent-blue" />}
-                    {course.icon === 'Terminal' && <Terminal className="w-8 h-8 text-accent-blue" />}
+                    {course.icon === 'Terminal' && <FileCode2 className="w-8 h-8 text-accent-blue" />}
+                    {course.icon === 'Database' && <Database className="w-8 h-8 text-accent-blue" />}
+                    {course.icon === 'Cpu' && <Cpu className="w-8 h-8 text-accent-blue" />}
+                    {course.icon === 'Shield' && <Shield className="w-8 h-8 text-accent-blue" />}
+                    {course.icon === 'Activity' && <Activity className="w-8 h-8 text-accent-blue" />}
+                    {course.icon === 'Workflow' && <Workflow className="w-8 h-8 text-accent-blue" />}
+                    {course.icon === 'Zap' && <Zap className="w-8 h-8 text-accent-blue" />}
+                    {course.icon === 'Smartphone' && <Smartphone className="w-8 h-8 text-accent-blue" />}
                   </div>
                   <h3 className="text-2xl font-display font-black tracking-tighter mb-4 italic uppercase">{course.title}</h3>
                   <p className="text-sm text-text-secondary leading-relaxed mb-10 opacity-70">
@@ -1858,7 +1992,16 @@ Verification Token Reference: ${certs[0]?.id || 'N/A'}
 
   return (
     <div className="min-h-screen bg-bg-main text-text-primary p-6 md:p-12 font-sans selection:bg-accent-blue selection:text-white flex flex-col items-center">
-      <div className="w-full max-w-7xl flex flex-col flex-1">
+      <Navbar 
+        user={state.user} 
+        resetQuiz={resetQuiz} 
+        playClick={playClick} 
+        fetchAdminData={fetchAdminData} 
+        setState={setState} 
+        handleLogout={handleLogout} 
+        setAuthMode={setAuthMode} 
+      />
+      <div className="w-full max-w-7xl flex flex-col flex-1 mt-20">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-8 shrink-0">
           <div className="flex items-center gap-6">
             <div className="text-3xl font-display font-black tracking-tighter uppercase italic">
